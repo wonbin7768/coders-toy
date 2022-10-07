@@ -4,7 +4,7 @@ const port = process.env.PORT || 4000;
 const cors = require("cors");
 const mysql = require("mysql2/promise");
 const connection = require("./config/db");
-const home = require("./routes/index");
+const home = require("./routes/insertAccount");
 const checkid = require("./routes/checkid");
 
 app.use(express.urlencoded({ extended: true }));

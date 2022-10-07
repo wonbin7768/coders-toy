@@ -14,12 +14,80 @@ function SignUp() {
     name: "",
     phone: "",
   });
-
+  const [validation, setValidation] = useState({
+    idvalidation: "",
+    pwvalidation: "",
+    namevalidation: "",
+    phonevalidation: "",
+  });
   const onChangeAccount = (e) => {
+    switch (e.target.name) {
+      case "pw":
+        if (
+          !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,15}$/.test(
+            e.target.value
+          )
+        ) {
+          setValidation({
+            ...validation,
+            pwvalidation:
+              "비밀번호는 영어,숫자,특수문자를 포함한 8~15자리로 만들어주세요.",
+          });
+        } else {
+          setValidation({
+            ...validation,
+            pwvalidation: "",
+          });
+          setAccount({ ...account, [e.target.name]: e.target.value });
+        }
+        break;
+      case "name":
+        if (!/^^[가-힣]{2,6}$/.test(e.target.value)) {
+          setValidation({
+            ...validation,
+            namevalidation: "이름을 제대로 적어주세요.",
+          });
+        } else {
+          setValidation({
+            ...validation,
+            namevalidation: "",
+          });
+          setAccount({ ...account, [e.target.name]: e.target.value });
+        }
+        break;
+      case "phone":
+        if (!/^^[0-9]{10,11}$/.test(e.target.value)) {
+          setValidation({
+            ...validation,
+            phonevalidation: "핸드폰번호를 -없이 적고 다시 확인해주세요.",
+          });
+        } else {
+          setValidation({
+            ...validation,
+            phonevalidation: "",
+          });
+          setAccount({ ...account, [e.target.name]: e.target.value });
+        }
+        break;
+    }
+  };
+  const pixAccount = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });
   };
   const onChangeIdCheck = (e) => {
-    setIdcheck({ ...idcheck, [e.target.name]: e.target.value });
+    if (!/^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{4,16}$/.test(e.target.value)) {
+      setValidation({
+        ...validation,
+        idvalidation: "아이디는 영어와 숫자를 포함한 4~16자리로 만들어주세요.",
+      });
+    } else {
+      setValidation({
+        ...validation,
+        idvalidation: "",
+      });
+      setAccount({ ...account, [e.target.name]: e.target.value });
+      setIdcheck({ ...idcheck, [e.target.name]: e.target.value });
+    }
   };
   const idCheck = (e) => {
     axios
@@ -38,7 +106,23 @@ function SignUp() {
         console.log(error);
       });
   };
-
+  const submitConditions = () => {
+    if (
+      account.id !== "" ||
+      account.pw !== "" ||
+      account.name !== "" ||
+      account.phone !== "" ||
+      validation.idvalidation !== "" ||
+      validation.pwvalidation !== "" ||
+      validation.phonevalidation !== "" ||
+      validation.namevalidation !== "" ||
+      idcheck.check !== false
+    ) {
+      onClickSignUp();
+    } else {
+      alert("내용을 확인해주세요!");
+    }
+  };
   const onClickSignUp = () => {
     axios
       .post("http://localhost:4000/api", {
@@ -53,7 +137,7 @@ function SignUp() {
   };
   const [img, setImg] = useState("img/reload.png");
   const swapImg = () => {
-    if (idcheck.check === true) {
+    if (idcheck.check === true && validation.idvalidation === "") {
       setImg("img/o.png");
     } else {
       setImg("img/x.png");
@@ -93,6 +177,7 @@ function SignUp() {
                     <img className="cont_idcheck_img" src={img} />
                   </div>
                 </div>
+                <div>{validation.idvalidation} </div>
                 <div className="area_account">
                   <input
                     className="cont_id_pw"
@@ -102,6 +187,7 @@ function SignUp() {
                     onChange={onChangeAccount}
                   />
                 </div>
+                <div>{validation.pwvalidation} </div>
                 <div className="area_account">
                   <input
                     className="cont_id_pw"
@@ -111,6 +197,7 @@ function SignUp() {
                     onChange={onChangeAccount}
                   />
                 </div>
+                <div>{validation.namevalidation} </div>
                 <div className="area_account">
                   <input
                     className="cont_id_pw"
@@ -120,11 +207,12 @@ function SignUp() {
                     onChange={onChangeAccount}
                   />
                 </div>
+                <div>{validation.phonevalidation} </div>
                 <div className="area_btn">
                   <button
                     className="login_btn"
                     type="submit"
-                    onClick={onClickSignUp}
+                    onClick={submitConditions}
                   >
                     회원가입
                   </button>

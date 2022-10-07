@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 ui.drawio
+db.json
 # testing
 /coverage
 

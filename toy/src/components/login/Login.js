@@ -3,7 +3,6 @@ import "./Login.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { pageHandler } from "../../features/statusSlice";
-//##
 function Login() {
   const [account, setAccount] = useState({
     id: "",
@@ -26,7 +25,7 @@ function Login() {
     <div className="group_page">
       <div className="page_home type around">
         <div className="area_home type_top">
-          <h2>Hi </h2>
+          <h2>Hi Login</h2>
         </div>
         <div className="type_timeline">
           <div className="area_loginpage">
