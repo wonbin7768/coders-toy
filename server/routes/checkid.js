@@ -1,24 +1,17 @@
 const express = require("express");
 const pool = require("../config/db");
 const router = express.Router();
-const { body, validationResult } = require("express-validator");
-const validate = (req, res, next) => {
-  const errors = validationResult(req);
-  if (errors.isEmpty()) {
-    return next();
-  }
-  return res.status(400).json({ message: errors.array()[0].msg });
-};
+const { body } = require("express-validator");
+const validate = require("../middleware/validate");
 
 router.post(
   "/api/idcheck",
   [
     body("idcheck.id")
-    .trim()
-    .notEmpty()
-    .isLength({ min: 3, max: 8 })
-    .withMessage("이름은3~8"),
-    validate
+      .trim()
+      .notEmpty()
+      .isLength({ min: 4, max: 16 }),
+    validate,
   ],
   async (req, res) => {
     const id = req.body.idcheck.id;
