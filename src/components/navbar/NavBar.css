@@ -1,0 +1,87 @@
+.app_bar{
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 44px;
+    min-width: 320px;
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    background: #fff;
+  }
+  .app_bar_login{
+    position: absolute;
+    top: 25%;
+    right: 8px;
+  }
+  .logo{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 0 98px;
+    font-weight: 400;
+    box-sizing: border-box;
+    align-items: center;
+    text-align: center;
+  }
+  .link_logo{
+    display: inline-block;
+    margin: 0 auto;
+    font-size: 40px;
+  }
+  
+  /*********************************************/
+  .nav_bar{
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    min-width: 320px;
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+  }
+  .list_nav{
+    height: 44px;
+    line-height: 44px;
+    margin: 0 16px;
+    display: flex;
+  }
+  .list_nav:after{
+    position: absolute;
+    bottom: 0;
+    left: 16px;
+    right: 16px;
+    z-index: -1;
+    height: 1px;
+    background-color: #000;
+    opacity: .1;
+    content: "";
+  }
+  .list_nav li{
+    position: relative;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    height: 100%;
+    text-align: center;
+  }
+  .link_list_nav{
+    display: block;
+    height: 100%;
+    text-align: center;
+  }
+  .link_list_nav:after{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+    content:"";
+  }

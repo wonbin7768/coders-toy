@@ -1,0 +1,78 @@
+.area_loginpage{
+ width: 400px;
+ margin: 50px auto 40px;
+ font-size: 12px;
+ box-sizing: border-box;
+ word-wrap: break-word;
+}
+.cont_login{
+    position: relative;
+    height: 100%;
+    padding: 55px 0 55px;
+    box-sizing: border-box;
+}
+.area_account{
+    position: relative;
+    margin-bottom: 3px;
+    border: solid #ccc;
+    border-width: 0 0 2px;
+}
+.area_account:focus-within{
+    border-color: #191919;
+}
+.cont_id_pw{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 45px;
+    padding: 10px 0 8px;
+    border: 0;
+    font-size: 18px;
+    line-height: 25px;
+    color: #191919;
+    background-color: transparent;
+    letter-spacing: 0;
+    box-sizing: border-box;
+    outline: 0 none;
+    caret-color: #191919;
+    opacity: 1;
+}
+.area_btn{
+    padding-top: 40px;
+    text-align: center;
+}
+.login_btn{
+    display: block;
+    width: 100%;
+    height: 50px;
+    border-radius: 4px;
+    border: 0;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 51px;
+    color: #191919;
+    background-color: #ffe900;
+    cursor: pointer;   
+}
+.login_btn:hover{
+    background-color: #ffe000;
+}
+.area_info_user{
+    margin-top: 25px;
+    outline: none;
+}
+.list_info_user{
+    float: right;
+    margin: 0;
+}
+.link_info_user, li{
+    float: left;
+}
+.list_info_user li::before{
+    content: "";
+    float: left;
+    width: 1px;
+    height: 10px;
+    margin: 4px 10px;
+    background-color: rgba(0,0,0,.08);
+}
