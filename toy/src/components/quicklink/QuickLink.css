@@ -1,0 +1,37 @@
+@media only screen and (min-width: 640px){
+    .group_quicklink{
+    margin: 21px -41px 0;
+  }
+  .item_quick{
+    width: 138px;
+  }}
+  .group_quicklink{
+    margin: 14px -5.5px 0;
+  }
+  .item_quick{
+    display: inline-block;
+    width:25%;
+    padding: 10px 1.5px;
+    vertical-align: top;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .link_quick{
+    display: inline-block;
+    position: relative;
+    width: 66px;
+    font-family: KHDS-Regular,system-ui,AppleSDGothicNeo-Regular,맑은 고딕,Malgun Gothic,돋움,dotum,sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #111;
+    text-align: center;
+  }
+  .img_quick{
+    max-width: 66px;
+    max-height: 32px;
+    vertical-align: top;
+  }
+  .txt_quick{
+    display: block;
+    margin-top: 8px;
+  }
