@@ -7,14 +7,35 @@ const validate = require("../middleware/validate");
 router.post(
   "/api",
   [
-    body("account.id")
+    body("account.id").trim().notEmpty().bail(),
+    body("account.pw")
       .trim()
-      .custom((id) => {
-        validate.idcheck(id);
-      }),
-    body("account.pw").trim(),
-    body("account.name").trim(),
-    body("account.phone").trim(),
+      .notEmpty()
+      .custom(async (pw) => {
+        await validate.pwCheck(pw);
+      })
+      .bail(),
+    body("account.pwcf")
+      .trim()
+      .notEmpty()
+      .custom(async (pw, { req }) => {
+        await validate.pwcfCheck(pw,{req});
+      })
+      .bail(),
+    body("account.name")
+      .trim()
+      .notEmpty()
+      .custom(async (name) => {
+        await validate.nameCheck(name);
+      })
+      .bail(),
+    body("account.phone")
+      .trim()
+      .notEmpty()
+      .custom(async (phone) => {
+        await validate.phoneCheck(phone);
+      })
+      .bail(),
     validate.validateError,
   ],
   async (req, res) => {
@@ -22,7 +43,6 @@ router.post(
     await pool.getConnection((err, conn) => {
       if (err) {
         throw err;
-        console.log("Connected");
       } else {
         conn.query(
           "insert into Account(ID , PW , Name , Phone) values(?,?,?,?);",

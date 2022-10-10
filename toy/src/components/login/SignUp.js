@@ -11,14 +11,16 @@ function SignUp() {
   const [account, setAccount] = useState({
     id: "",
     pw: "",
+    pwcf: "",
     name: "",
     phone: "",
   });
   const [validation, setValidation] = useState({
-    idvalidation: "",
-    pwvalidation: "",
-    namevalidation: "",
-    phonevalidation: "",
+    idValidation: "",
+    pwValidation: "",
+    pwcfValidation: "",
+    nameValidation: "",
+    phoneValidation: "",
   });
   const onChangeAccount = (e) => {
     switch (e.target.name) {
@@ -30,27 +32,34 @@ function SignUp() {
         ) {
           setValidation({
             ...validation,
-            pwvalidation:
+            pwValidation:
               "비밀번호는 영어,숫자,특수문자를 포함한 8~15자리로 만들어주세요.",
           });
         } else {
           setValidation({
             ...validation,
-            pwvalidation: "",
+            pwValidation: "",
           });
           setAccount({ ...account, [e.target.name]: e.target.value });
         }
+        break;
+      case "pwcf":
+        setAccount({ ...account, [e.target.name]: e.target.value });
+        setValidation({
+          ...validation,
+          pwcfValidation: "",
+        });
         break;
       case "name":
         if (!/^^[가-힣]{2,6}$/.test(e.target.value)) {
           setValidation({
             ...validation,
-            namevalidation: "이름을 제대로 적어주세요.",
+            nameValidation: "이름을 제대로 적어주세요.",
           });
         } else {
           setValidation({
             ...validation,
-            namevalidation: "",
+            nameValidation: "",
           });
           setAccount({ ...account, [e.target.name]: e.target.value });
         }
@@ -59,31 +68,28 @@ function SignUp() {
         if (!/^^[0-9]{10,11}$/.test(e.target.value)) {
           setValidation({
             ...validation,
-            phonevalidation: "핸드폰번호를 -없이 적고 다시 확인해주세요.",
+            phoneValidation: "핸드폰번호를 -없이 적고 다시 확인해주세요.",
           });
         } else {
           setValidation({
             ...validation,
-            phonevalidation: "",
+            phoneValidation: "",
           });
           setAccount({ ...account, [e.target.name]: e.target.value });
         }
         break;
     }
   };
-  const pixAccount = (e) => {
-    setAccount({ ...account, [e.target.name]: e.target.value });
-  };
   const onChangeIdCheck = (e) => {
     if (!/^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{4,16}$/.test(e.target.value)) {
       setValidation({
         ...validation,
-        idvalidation: "아이디는 영어와 숫자를 포함한 4~16자리로 만들어주세요.",
+        idValidation: "아이디는 영어와 숫자를 포함한 4~16자리로 만들어주세요.",
       });
     } else {
       setValidation({
         ...validation,
-        idvalidation: "",
+        idValidation: "",
       });
       setAccount({ ...account, [e.target.name]: e.target.value });
       setIdcheck({ ...idcheck, [e.target.name]: e.target.value });
@@ -106,16 +112,23 @@ function SignUp() {
         console.log(error);
       });
   };
+  const pwCf = (e) => {
+    if (e.target.value !== account.pw) {
+      setValidation({ ...validation, pwcfValidation: "비밀번호가 다릅니다!" });
+    }
+  };
   const submitConditions = () => {
     if (
       account.id !== "" ||
       account.pw !== "" ||
+      account.pwcf !== "" ||
       account.name !== "" ||
       account.phone !== "" ||
-      validation.idvalidation !== "" ||
-      validation.pwvalidation !== "" ||
-      validation.phonevalidation !== "" ||
-      validation.namevalidation !== "" ||
+      validation.idValidation !== "" ||
+      validation.pwValidation !== "" ||
+      validation.pwcfValidation !== "" ||
+      validation.phoneValidation !== "" ||
+      validation.nameValidation !== "" ||
       idcheck.check !== false
     ) {
       onClickSignUp();
@@ -137,7 +150,7 @@ function SignUp() {
   };
   const [img, setImg] = useState("img/reload.png");
   const swapImg = () => {
-    if (idcheck.check === true && validation.idvalidation === "") {
+    if (idcheck.check === true && validation.idValidation === "") {
       setImg("img/o.png");
     } else {
       setImg("img/x.png");
@@ -177,7 +190,7 @@ function SignUp() {
                     <img className="cont_idcheck_img" src={img} />
                   </div>
                 </div>
-                <div>{validation.idvalidation} </div>
+                <div>{validation.idValidation} </div>
                 <div className="area_account">
                   <input
                     className="cont_id_pw"
@@ -187,7 +200,20 @@ function SignUp() {
                     onChange={onChangeAccount}
                   />
                 </div>
-                <div>{validation.pwvalidation} </div>
+                <div>{validation.pwValidation} </div>
+                <div className="area_account">
+                  <input
+                    className="cont_id_pw"
+                    type="password"
+                    placeholder="비밀번호 확인"
+                    name="pwcf"
+                    onBlur={(e) => {
+                      pwCf(e);
+                    }}
+                    onChange={onChangeAccount}
+                  />
+                </div>
+                <div>{validation.pwcfValidation} </div>
                 <div className="area_account">
                   <input
                     className="cont_id_pw"
@@ -197,7 +223,7 @@ function SignUp() {
                     onChange={onChangeAccount}
                   />
                 </div>
-                <div>{validation.namevalidation} </div>
+                <div>{validation.nameValidation} </div>
                 <div className="area_account">
                   <input
                     className="cont_id_pw"
@@ -207,7 +233,7 @@ function SignUp() {
                     onChange={onChangeAccount}
                   />
                 </div>
-                <div>{validation.phonevalidation} </div>
+                <div>{validation.phoneValidation} </div>
                 <div className="area_btn">
                   <button
                     className="login_btn"

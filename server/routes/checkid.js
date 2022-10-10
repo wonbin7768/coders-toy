@@ -10,9 +10,8 @@ router.post(
     body("idcheck.id")
       .trim()
       .notEmpty()
-      .isLength({ min: 4, max: 16 })
       .custom(async (id) => {
-        await validate.idcheck(id);
+        await validate.idCheck(id);
       }),
     validate.validateError,
   ],
