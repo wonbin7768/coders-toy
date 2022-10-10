@@ -1,6 +1,4 @@
 import "./NavBar.css";
-import Login from "../login/Login";
-import App from "../../App";
 import { useDispatch } from "react-redux";
 import { pageHandler } from "../../features/statusSlice";
 function NavBar(props) {
@@ -9,7 +7,14 @@ function NavBar(props) {
     <div>
       <div className="app_bar">
         <strong className="logo">
-          <a className="link_logo" href="L">
+          <a
+            className="link_logo"
+            onClick={(e) => {
+              e.preventDefault();
+              dispatch(pageHandler({ status: "MainPage" }));
+            }}
+            href="L"
+          >
             Coders
           </a>
         </strong>

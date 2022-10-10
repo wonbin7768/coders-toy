@@ -3,7 +3,6 @@ import axios from "axios";
 import "./SignUp.css";
 
 function SignUp() {
-  const [test, setTest] = useState(false);
   const [idcheck, setIdcheck] = useState({
     id: "",
     check: false,
@@ -100,11 +99,11 @@ function SignUp() {
       .post("http://localhost:4000/api/idcheck", {
         idcheck,
       })
-      .then((response) => {
-        if (response.data === true) {
+      .then((res) => {
+        if (res.data=== true) {
           setAccount({ ...account, [e.target.name]: e.target.value });
           setIdcheck({ ...idcheck, check: true });
-        } else if (response.data === false) {
+        } else if (res.data === false) {
           setIdcheck({ ...idcheck, check: false });
         }
       })

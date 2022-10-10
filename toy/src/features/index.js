@@ -1,8 +1,8 @@
-import {combineReducers} from 'redux';
-import stateReducer from './statusSlice';
+import { combineReducers } from "redux";
+import stateReducer from "./statusSlice";
 
 const rootReducer = combineReducers({
-    stateReducer
+  stateReducer,
 });
 
 export default rootReducer;

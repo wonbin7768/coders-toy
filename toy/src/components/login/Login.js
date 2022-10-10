@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { pageHandler } from "../../features/statusSlice";
 function Login() {
+  const dispatch = useDispatch();
   const [account, setAccount] = useState({
     id: "",
     pw: "",
@@ -11,11 +12,29 @@ function Login() {
   const onChangeAccount = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });
   };
-  const dispatch = useDispatch();
   const onClickLogin = () => {
     if (account.id === "" || account.pw === "") {
+      alert("아이디 비밀번호를 입력하세요!");
     } else {
-      dispatch(pageHandler({ status: account.id }, { pw: account.pw }));
+      axios
+        .post("http://localhost:4000/api/login", {
+          account,
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data === true) {
+            dispatch(pageHandler({ status: "" }, { pw: account.pw }));
+
+            alert("로그인성공!");
+
+          } else {
+            alert("아이디 비밀번호를 확인하세요");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      
     }
   };
   const handleSubmit = (e) => {

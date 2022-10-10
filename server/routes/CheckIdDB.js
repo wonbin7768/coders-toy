@@ -27,16 +27,10 @@ router.post(
             throw err;
           } else {
             conn.release();
-            console.log(rows);
-            let check = false;
             if (rows[0] === undefined) {
-              check = true;
-              console.log(check);
-              return res.send(check);
+              return res.send(true);
             } else {
-              check = false;
-              console.log(check);
-              return res.send(check);
+              return res.send(false);
             }
           }
         });
