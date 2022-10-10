@@ -1,7 +1,7 @@
 const express = require("express");
 const pool = require("../config/db");
 const router = express.Router();
-const { body } = require("express-validator");
+const { body, check } = require("express-validator");
 const validate = require("../middleware/validate");
 
 router.post(
@@ -10,8 +10,11 @@ router.post(
     body("idcheck.id")
       .trim()
       .notEmpty()
-      .isLength({ min: 4, max: 16 }),
-    validate,
+      .isLength({ min: 4, max: 16 })
+      .custom(async (id) => {
+        await validate.idcheck(id);
+      }),
+    validate.validateError,
   ],
   async (req, res) => {
     const id = req.body.idcheck.id;
@@ -27,15 +30,15 @@ router.post(
             conn.release();
             console.log(rows);
             let check = false;
-          }
-          if (rows[0] === undefined) {
-            check = true;
-            console.log(check);
-            return res.send(check);
-          } else {
-            check = false;
-            console.log(check);
-            return res.send(check);
+            if (rows[0] === undefined) {
+              check = true;
+              console.log(check);
+              return res.send(check);
+            } else {
+              check = false;
+              console.log(check);
+              return res.send(check);
+            }
           }
         });
       }
