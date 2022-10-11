@@ -1,15 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const account = {
+const status = {
   status: "MainPage",
+  login: false,
+  id: "",
 };
-const initialState = account;
+const initialState = status;
 export const statusSlice = createSlice({
   name: "pageHandler",
   initialState,
   reducers: {
     pageHandler: (state, action) => {
-      state.status = action.payload.status;
+      return {
+        status: action.payload.status,
+        login: action.payload.login,
+        id: action.payload.id,
+      };
     },
   },
 });

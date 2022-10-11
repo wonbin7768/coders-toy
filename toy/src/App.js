@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 function App(props) {
   const status = useSelector((state) => state.page.stateReducer.status);
-  console.log(status);
   let content = null;
   switch (status) {
     case "MainPage":

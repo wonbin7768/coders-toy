@@ -23,10 +23,10 @@ function Login() {
         .then((res) => {
           console.log(res.data);
           if (res.data === true) {
-            dispatch(pageHandler({ status: "" }, { pw: account.pw }));
-
+            dispatch(
+              pageHandler({ status: "MainPage", login: true, id: account.id })
+            );
             alert("로그인성공!");
-
           } else {
             alert("아이디 비밀번호를 확인하세요");
           }
@@ -34,7 +34,6 @@ function Login() {
         .catch((error) => {
           console.log(error);
         });
-      
     }
   };
   const handleSubmit = (e) => {

@@ -11,9 +11,11 @@
     margin: 0 auto;
     text-align: center;
     background: #fff;
+    font-family:  KHDS-Regular,system-ui,AppleSDGothicNeo-Regular,맑은 고딕,Malgun Gothic,돋움,dotum,sans-serif;
   }
   .app_bar_login{
     position: absolute;
+    font-weight: bold;
     top: 25%;
     right: 8px;
   }
@@ -32,7 +34,31 @@
     margin: 0 auto;
     font-size: 40px;
   }
-  
+  .invisible_loginbox{
+    visibility: hidden;
+    position: absolute;
+    top: 25%;
+    right: 8px;
+  }
+  .invisible_mybox{
+    position: absolute;
+    visibility: hidden;
+  }
+  .visible_mybox{
+    position: absolute;
+    top: 25%;
+    right: 8px;
+  }
+  .area_navbar_profil{
+    width: 28px!important;
+    height: 28px!important;
+    margin-right: 12px;
+  }
+  .area_navbar_profil_id{
+    display: flex;
+    align-items: center;
+    align-content: center;
+  }
   /*********************************************/
   .nav_bar{
     position: fixed;
