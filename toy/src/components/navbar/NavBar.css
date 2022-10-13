@@ -49,6 +49,9 @@
     top: 25%;
     right: 8px;
   }
+  .visible_mybox li{
+    float: none;
+  }
   .area_navbar_profil{
     width: 28px!important;
     height: 28px!important;
@@ -59,6 +62,31 @@
     align-items: center;
     align-content: center;
   }
+.area_navbar_dropdown{
+  font-size: 14px;
+  display: block;
+  background: #fff;
+  border-radius: 8px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 90%;
+  margin: 10px 0px 10px 5px;
+  text-align: center;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: visible;
+  transform: translateY(-20px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  
+}
+ .area_navbar_dropdown.active{
+  z-index: 1001;
+  top:25px;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+ } 
   /*********************************************/
   .nav_bar{
     position: fixed;

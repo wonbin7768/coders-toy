@@ -1,9 +1,11 @@
 import "./NavBar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { pageHandler } from "../../features/statusSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import useDetectClose from "../../hooks/useDetectClose";
 function NavBar(props) {
   const dispatch = useDispatch();
+  const dropDownRef = useRef(null);
   const statusBox = useSelector((state) => state.page.stateReducer);
   const [loginVisible, setLoginVisible] = useState({
     id: "",
@@ -11,6 +13,7 @@ function NavBar(props) {
     cnameLogin: "visible_loginbox",
     cnameMy: "invisible_mybox",
   });
+  const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
   useEffect(() => {
     if (statusBox.login === true) {
       setLoginVisible({
@@ -82,7 +85,9 @@ function NavBar(props) {
               href="/testLogout"
               onClick={(e) => {
                 e.preventDefault();
-                testLogout();
+                if (loginVisible.id !== "") {
+                  setIsOpen(!isOpen);
+                }
               }}
             >
               <div>
@@ -94,7 +99,24 @@ function NavBar(props) {
                   />
                 </span>
               </div>
-              <div>{loginVisible.id}</div>
+              <div>
+                {loginVisible.id}
+                <ul
+                  ref={dropDownRef}
+                  className={`area_navbar_dropdown ${
+                    isOpen ? "active" : "inactive"
+                  }`}
+                >
+                  <li
+                    onClick={() => {
+                      testLogout();
+                    }}
+                  >
+                    로그아웃
+                  </li>
+                  <li>마이</li>
+                </ul>
+              </div>
             </a>
           </div>
         </div>
