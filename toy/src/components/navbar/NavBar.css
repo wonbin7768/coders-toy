@@ -50,6 +50,8 @@
     right: 8px;
   }
   .visible_mybox li{
+    margin-top: 10px;
+    margin-bottom: 10px;
     float: none;
   }
   .area_navbar_profil{
@@ -63,6 +65,7 @@
     align-content: center;
   }
 .area_navbar_dropdown{
+  z-index: 1;
   font-size: 14px;
   display: block;
   background: #fff;
@@ -78,14 +81,14 @@
   visibility: visible;
   transform: translateY(-20px);
   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-  
+}
+.area_navbar_dropdown_debug{
+  transform: translateY(-100px);
 }
  .area_navbar_dropdown.active{
-  z-index: 1001;
-  top:25px;
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(25px);
  } 
   /*********************************************/
   .nav_bar{

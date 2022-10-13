@@ -103,13 +103,17 @@ function NavBar(props) {
                 {loginVisible.id}
                 <ul
                   ref={dropDownRef}
-                  className={`area_navbar_dropdown ${
-                    isOpen ? "active" : "inactive"
-                  }`}
+                  className={`${
+                    loginVisible.id === ""
+                      ? "area_navbar_dropdown_debug "
+                      : "area_navbar_dropdown "
+                  } ${isOpen ? "active" : "inactive"}`}
                 >
                   <li
                     onClick={() => {
-                      testLogout();
+                      if (isOpen) {
+                        testLogout();
+                      }
                     }}
                   >
                     로그아웃
