@@ -1,8 +1,11 @@
+*{
+  font-family: KHDS-Regular,system-ui,AppleSDGothicNeo-Regular,맑은 고딕,Malgun Gothic,돋움,dotum,sans-serif;
+}
 .App {
   height: 100%;
   max-width: 640px;
   min-width: 320px;
-  margin: 0 auto;
+  margin: 0 auto; 
 }
 a{
   text-decoration: none;

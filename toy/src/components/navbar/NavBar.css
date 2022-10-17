@@ -11,7 +11,6 @@
     margin: 0 auto;
     text-align: center;
     background: #fff;
-    font-family:  KHDS-Regular,system-ui,AppleSDGothicNeo-Regular,맑은 고딕,Malgun Gothic,돋움,dotum,sans-serif;
   }
   .app_bar_login{
     position: absolute;
@@ -74,7 +73,8 @@
   top: 0;
   right: 0;
   width: 90%;
-  margin: 10px 0px 10px 5px;
+  height: 40px;
+  margin: 10px 0px 0px 5px;
   text-align: center;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
   opacity: 0;
@@ -86,6 +86,7 @@
   transform: translateY(-100px);
 }
  .area_navbar_dropdown.active{
+  height: 70px;
   opacity: 1;
   visibility: visible;
   transform: translateY(25px);
