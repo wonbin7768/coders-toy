@@ -11,7 +11,7 @@ function MainPage() {
             <strong className="welcome">
               "안녕하세요. ㅎㅇ"
               <br></br>
-              "코더즈입니다."
+              "코더즈입니다. ㅎ ㅇ"
             </strong>
             <QuickLink/>
           </div>
