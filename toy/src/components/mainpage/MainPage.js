@@ -9,7 +9,7 @@ function MainPage() {
           <h1 className="screen_out">홈</h1>
           <div className="area_home type_top">
             <strong className="welcome">
-              "안녕하세요."
+              "안녕하세요. ㅎㅇ"
               <br></br>
               "코더즈입니다."
             </strong>
