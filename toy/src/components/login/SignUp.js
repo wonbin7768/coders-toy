@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./SignUp.css";
+import { pageHandler } from "../../features/statusSlice";
+import { useDispatch } from "react-redux";
 
 function SignUp() {
+  const dispatch = useDispatch();
   const [idcheck, setIdcheck] = useState({
     id: "",
     check: false,
@@ -100,7 +103,7 @@ function SignUp() {
         idcheck,
       })
       .then((res) => {
-        if (res.data=== true) {
+        if (res.data === true) {
           setAccount({ ...account, [e.target.name]: e.target.value });
           setIdcheck({ ...idcheck, check: true });
         } else if (res.data === false) {
@@ -141,10 +144,19 @@ function SignUp() {
         account,
       })
       .then((response) => {
-        console.log(response);
+        if (response.data === "success") {
+          console.log(response);
+          alert("회원가입 성공! \n 로그인하세요 :)");
+          dispatch(
+            pageHandler({
+              status:"LoginPage"
+            })
+          )
+        }
       })
       .catch((error) => {
         console.log(error);
+        alert("회원가입 실패!");
       });
   };
   const [img, setImg] = useState("img/reload.png");

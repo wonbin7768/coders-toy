@@ -11,10 +11,10 @@ const persistConfig = {
   storage,
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 const store = configureStore({
   reducer: {
     page: persistedReducer,
+    timeline : rootReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,

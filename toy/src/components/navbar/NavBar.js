@@ -93,7 +93,7 @@ function NavBar(props) {
               <div>
                 <span className="area_timeline_profil area_navbar_profil">
                   <img
-                    className="area_timeline_profil_img"
+                    className="area_t imeline_profil_img"
                     src="img/user.png"
                     draggable="false"
                   />
