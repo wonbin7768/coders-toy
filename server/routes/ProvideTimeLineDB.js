@@ -1,16 +1,25 @@
-/* 로그인 전 타임라인 or 방금 회원가입해서 팔로우나 뭐 어떤 연계가
-없을시 근 3달간에 좋아요 높은순으로 몇개 뿌려주기
-+ 광고
-
-팔로우 한사람들의 최근 게시물 + 광고
-
-내주변 위치기반으로 게시물 뿌리기 
-------------------------------------------------------------------
-component 에서 slice 데이터 요청하면 slice 서버에서 데이터 받아와서 component로
-뿌려줌 
--slice에 더미 데이터 넣어서 timeline 에서 체크하고 서버측 코딩하면됨
-    ㄴslice 더미 timeline 체크 완료
-    ㄴ중간 의문점 여러개의 타임라인을 한번에 뿌릴려면 어케해야되나
--타임라인 뿌려주는 알고리즘 만들기 
-------------------------------------------------------------------
-*/
+const express = require("express");
+const pool = require("../config/db");
+const router = express.Router();
+router.post("/api/timeline", async (req, res) => {
+  await pool.getConnection((err, conn, rows) => {
+    if (err) {
+      throw err;
+    } else {
+      conn.query("select * from timeline", (err, rows) => {
+        if (err) {
+          throw err;
+        } else {
+          conn.release();
+          console.log(rows);
+          if (rows[0] === undefined) {
+            return res.send(false);
+          } else {
+            return res.send(rows);
+          }
+        }
+      });
+    }
+  });
+});
+module.exports = router;

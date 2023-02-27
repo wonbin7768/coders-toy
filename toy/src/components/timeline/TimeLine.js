@@ -1,17 +1,17 @@
 import "./TimeLine.css";
 import { useEffect, useState } from "react";
-import { useDispatch , useSelector} from "react-redux";
-import { timelineHandler } from "../../features/timelineSlice";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 function TimeLine(props) {
   const dispatch = useDispatch();
   const tlBox = useSelector((state) => state.page.timelineReducer);
   const [comment, setComment] = useState("");
   const [timeline, setTimeline] = useState({
-    id:"",
-    img:"",
-    content:"",
-    like:0,
+    id: "",
+    img: "",
+    content: "",
+    like: 0,
   });
   const onChange = (e) => {
     setComment(e.target.value);
@@ -19,15 +19,27 @@ function TimeLine(props) {
   const onClick = (e) => {
     e.preventDefault();
   };
-  useEffect(()=>{
-    setTimeline({
-      ...timeline,
-      id : tlBox.id,
-      img : tlBox.img,
-      content : tlBox.content,
-      like : tlBox.like,
-    });
-  },[])
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/timeline", {})
+      .then((res) => {
+        // for (let i = 0; i < res.length; i++) {
+        //   console.log(res.data[i]);
+        // }
+        console.log(res.data[1]);
+        setTimeline({
+          ...timeline,
+          id: res.data[0].id,
+          img: res.data[0].tl_img,
+          content: res.data[0].tl_content,
+          like: res.data[0].tl_like,
+        });
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div className="area_home type_timeline">
       <div className="area_timeline type_header">
@@ -53,9 +65,7 @@ function TimeLine(props) {
           <img className="post_img" src={timeline.img} />
         </div>
         <div className="area_post_txt">
-          <div className="post_txt">
-            {timeline.content}
-          </div>
+          <div className="post_txt">{timeline.content}</div>
         </div>
       </div>
       <div className="area_timeline type_footer">
