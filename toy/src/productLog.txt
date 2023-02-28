@@ -9,7 +9,18 @@
 component 에서 slice 데이터 요청하면 slice 서버에서 데이터 받아와서 component로
 뿌려줌 
 *****timeline*****
-slice는 상태관리할때 사용햇는데 하다보니 timeline에 사용할필요가 없음
+slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 전달하면 되서
+굳이 사용할필요 없을듯
+■ 맵핑
+ㅁ타임라인 작성 페이지
+ㅁ댓글
+ ㄴ탐라에 속해있다 -> 코멘트를 다른 컴포넌트로 빼서 맵핑해야하나?
+ ㄴserver 쪽에서 따로빼서 이너조인으로 가져오고 mainpage에서 받아서
+     comment 도 같이 props로 넘기고 뿌려주는걸 timeline component에서 
+     if로 뿌려주는걸로 초안
+ㅁ더보기
+ㅁ위치기반 알고리즘 !account 먼저 수정해야함
+
 *************** 
 -slice에 더미 데이터 넣어서 timeline 에서 체크하고 서버측 코딩하면됨
     ㄴslice 더미 timeline 체크 완료

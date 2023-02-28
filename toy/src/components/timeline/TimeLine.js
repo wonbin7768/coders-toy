@@ -1,33 +1,13 @@
 import "./TimeLine.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useState } from "react";
 function TimeLine(props) {
-  const dispatch = useDispatch();
-  const tlBox = useSelector((state) => state.page.timelineReducer);
   const [comment, setComment] = useState("");
-  const [timeline, setTimeline] = useState([]);
   const onChange = (e) => {
     setComment(e.target.value);
   };
   const onClick = (e) => {
     e.preventDefault();
   };
-  useEffect(() => {
-    axios
-      .post("http://localhost:4000/api/timeline", {})
-      .then((res) => {
-        // for (let i = 0; i < res.length; i++) {
-        //   console.log(res.data[i]);
-        // }
-        console.log(res.data);
-        setTimeline(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
   return (
     <div className="area_home type_timeline">
       <div className="area_timeline type_header">

@@ -7,7 +7,7 @@ import "./MainPage.css";
 function MainPage() {
   const dispatch = useDispatch();
   const tlBox = useSelector((state) => state.page.timelineReducer);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState([]);
   const [timeline, setTimeline] = useState([]);
   useEffect(() => {
     axios
@@ -30,14 +30,14 @@ function MainPage() {
           <h1 className="screen_out">홈</h1>
           <div className="area_home type_top">
             <strong className="welcome">
-              "안녕하세요. ㅎㅇ"
+               안녕하세요. ㅎㅇ"
               <br></br>
               "코더즈입니다. ㅎ ㅇ"
             </strong>
             <QuickLink />
           </div>
           {timeline.map((item) => (
-            <TimeLine tl={item} key = {item.tl_seq}/>
+            <TimeLine tl={item} cm={comment} key = {item.tl_seq}/>
           ))}
         </div>
       </div>
