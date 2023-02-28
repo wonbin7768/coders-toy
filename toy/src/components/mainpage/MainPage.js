@@ -1,7 +1,28 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useDispatch , useSelector } from "react-redux";
 import QuickLink from "../quicklink/QuickLink";
 import TimeLine from "../timeline/TimeLine";
 import "./MainPage.css";
 function MainPage() {
+  const dispatch = useDispatch();
+  const tlBox = useSelector((state) => state.page.timelineReducer);
+  const [comment, setComment] = useState("");
+  const [timeline, setTimeline] = useState([]);
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/timeline", {})
+      .then((res) => {
+        // for (let i = 0; i < res.length; i++) {
+        //   console.log(res.data[i]);
+        // }
+        console.log(res.data);
+        setTimeline(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div className="group_page">
       <div>
@@ -13,9 +34,11 @@ function MainPage() {
               <br></br>
               "코더즈입니다. ㅎ ㅇ"
             </strong>
-            <QuickLink/>
+            <QuickLink />
           </div>
-            <TimeLine comment = "Hello comment!!"/>
+          {timeline.map((item) => (
+            <TimeLine tl={item} key = {item.tl_seq}/>
+          ))}
         </div>
       </div>
       <div className="footer_page"></div>

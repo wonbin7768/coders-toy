@@ -7,12 +7,7 @@ function TimeLine(props) {
   const dispatch = useDispatch();
   const tlBox = useSelector((state) => state.page.timelineReducer);
   const [comment, setComment] = useState("");
-  const [timeline, setTimeline] = useState({
-    id: "",
-    img: "",
-    content: "",
-    like: 0,
-  });
+  const [timeline, setTimeline] = useState([]);
   const onChange = (e) => {
     setComment(e.target.value);
   };
@@ -26,15 +21,8 @@ function TimeLine(props) {
         // for (let i = 0; i < res.length; i++) {
         //   console.log(res.data[i]);
         // }
-        console.log(res.data[1]);
-        setTimeline({
-          ...timeline,
-          id: res.data[0].id,
-          img: res.data[0].tl_img,
-          content: res.data[0].tl_content,
-          like: res.data[0].tl_like,
-        });
-
+        console.log(res.data);
+        setTimeline(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -55,17 +43,17 @@ function TimeLine(props) {
         </div>
         <div className="id">
           <span className="id_span">
-            <a href="L">{timeline.id}</a>
+            <a href="L">{props.tl.id}</a>
           </span>
         </div>
       </div>
       <div className="area_timeline type_body">
         {/* Body */}
         <div className="area_post_img">
-          <img className="post_img" src={timeline.img} />
+          <img className="post_img" src={props.tl.tl_img} />
         </div>
         <div className="area_post_txt">
-          <div className="post_txt">{timeline.content}</div>
+          <div className="post_txt">{props.tl.tl_content}</div>
         </div>
       </div>
       <div className="area_timeline type_footer">
@@ -74,7 +62,7 @@ function TimeLine(props) {
           <img className="post_middlebar_img" src="./img/heart.png"></img>
           <img className="post_middlebar_img" src="./img/dm.png"></img>
         </div>
-        <div className="area_post_likes">{timeline.like} Likes!!</div>
+        <div className="area_post_likes">{props.tl.tl_like} Likes!!</div>
         <div className="area_post_comment">
           <div className="post_comment">{comment}</div>
           <div className="post_comment">{comment}</div>
