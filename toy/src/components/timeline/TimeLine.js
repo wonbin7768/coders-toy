@@ -1,7 +1,7 @@
 import "./TimeLine.css";
 import { useState } from "react";
 function TimeLine(props) {
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState([]);
   const onChange = (e) => {
     setComment(e.target.value);
   };

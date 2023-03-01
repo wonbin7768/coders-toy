@@ -7,8 +7,8 @@ import "./MainPage.css";
 function MainPage() {
   const dispatch = useDispatch();
   const tlBox = useSelector((state) => state.page.timelineReducer);
-  const [comment, setComment] = useState([]);
   const [timeline, setTimeline] = useState([]);
+  const [comment, setComment] = useState([]);
   useEffect(() => {
     axios
       .post("http://localhost:4000/api/timeline", {})
@@ -16,7 +16,7 @@ function MainPage() {
         // for (let i = 0; i < res.length; i++) {
         //   console.log(res.data[i]);
         // }
-        console.log(res.data);
+        console.log(res.data); 
         setTimeline(res.data);
       })
       .catch((err) => {
@@ -36,8 +36,8 @@ function MainPage() {
             </strong>
             <QuickLink />
           </div>
-          {timeline.map((item) => (
-            <TimeLine tl={item} cm={comment} key = {item.tl_seq}/>
+          {timeline.map((item , index) => (
+            <TimeLine tl={item} key = {index}/>
           ))}
         </div>
       </div>

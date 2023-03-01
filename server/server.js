@@ -8,7 +8,7 @@ const insertAccountDB = require("./routes/InsertAccountDB");
 const checkID = require("./routes/CheckIdDB");
 const loginDB = require("./routes/LoginDB");
 const provideTL = require("./routes/ProvideTimeLineDB");
-
+const comment = require("./routes/Comment");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -17,6 +17,7 @@ app.use("/", insertAccountDB); //use->미들 웨어를 등록해주는 메서드
 app.use("/", checkID);
 app.use("/", loginDB);
 app.use("/", provideTL);
+app.use("/", comment);
 
 app.listen(port, async () => {
   connection.connect;
