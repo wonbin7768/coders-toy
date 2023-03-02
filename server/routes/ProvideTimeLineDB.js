@@ -7,9 +7,7 @@ router.post("/api/timeline", async (req, res) => {
       throw err;
     } else {
       conn.query(
-        "select timeline.* , comment.cm_content , comment.cm_dt,"
-          +"comment.cm_like ,comment.id from timeline join comment using(tl_seq)"
-          +"",
+        "select * from timeline",
         (err, rows) => {
           if (err) {
             throw err;

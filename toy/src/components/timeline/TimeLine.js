@@ -1,7 +1,10 @@
 import "./TimeLine.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 function TimeLine(props) {
   const [comment, setComment] = useState([]);
+  useEffect(() => {
+      setComment(props.cm);
+  }, []);
   const onChange = (e) => {
     setComment(e.target.value);
   };
@@ -44,10 +47,12 @@ function TimeLine(props) {
         </div>
         <div className="area_post_likes">{props.tl.tl_like} Likes!!</div>
         <div className="area_post_comment">
-          <div className="post_comment">{comment}</div>
-          <div className="post_comment">{comment}</div>
-          <div className="post_comment">{comment}</div>
-          <div className="post_comment">{comment}</div>
+          {comment.map((item, index) => {
+            console.log(item.tl_seq);
+            if (item.tl_seq === props.tl.tl_seq) {
+              return <div className="post_comment">{item.cm_content}</div>;
+            }
+          })}
           <div className="area_post_commentbox">
             <form>
               <input
