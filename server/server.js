@@ -9,6 +9,7 @@ const checkID = require("./routes/CheckIdDB");
 const loginDB = require("./routes/LoginDB");
 const provideTL = require("./routes/ProvideTimeLineDB");
 const comment = require("./routes/Comment");
+const insertCM = require("./routes/InsertCommentDB");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -18,6 +19,7 @@ app.use("/", checkID);
 app.use("/", loginDB);
 app.use("/", provideTL);
 app.use("/", comment);
+app.use("/", insertCM);
 
 app.listen(port, async () => {
   connection.connect;

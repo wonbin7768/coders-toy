@@ -1,16 +1,53 @@
 import "./TimeLine.css";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 function TimeLine(props) {
+  const dispatch = useDispatch();
+  const statusBox = useSelector((state) => state.page.stateReducer);
+  const [insertCM, setInsertCM] = useState({
+    id: "",
+    cm_content: "",
+    tl_seq: "",
+  });
   const [comment, setComment] = useState([]);
   useEffect(() => {
-      setComment(props.cm);
+    axios
+      .post("http://localhost:4000/api/comment", {})
+      .then((res) => {
+        console.log(res.data);
+        setComment(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setInsertCM({ ...insertCM, id: statusBox.id });
   }, []);
   const onChange = (e) => {
-    setComment(e.target.value);
+    setInsertCM({
+      ...insertCM,
+      cm_content: e.target.value,
+    });
   };
   const onClick = (e) => {
-    e.preventDefault();
-  };
+    setInsertCM({
+        ...insertCM,
+        tl_seq: e.target.value,
+      });
+      console.log(insertCM);
+      
+  //   await axios
+  //     .post("http://localhost:4000/api/insertCM", {
+  //       insertCM,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+     e.preventDefault();
+     };
   return (
     <div className="area_home type_timeline">
       <div className="area_timeline type_header">
@@ -50,7 +87,18 @@ function TimeLine(props) {
           {comment.map((item, index) => {
             console.log(item.tl_seq);
             if (item.tl_seq === props.tl.tl_seq) {
-              return <div className="post_comment">{item.cm_content}</div>;
+              return (
+                <>
+                  <div className="wrap_comment">
+                    <div className="id comment_id">
+                      <span className="id_span">
+                        <a href="L">{item.id}</a>
+                      </span>
+                    </div>
+                    <div className="post_comment">{item.cm_content}</div>
+                  </div>
+                </>
+              );
             }
           })}
           <div className="area_post_commentbox">
@@ -59,11 +107,12 @@ function TimeLine(props) {
                 className="post_commentbox"
                 name="comment"
                 text="text"
-                placeholder="댓글 달기... "
                 onChange={onChange}
+                placeholder="댓글 달기... "
               ></input>
               <button
                 type="submit"
+                value={props.tl.tl_seq}
                 onClick={onClick}
                 className="post_commentbox_btn"
               >

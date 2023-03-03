@@ -23,16 +23,6 @@ function MainPage() {
       .catch((err) => {
         console.log(err);
       });
-    axios
-      .post("http://localhost:4000/api/comment", {})
-      .then((res) => {
-        console.log(res.data);
-        setComment(res.data);
-        console.log(comment[0]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     //   for(var i=0; i < comment.length(); i++){
 
     //   }
@@ -57,8 +47,8 @@ function MainPage() {
             </strong>
             <QuickLink />
           </div>
-          {timeline.map((item, index) => (
-            <TimeLine tl={item} cm={comment} key={index} />
+          {timeline.map((item,index) => (
+            <TimeLine tl={item} key={index} />
           ))}
         </div>
       </div>
