@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const timeline = {
+const comment = {
   id: "jolly7768",
   img:"./img/sea.jpg",
   content:"게시글 테스트!",
   like:5,
 };
-const initialState = timeline;
-export const timelineSlice = createSlice({
-  name: "timelineHandler",
+const initialState = comment;
+export const commentSlice = createSlice({
+  name: "commentHandler",
   initialState,
   reducers: {
     timelintHandler: (state, action) => {
@@ -21,5 +21,5 @@ export const timelineSlice = createSlice({
     },
   },
 });
-export const { timelineHandler } = timelineSlice.actions;
-export default timelineSlice.reducer;
+export const { commentHandler } = commentSlice.actions;
+export default commentSlice.reducer;

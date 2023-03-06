@@ -4,7 +4,6 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import rootReducer from "./features";
-import statusReducer from "./features/statusSlice";
 
 const persistConfig = {
   key: "root",
@@ -14,7 +13,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
   reducer: {
     page: persistedReducer,
-    timeline : rootReducer,
+    comment : rootReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,
