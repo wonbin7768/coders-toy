@@ -1,7 +1,8 @@
 {
-    "host": "localhost",
-    "user": "root",
-    "password": "root",
-    "port" :"3306",
-    "database": "toy"
+  "host": "localhost",
+  "user": "root",
+  "password": "root",
+  "port": "3306",
+  "database": "toy",
+  "multipleStatements": true
 }

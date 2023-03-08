@@ -1,23 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const comment = {
-  id: "jolly7768",
-  img:"./img/sea.jpg",
-  content:"게시글 테스트!",
-  like:5,
-};
-const initialState = comment;
+const initialState =[];
 export const commentSlice = createSlice({
   name: "commentHandler",
   initialState,
   reducers: {
-    timelintHandler: (state, action) => {
-      return {
-        id: action.payload.id,
-        img: action.payload.img,
-        content: action.payload.content,
-        like: action.payload.like,
-      };
+    commentHandler(state, action) {
+      
     },
   },
 });

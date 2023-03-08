@@ -28,7 +28,7 @@ slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 �
         ㄴ지금 timeline componet에서 maping 해서 댓글 뿌리는 구조인데
           자료가 방대해지면 속도 면에서 오래걸리지 않을까 후 개선해야할듯
    ■comment id 화면 설계
-   □comment 게시 -> 로그인되있는 id , 게시하려는 게시글 tl_seq, cm_content
+   ■comment 게시 -> 로그인되있는 id , 게시하려는 게시글 tl_seq, cm_content
     ㄴ***에러1 로딩 됬을때 comment 바로 로딩 되지 않음
             ㄴ이건 기존 main 에 있는 useEffect 에서 axios 요청을 2번 보내는
               속도 문제일꺼라 생각해 comment axios 요청을 timeline componet의
@@ -37,10 +37,14 @@ slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 �
                전달하는 방식 인데 버튼에 value값이 바로 적용되지않음
             ㄴuseEffect 로 감싸서 해결했다
     ㄴ***에러3 댓글작성시 전체가 랜더링 되지 않고 바로 적용 되게 하고싶다
-               댓글 작성 요청 성공시 axios 다시 요청해 state 변경해서 
-               적용했는데 바로 ui 적용이 안될때가 많음
-               slice 로 바꿔바야할듯
-
+              몇가지 실험 해봤는데 첫번째 게시 버튼을 눌럿을때 바로 state 적용되나
+              두번째 부터 댓글이 모두 사라지는현상 왜그를까
+            ㄴserver side에서 insertCommentDB에서 다중쿼리로 해결해보려했으나
+            데이터 저장은되나 출력이 되지않아 분리하여 입력후 출력으로 분리하여 
+            해결했다 
+    ㅁcomment 삭제
+            ㄴcm_seq 값 뽑아서 삭제 구현 하면 될듯
+    
 -------------------------------------------------------------------- 
 ㅁ더보기
 ㅁ위치기반 알고리즘 !account 먼저 수정해야함
