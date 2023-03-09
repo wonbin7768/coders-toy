@@ -1,10 +1,11 @@
 import "./TimeLine.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { commentHandler } from "../../features/commentSlice";
 function Comment(props) {
   const dispatch = useDispatch();
+  const seq = useRef();
   const statusBox = useSelector((state) => state.page.stateReducer);
   const [insertCM, setInsertCM] = useState({
     id: "",
@@ -65,11 +66,19 @@ function Comment(props) {
   };
   const showX = (id) => {
     if (id === insertCM.id) {
-      return "X";
+      return <img className="delete_img" src="./img/delete.png"></img>;
     }
   };
   const deleteCM = (cm_seq) => {
     console.log(cm_seq);
+    axios
+      .post("http://localhost:4000/api/deleteCM", { cm_seq })
+      .then((res) => {
+        setComment(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <>
@@ -86,13 +95,16 @@ function Comment(props) {
                       </span>
                     </div>
                     <div className="post_comment">{item.cm_content}</div>
+                    <div className="post_comment_delete">
+                      <button
+                        className="delete_btn"
+                        onClick={() => deleteCM(item.cm_seq)}
+                      >
+                        {showX(item.id)}
+                      </button>
+                    </div>
                     <div className="post_comment_dt">
-                      <div className="post_comment_delete">
-                        <button id={item.cm_seq} onClick="deleteCM(this.id)">
-                          {showX(item.id)}
-                        </button>
-                      </div>
-                      <div>{detailDate(new Date(item.cm_dt))}</div>
+                      <div className="comment_dt">{detailDate(new Date(item.cm_dt))}</div>
                     </div>
                   </div>
                 </div>
