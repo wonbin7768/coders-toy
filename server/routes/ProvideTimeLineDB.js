@@ -7,7 +7,8 @@ router.post("/api/timeline", async (req, res) => {
       throw err;
     } else {
       conn.query(
-        "select * from timeline",
+        "select timeline.* , timelinelike.like_id from timeline" +
+          " left outer join timelinelike using (tl_seq)",
         (err, rows) => {
           if (err) {
             throw err;

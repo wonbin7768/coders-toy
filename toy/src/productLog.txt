@@ -13,8 +13,23 @@ slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 �
 굳이 사용할필요 없을듯
 ■ 맵핑
 ㅁ타임라인 작성 페이지
+ㅁtimeline 좋아요
+ ㄴupdate 구현 좋아요 구현할때 한 댓글당 한개의 좋아요만 할수있다면
+   로직을 어캐 해야하지 db테이블을 하나 더파서 하나의 댓글당
+   하트이미지 옆 좋아요 개수 or 하트이미지 안에 좋아요 개수
+   하트클릭 -> tl_seq + login id axios 요청 -> server에서 comment table의
+   tl_like 증가 -> (timeline table에서 좋아요한 id를 저장하는 칼럼을 만들어서 
+   id를 토큰화해서 하트이미지를 빨간하트와 공백하트로 구분해서 로딩 or 다른
+   테이블을 만들어 tl_seq 참조 tl_like , 좋아요한 id) 따로 테이블을 나누는게
+   데이터가 방대해졌을때나 로딩하는 측면에서 더좋을까 잘모르겠다
+   일단 join 연습도 해볼겸 나눠보자00
+ timelinelike tl_seq ,tl_like ,like_id 
+ 서버 tl_like 코딩 
+ db tl_like 기본 0으로 수정
+ 
+
 ------------------------------------------------------------------
-ㅁ댓글
+■댓글
  ㄴ탐라에 속해있다 -> 코멘트를 다른 컴포넌트로 빼서 맵핑해야하나?
  ㄴserver 쪽에서 따로빼서 이너조인으로 가져오고 mainpage에서 받아서
      comment 도 같이 props로 넘기고 뿌려주는걸 timeline component에서 
@@ -47,16 +62,7 @@ slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 �
             ㄴbutton onClick 사용시 function 문법 기억해야할듯 별거 아닌거에
              애먹었다. ex) onClick = {()=>deleteCM(item.cm_seq)} 이렇게 써야함
             onClick={deleteCM(item.cm_seq)} 요래 썻다가 삽질했다.
-    ㅁcomment 좋아요
-            ㄴupdate 구현 좋아요 구현할때 한 댓글당 한개의 좋아요만 할수있다면
-            로직을 어캐 해야하지 db테이블을 하나 더파서 하나의 댓글당
-            하트이미지 옆 좋아요 개수 or 하트이미지 안에 좋아요 개수
-            하트클릭 -> cm_seq + login id axios 요청 -> server에서 comment table의
-            cm_like 증가 -> (comment table에서 좋아요한 id를 저장하는 칼럼을 만들어서 
-            id를 토큰화해서 하트이미지를 빨간하트와 공백하트로 구분해서 로딩 or 다른
-            테이블을 만들어 cm_seq 참조 cm_like , 좋아요한 id) 따로 테이블을 나누는게
-            데이터가 방대해졌을때나 로딩하는 측면에서 더좋을까 잘모르겠다
-            
+
 -------------------------------------------------------------------- 
 ㅁ더보기
 ㅁ위치기반 알고리즘 !account 먼저 수정해야함

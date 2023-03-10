@@ -1,6 +1,30 @@
 import "./TimeLine.css";
 import Comment from "./Comment";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 function TimeLine(props) {
+  const [heart, setHeart] = useState("./img/heart.png");
+  const [like, setLike] = useState({
+    id: "",
+    tl_seq: 0,
+    tl_like: 0,
+  });
+  const id = useSelector((state) => state.page.stateReducer.id);
+  useEffect(() => {
+    if(props.tl.like_id != null){
+      var like_id = props.tl.like_id.indexOf(id);
+      if(like_id != -1){setHeart("./img/redheart.png");}
+    }
+  }, []);
+  const liked = (id, tl_seq, tl_like) => {
+    if (heart === "./img/heart.png") {
+      setLike({ ...like, id: id, tl_seq: tl_seq, tl_like: tl_like });
+      console.log(like);
+      setHeart("./img/redheart.png");
+    } else {
+      setHeart("./img/heart.png");
+    }
+  };
   const detailDate = (a) => {
     const milliSeconds = new Date() - a;
     const seconds = milliSeconds / 1000;
@@ -36,7 +60,7 @@ function TimeLine(props) {
             <a href="L">{props.tl.id}</a>
           </span>
         </div>
-        <div className="post_comment_dt">
+        <div className="post_dt">
           <div>{detailDate(new Date(props.tl.tl_dt))}</div>
         </div>
       </div>
@@ -52,8 +76,15 @@ function TimeLine(props) {
       <div className="area_timeline type_footer">
         {/* Footer */}
         <div className="area_post_middlebar">
-          <img className="post_middlebar_img" src="./img/heart.png"></img>
-          <img className="post_middlebar_img" src="./img/dm.png"></img>
+          <button
+            className="like_btn"
+            onClick={() => liked(id, props.tl.tl_seq, props.tl.tl_like)}
+          >
+            <img className="post_middlebar_img" src={heart}></img>
+          </button>
+          <button className="like_btn">
+            <img className="post_middlebar_img" src="./img/dm.png"></img>
+          </button>
         </div>
         <div className="area_post_likes">{props.tl.tl_like} Likes!!</div>
         <Comment tl_seq={props.tl.tl_seq} />

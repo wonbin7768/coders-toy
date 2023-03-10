@@ -14,24 +14,12 @@ function MainPage() {
     axios
       .post("http://localhost:4000/api/timeline", {})
       .then((res) => {
-        // for (let i = 0; i < res.length; i++) {
-        //   console.log(res.data[i]);
-        // }
         console.log(res.data);
         setTimeline(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-    //   for(var i=0; i < comment.length(); i++){
-
-    //   }
-    // comment.map((item, index) => {
-    //   if (timeline[index].tl_seq === item.tl_seq) {
-    //     setSendCM(item);
-    //     console.log(sendCM);
-    //   }else{console.log("xxx");}
-    // });
     console.log(comment);
   }, []);
   return (
