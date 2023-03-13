@@ -2,10 +2,10 @@ const express = require("express");
 const pool = require("../config/db");
 const router = express.Router();
 
-router.post("/api/insertTimeLineLike", async (req, res) => {
-  const { id, tl_seq ,tl_like } = req.body.insertCM;
+router.post("/api/UpdateLike", async (req, res) => {
+  const { id, tl_seq ,tl_like } = req.body.like;
   await pool.getConnection((err, conn ) => {
-    const sql1 = "insert into timeline(tl_like) values(?,?,?,now());  ";
+    const sql1 = "update timelinelike(tl_seq,id,tl_like) values(?,?,?);  ";
     const sql2 = " select * from comment;";
     if (err) {
       throw err;

@@ -2,6 +2,7 @@ import "./TimeLine.css";
 import Comment from "./Comment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import axios from "axios";
 function TimeLine(props) {
   const [heart, setHeart] = useState("./img/heart.png");
   const [like, setLike] = useState({
@@ -11,15 +12,25 @@ function TimeLine(props) {
   });
   const id = useSelector((state) => state.page.stateReducer.id);
   useEffect(() => {
-    if(props.tl.like_id != null){
+    if (props.tl.like_id != null) {
       var like_id = props.tl.like_id.indexOf(id);
-      if(like_id != -1){setHeart("./img/redheart.png");}
+      if (like_id != -1) {
+        setHeart("./img/redheart.png");
+      }
     }
   }, []);
   const liked = (id, tl_seq, tl_like) => {
     if (heart === "./img/heart.png") {
       setLike({ ...like, id: id, tl_seq: tl_seq, tl_like: tl_like });
-      console.log(like);
+      axios
+        .post("http://localhost:4000/api/UpdateLike", { like })
+        .then((res) => {
+          console.log(res.data);
+          //setComment(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       setHeart("./img/redheart.png");
     } else {
       setHeart("./img/heart.png");

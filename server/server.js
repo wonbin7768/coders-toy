@@ -11,6 +11,8 @@ const provideTL = require("./routes/ProvideTimeLineDB");
 const comment = require("./routes/Comment");
 const insertCM = require("./routes/InsertCommentDB");
 const deleteCM = require("./routes/DeleteCM");
+const updateLike = require("./routes/UpateLike");
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -22,6 +24,7 @@ app.use("/", provideTL);
 app.use("/", comment);
 app.use("/", insertCM);
 app.use("/", deleteCM);
+app.use("/",updateLike);
 
 app.listen(port, async () => {
   connection.connect;
