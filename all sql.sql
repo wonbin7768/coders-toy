@@ -39,7 +39,7 @@ delimiter ;
 -- delimiter $$
 -- create trigger create_tl_like after insert
 -- on timeline for each row
--- begin
+-- begin	
 -- insert into timelinelike(tl_seq,like_id)values(1,"jolly7768,jell7768,jull7768,jelly7768");
 -- end $$
 -- delimiter ;

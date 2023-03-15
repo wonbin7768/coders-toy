@@ -43,6 +43,15 @@ function NavBar(props) {
       })
     );
   }, [loginVisible.login]);
+  const mypage = (e) => {
+    dispatch(
+      pageHandler({
+        status: "MyPage",
+        login: loginVisible.login,
+        id: loginVisible.id,
+      })
+    );
+  };
   return (
     <div>
       <div className="app_bar">
@@ -69,7 +78,7 @@ function NavBar(props) {
             <a
               className=""
               name="undefined"
-              href="/Login"
+              href="L"
               onClick={(e) => {
                 e.preventDefault();
                 dispatch(pageHandler({ status: "LoginPage" }));
@@ -118,7 +127,26 @@ function NavBar(props) {
                   >
                     로그아웃
                   </li>
-                  <li>마이</li>
+                  <li>
+                    <a
+                      href="L"
+                      onClick={(e) => {
+                        mypage(e);
+                      }}
+                    >
+                      글 작성
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="L"
+                      onClick={(e) => {
+                        mypage(e);
+                      }}
+                    >
+                      마이
+                    </a>
+                  </li>
                 </ul>
               </div>
             </a>
@@ -149,7 +177,17 @@ function NavBar(props) {
             <li>내주변</li>
             <li>질문</li>
             <li>프로젝트</li>
-            <li>마이</li>
+            <li>
+              <a
+                href="L"
+                onClick={(e) => {
+                  e.preventDefault();
+                  mypage();
+                }}
+              >
+                마이
+              </a>
+            </li>
           </ul>
         </nav>
       </header>

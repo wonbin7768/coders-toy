@@ -3,8 +3,7 @@ import stateReducer from "./statusSlice";
 import commentReducer from "./commentSlice";
 
 const rootReducer = combineReducers({
-  stateReducer,
-  commentReducer,
+  stateReducer
 });
 
 export default rootReducer;

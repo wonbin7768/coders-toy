@@ -39,14 +39,14 @@ router.post(
     validate.validateError,
   ],
   async (req, res) => {
-    const { id, pw, name, phone } = req.body.account;
+    const { id, pw, name, phone , local} = req.body.account;
     await pool.getConnection((err, conn) => {
       if (err) {
         throw err;
       } else {
         conn.query(
-          "insert into Account(ID , PW , Name , Phone) values(?,?,?,?);",
-          [id, pw, name, phone]
+          "insert into Account(ID , PW , Name , Phone, local) values(?,?,?,?,?);",
+          [id, pw, name, phone ,local]
         );
       }
       conn.release();

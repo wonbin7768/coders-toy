@@ -5,6 +5,7 @@ import MainPage from "./components/mainpage/MainPage";
 import Login from "./components/login/Login";
 import SignUp from "./components/login/SignUp";
 import { useSelector } from "react-redux";
+import MyPage from "./components/mypage/MyPage";
 
 function App(props) {
   const status = useSelector((state) => state.page.stateReducer.status);
@@ -18,6 +19,9 @@ function App(props) {
       break;
     case "signupPage":
       content = <SignUp />;
+      break;
+    case "MyPage":
+      content = <MyPage />;
       break;
   }
   return (

@@ -19,7 +19,6 @@ function Comment(props) {
       .then((res) => {
         console.log(res.data);
         setComment(res.data);
-        dispatch(commentHandler(res.data));
       })
       .catch((err) => {
         console.log(err);

@@ -2,14 +2,23 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import QuickLink from "../quicklink/QuickLink";
+import MyPage from "../mypage/MyPage";
 import TimeLine from "../timeline/TimeLine";
 import "./MainPage.css";
 function MainPage() {
   const dispatch = useDispatch();
-  const tlBox = useSelector((state) => state.page.timelineReducer);
+  const status = useSelector((state) => state.page.stateReducer.status);
   const [timeline, setTimeline] = useState([]);
   const [comment, setComment] = useState([]);
-  const [sendCM, setSendCM] = useState([]);
+  let content = null;
+  switch (status) {
+    case "MainPage":
+      content = <QuickLink />;
+      break;
+    case "MyPage":
+      content = <MyPage />;
+      break;
+  }
   useEffect(() => {
     axios
       .post("http://localhost:4000/api/timeline", {})
@@ -33,7 +42,7 @@ function MainPage() {
               <br></br>
               "코더즈입니다. ㅎ ㅇ"
             </strong>
-            <QuickLink />
+            {content}
           </div>
           {timeline.map((item,index) => (
             <TimeLine tl={item} key={index} />
