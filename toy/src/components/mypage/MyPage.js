@@ -1,8 +1,10 @@
 import "./MyPage.css";
 import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { pageHandler } from "../../features/statusSlice";
 function MyPage() {
+  const dispatch = useDispatch();
   const [account, setAccount] = useState({
     id: "",
     pw: "",
@@ -10,10 +12,10 @@ function MyPage() {
   const id = useSelector((state) => state.page.stateReducer.id);
   const onChangePW = (e) => {
     setAccount({ ...account, id: id, pw: e.target.value });
-  } 
+  };
   const checkPW = () => {
-    if (account.id === "" || account.pw === "") {
-      alert("아이디 비밀번호를 입력하세요!");
+    if (account.pw === "") {
+      alert("비밀번호를 입력하세요!");
     } else {
       axios
         .post("http://localhost:4000/api/login", {
@@ -21,7 +23,13 @@ function MyPage() {
         })
         .then((res) => {
           if (res.data === true) {
-
+            dispatch(
+              pageHandler({
+                status: "MyPage",
+                login: true,
+                id: account.id,
+              })
+            );
           } else {
             alert("비밀번호를 확인하세요");
           }
@@ -52,7 +60,8 @@ function MyPage() {
                 </div>
                 <div className="area_btn">
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       checkPW();
                     }}
                     className="login_btn"

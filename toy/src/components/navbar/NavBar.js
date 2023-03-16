@@ -52,6 +52,15 @@ function NavBar(props) {
       })
     );
   };
+  const insertTimeLine = (e) =>{
+    dispatch(
+      pageHandler({
+        status: "PostingPage",
+        login: loginVisible.login,
+        id: loginVisible.id,
+      })
+    );
+  }
   return (
     <div>
       <div className="app_bar">
@@ -131,7 +140,7 @@ function NavBar(props) {
                     <a
                       href="L"
                       onClick={(e) => {
-                        mypage(e);
+                        insertTimeLine(e);
                       }}
                     >
                       글 작성

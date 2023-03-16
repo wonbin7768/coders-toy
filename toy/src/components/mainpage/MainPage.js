@@ -5,12 +5,14 @@ import QuickLink from "../quicklink/QuickLink";
 import MyPage from "../mypage/MyPage";
 import TimeLine from "../timeline/TimeLine";
 import "./MainPage.css";
+import InsertTimeLine from "../timeline/InsertTimeLine";
 function MainPage() {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.page.stateReducer.status);
   const [timeline, setTimeline] = useState([]);
   const [comment, setComment] = useState([]);
   let content = null;
+  const [page , setPage] = useState();
   switch (status) {
     case "MainPage":
       content = <QuickLink />;
@@ -18,6 +20,17 @@ function MainPage() {
     case "MyPage":
       content = <MyPage />;
       break;
+    case "PostingPage":
+      content = <InsertTimeLine />;
+      break;
+  }
+  const mapingTL = timeline.map((item, index) => (
+    <TimeLine tl={item} key={index} />
+  ))
+  const pageHandle = () => {
+    if(status === "MainPage"){
+      return mapingTL;
+    }else{ return content;}
   }
   useEffect(() => {
     axios
@@ -44,9 +57,7 @@ function MainPage() {
             </strong>
             {content}
           </div>
-          {timeline.map((item,index) => (
-            <TimeLine tl={item} key={index} />
-          ))}
+          {pageHandle()}
         </div>
       </div>
       <div className="footer_page"></div>

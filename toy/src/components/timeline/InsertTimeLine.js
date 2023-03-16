@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./SignUp.css";
+import "./InsertTimeLine.css";
 import { pageHandler } from "../../features/statusSlice";
 import { useDispatch } from "react-redux";
-function SignUp() {
+function InsertTimeLine() {
   const region = [
     "서울",
     "인천",
@@ -212,7 +212,7 @@ function SignUp() {
     <div className="group_page">
       <div className="page_home type around">
         <div className="area_home type_top">
-          <h2>Hi SignUp</h2>
+          <h2>Posting Page</h2>
         </div>
         <div className="type_timeline">
           <div className="area_loginpage">
@@ -312,4 +312,4 @@ function SignUp() {
     </div>
   );
 }
-export default SignUp;
+export default InsertTimeLine;

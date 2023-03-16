@@ -10,7 +10,7 @@ router.post("/api/UpdateLike", async (req, res) => {
     if (err) {
       throw err;
     } else {
-      conn.query(sql1, [id, cm_content, tl_seq] , (err)=>{
+      conn.query(sql1, [tl_seq,id,tl_like] , (err)=>{
         if (err) {
           throw err;
         } else {
