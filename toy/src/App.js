@@ -6,6 +6,7 @@ import Login from "./components/login/Login";
 import SignUp from "./components/login/SignUp";
 import { useSelector } from "react-redux";
 import MyPage from "./components/mypage/MyPage";
+import InsertTimeLine from "./components/timeline/InsertTimeLine";
 
 function App(props) {
   const status = useSelector((state) => state.page.stateReducer.status);
@@ -22,6 +23,9 @@ function App(props) {
       break;
     case "MyPage":
       content = <MyPage />;
+      break;
+    case "PostingPage":
+      content = <InsertTimeLine />;
       break;
   }
   return (

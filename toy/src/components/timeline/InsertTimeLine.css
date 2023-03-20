@@ -1,35 +1,54 @@
-.area_signup_id{
-    display: flex;
-    align-items: center;
+.area_postingPage {
+  margin: 50px auto 40px;
+  font-size: 12px;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  float: flex;
 }
-.cont_duplicate_idcheck{
-    padding-right: 8px;
-    display: flex;
-    height: 22px;
-    width: 22px;
-    font-size: 18px;
-    font-weight: bold;
-    border: 0;
+.posting_img {
+  display: flex;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  width: 72%;
+  height: 100px;
+  justify-content: center;
+  text-align: center;
 }
-.cont_idcheck_img{
-    width: 100%;
-    height: 100%;
-    border: 0;
+.posting_content {
+  display: flex;
+  margin-left: 10px;
+  background-color: green;
+  width: 72%;
+  height: 100px;
 }
-.cont_region{
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: 45px;
-    padding: 10px 0 8px;
-    border: 0;
-    font-size: 18px;
-    line-height: 25px;
-    color: #191919;
-    background-color: transparent;
-    letter-spacing: 0;
-    box-sizing: border-box;
-    outline: 0 none;
-    caret-color: #191919;
-    opacity: 1;
+.posting_friend {
+  float: right;
+  margin-right: 10px;
+  background-color: yellow;
+  width: 24%;
+}
+.area_posting_img{
+    z-index: 10;
+    margin-top: 30px;
+    width: 100px;
+    height: 100px;
+}
+.upload_img{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+.upload_name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 78%;
+    color: #999999;
 }

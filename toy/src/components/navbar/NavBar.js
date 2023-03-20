@@ -52,7 +52,7 @@ function NavBar(props) {
       })
     );
   };
-  const insertTimeLine = (e) =>{
+  const insertTimeLine = (e) => {
     dispatch(
       pageHandler({
         status: "PostingPage",
@@ -60,7 +60,7 @@ function NavBar(props) {
         id: loginVisible.id,
       })
     );
-  }
+  };
   return (
     <div>
       <div className="app_bar">
@@ -136,25 +136,21 @@ function NavBar(props) {
                   >
                     로그아웃
                   </li>
-                  <li>
-                    <a
-                      href="L"
-                      onClick={(e) => {
-                        insertTimeLine(e);
-                      }}
-                    >
-                      글 작성
-                    </a>
+                  <li
+                    href="L"
+                    onClick={(e) => {
+                      insertTimeLine(e);
+                    }}
+                  >
+                    글 작성
                   </li>
-                  <li>
-                    <a
-                      href="L"
-                      onClick={(e) => {
-                        mypage(e);
-                      }}
-                    >
-                      마이
-                    </a>
+                  <li
+                    href="L"
+                    onClick={(e) => {
+                      mypage(e);
+                    }}
+                  >
+                    마이
                   </li>
                 </ul>
               </div>
