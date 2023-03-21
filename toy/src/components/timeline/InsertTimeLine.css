@@ -1,3 +1,7 @@
+* {
+  font-family: KHDS-Regular, system-ui, AppleSDGothicNeo-Regular, 맑은 고딕,
+    Malgun Gothic, 돋움, dotum, sans-serif;
+}
 .area_postingPage {
   margin: 50px auto 40px;
   font-size: 12px;
@@ -5,50 +9,80 @@
   word-wrap: break-word;
   float: flex;
 }
-.posting_img {
-  display: flex;
+.area_posting_img {
   margin-left: 10px;
-  margin-bottom: 20px;
-  width: 72%;
-  height: 100px;
+  margin-bottom: 30px;
+  width: 70%;
   justify-content: center;
   text-align: center;
+  background-color: #eee;
+  border-radius: 7px;
+}
+.area_posting_content {
+  display: flex;
+  margin-top: 30px;
+  margin-left: 10px;
+  width: 70%;
+  border-radius: 7px;
+  background-color: #eee;
 }
 .posting_content {
-  display: flex;
-  margin-left: 10px;
-  background-color: green;
-  width: 72%;
-  height: 100px;
+  width: 100%;
+  background-color: #eee;
+  border: none;
+  margin: 5px;
+  border-radius: 7px;
+  height: 200px;
+  outline: none;
+  white-space: normal;
 }
-.posting_friend {
+.area_posting_friend_wrap {
   float: right;
   margin-right: 10px;
-  background-color: yellow;
+  background-color: #eee;
+  border-radius: 7px;
   width: 24%;
 }
-.area_posting_img{
-    z-index: 10;
-    margin-top: 30px;
-    width: 100px;
-    height: 100px;
+.area_posting_friend {
+  display: flex;
 }
-.upload_img{
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    overflow: hidden;
-    cursor: pointer;
+.area_posting_profil {
+  width: 26px !important;
+  height: 26px !important;
+  margin: 6px 5px 5px 5px;
+}
+.posting_friend {
+  font-weight: bold;
+  margin: 10px 0px 10px 0px;
+}
+.posting_img {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 100px;
+  height: 100px;
+}
+.upload_img {
+  display: none;
+}
+.upload_img_label {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
 }
 .upload_name {
-    display: inline-block;
-    height: 40px;
-    padding: 0 10px;
-    vertical-align: middle;
-    border: 1px solid #dddddd;
-    width: 78%;
-    color: #999999;
+  display: inline-block;
+  height: 40px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 0px;
+  width: 78%;
+  color: #999999;
+  outline: none;
+}
+.preview_img {
+  width: 100%;
+  object-fit: contain;
 }
