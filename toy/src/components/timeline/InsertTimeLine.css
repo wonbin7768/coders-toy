@@ -36,22 +36,50 @@
   outline: none;
   white-space: normal;
 }
-.area_posting_friend_wrap {
+.area_posting_follow_wrap {
   float: right;
   margin-right: 10px;
   background-color: #eee;
   border-radius: 7px;
   width: 24%;
 }
-.area_posting_friend {
+.area_posting_follow {
   display: flex;
+  cursor: pointer;
+}
+.area_posting_following {
+  margin-left: 5px;
+  display: flex;
+  cursor: pointer;
 }
 .area_posting_profil {
   width: 26px !important;
   height: 26px !important;
   margin: 6px 5px 5px 5px;
 }
-.posting_friend {
+.area_posting_follow_search {
+  text-align: center;
+}
+.area_posting_tag {
+  margin-left: 10px;
+  margin-bottom: 30px;
+  width: 70%;
+  justify-content: center;
+  text-align: center;
+  background-color: #eee;
+  border-radius: 7px;
+}
+.posting_follow_search {
+  width: 80%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: 2px solid white;
+  border-radius: 7px;
+  outline: none;
+  background-color: #eee;
+  font-size: 10px;
+}
+.posting_follow {
   font-weight: bold;
   margin: 10px 0px 10px 0px;
 }

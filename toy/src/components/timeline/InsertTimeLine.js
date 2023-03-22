@@ -2,13 +2,22 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import "./InsertTimeLine.css";
 import { pageHandler } from "../../features/statusSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 function InsertTimeLine() {
+  const ref = useRef();
   const dispatch = useDispatch();
+  const id = useSelector((state) => state.page.stateReducer.id);
   const [posting, setPosting] = useState({
     id: "",
     img: "./img/add.png",
   });
+  const [search, setSearch] = useState({
+    id: "",
+    follower: "",
+  });
+  const [searchResult, setSearchResult] = useState([]);
+  const [obTag, setObTag] = useState({});
+  const [drawTag, setDrawTag] = useState([]);
   const [preImg, setPreImg] = useState("posting_img");
   const imgRef = useRef();
   const saveImg = () => {
@@ -20,6 +29,41 @@ function InsertTimeLine() {
       setPreImg("preview_img");
     };
   };
+  const tag = (id, profilImg) => {
+    setDrawTag({ ...drawTag, id: id, profilImg: profilImg });
+    let drawArr = [];
+    console.log(drawTag);
+    for (let i = 0; i < drawTag.length; i++) {
+      drawArr.push(
+        <div className="area_posting_following" key={i} onClick={(e) => {}}>
+          <span className="area_timeline_profil area_posting_profil">
+            <img
+              className="area_timeline_profil_img"
+              src={drawTag[i].profilImg}
+              draggable="false"
+            />
+          </span>
+          <div className="posting_follow">{drawTag[i].id}</div>
+        </div>
+      );
+      return drawArr;
+    }
+  };
+  const serachFollower = (e) => {
+    const fw = e.target.value;
+    axios
+      .post("http://localhost:4000/api/searchFollower", {
+        id,
+        fw,
+      })
+      .then((res) => {
+        setSearchResult(res.data);
+        console.log(searchResult);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="group_page">
       <div className="page_home type around">
@@ -29,28 +73,37 @@ function InsertTimeLine() {
         <div className="type_timeline">
           <div className="area_postingPage">
             <form>
-              <div className="area_posting_friend_wrap">
-                <div className="area_posting_friend">
-                  <span className="area_timeline_profil area_posting_profil">
-                    <img
-                      className="area_timeline_profil_img"
-                      src="img/user.png"
-                      draggable="false"
-                    />
-                  </span>
-                  <div className="posting_friend">jolly7768</div>
+              <div className="area_posting_follow_wrap">
+                <div className="area_posting_follow_search">
+                  <input
+                    className="posting_follow_search"
+                    placeholder="Id or Name"
+                    onChange={(e) => {
+                      serachFollower(e);
+                    }}
+                  />
                 </div>
-                <div className="area_posting_friend">
-                  <span className="area_timeline_profil area_posting_profil">
-                    <img
-                      className="area_timeline_profil_img"
-                      src="img/user.png"
-                      draggable="false"
-                    />
-                  </span>
-                  <div className="posting_friend">jolly7768</div>
-                </div>
-             
+                {searchResult &&
+                  searchResult.map((item, index) => {
+                    return (
+                      <div
+                        className="area_posting_follow"
+                        key={index}
+                        onClick={() => {
+                          tag(item.id, item.profilImg);
+                        }}
+                      >
+                        <span className="area_timeline_profil area_posting_profil">
+                          <img
+                            className="area_timeline_profil_img"
+                            src={item.profilImg}
+                            draggable="false"
+                          />
+                        </span>
+                        <div className="posting_follow">{item.id}</div>
+                      </div>
+                    );
+                  })}
               </div>
               <div className="area_posting_img">
                 <label
@@ -66,6 +119,27 @@ function InsertTimeLine() {
                   onChange={saveImg}
                   ref={imgRef}
                 />
+              </div>
+              <div className="area_posting_tag">
+                {/* {drawTag &&
+                  drawTag.map((item, index) => {
+                    return (
+                      <div
+                        className="area_posting_following"
+                        key={index}
+                        onClick={(e) => {}}
+                      >
+                        <span className="area_timeline_profil area_posting_profil">
+                          <img
+                            className="area_timeline_profil_img"
+                            src={item.profilImg}
+                            draggable="false"
+                          />
+                        </span>
+                        <div className="posting_follow">{item.id}</div>
+                      </div>
+                    );
+                  })} */}
               </div>
               <div className="area_posting_content">
                 <textarea

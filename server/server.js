@@ -12,7 +12,8 @@ const comment = require("./routes/Comment");
 const insertCM = require("./routes/InsertCommentDB");
 const deleteCM = require("./routes/DeleteCM");
 const updateLike = require("./routes/UpateLike");
-const insertTL = require('./routes/InsertTimeLine');
+const insertTL = require("./routes/InsertTimeLine");
+const searchFollower = require("./routes/SearchFollower");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -25,8 +26,9 @@ app.use("/", provideTL);
 app.use("/", comment);
 app.use("/", insertCM);
 app.use("/", deleteCM);
-app.use("/",updateLike);
-app.use("/",insertTL);
+app.use("/", updateLike);
+app.use("/", insertTL);
+app.use("/", searchFollower);
 
 app.listen(port, async () => {
   connection.connect;

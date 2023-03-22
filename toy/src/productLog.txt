@@ -8,8 +8,9 @@
 ------------------------------------------------------------------
 ****** 당장 해야할것 *******
 insertTimeLine 에서 사진 업로드 input tag 스타일링 react 이미지 업로드 구글링
- ㄴ account 팔로워 
-
+ ㄴ account 팔로워 table 생성후
+ ㄴ dummy account 및 follower insert and follower 중에 tag 해서
+ project or study group member 를 모집 하는 기능 
 -follow table -> seq ,팔로우 한사람 , 당한사람 
   ㄴ이게 데이터가 많아 지면 감당이 됨?
   ㄴ안됨 account id가 pk로 되어 있는데 seq 로 분할하고 예를들어 1~1000 까지의 account
