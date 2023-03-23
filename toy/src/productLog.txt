@@ -16,6 +16,7 @@ insertTimeLine 에서 사진 업로드 input tag 스타일링 react 이미지 �
   ㄴ안됨 account id가 pk로 되어 있는데 seq 로 분할하고 예를들어 1~1000 까지의 account
   seq를 가진 유저의 팔로우 테이블 1001~2000까지의 seq를가진 유저의 팔로우 테이블 이런식으로
   분할해서 관리하면 되나? 이게 베스튼거 같은디  
+-tagging front ..
 ****** 중간 로드맵 *******
 아 ui 하기 너무 귀찮누
 account 수정 -> 탐라 작성페이지 -> account porfil img 추가 기본값 기본이미지로 저장->탐라 좋아요 

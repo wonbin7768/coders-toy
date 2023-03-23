@@ -11,12 +11,7 @@ function InsertTimeLine() {
     id: "",
     img: "./img/add.png",
   });
-  const [search, setSearch] = useState({
-    id: "",
-    follower: "",
-  });
   const [searchResult, setSearchResult] = useState([]);
-  const [obTag, setObTag] = useState({});
   const [drawTag, setDrawTag] = useState([]);
   const [preImg, setPreImg] = useState("posting_img");
   const imgRef = useRef();
@@ -29,26 +24,31 @@ function InsertTimeLine() {
       setPreImg("preview_img");
     };
   };
+  let drawArr = {};
   const tag = (id, profilImg) => {
-    setDrawTag({ ...drawTag, id: id, profilImg: profilImg });
-    let drawArr = [];
-    console.log(drawTag);
-    for (let i = 0; i < drawTag.length; i++) {
-      drawArr.push(
-        <div className="area_posting_following" key={i} onClick={(e) => {}}>
-          <span className="area_timeline_profil area_posting_profil">
-            <img
-              className="area_timeline_profil_img"
-              src={drawTag[i].profilImg}
-              draggable="false"
-            />
-          </span>
-          <div className="posting_follow">{drawTag[i].id}</div>
-        </div>
-      );
-      return drawArr;
+    let count = 0;
+    drawArr = { id: id, profilImg: profilImg };
+    if (drawTag.length === 0) {
+      setDrawTag((arr) => [...arr, drawArr]);
+      console.log("first");
+    } else {
+      for (let i = 0; i < drawTag.length; i++) {
+        if (drawTag[i].id === drawArr.id) {
+          count = +1;
+          return count;
+        }
+      }
+      if (count === 0) {
+        setDrawTag((arr) => [...arr, drawArr]);
+        count = 0;
+      }
     }
   };
+  const deleteTag = (id) => {
+    setDrawTag((arr) =>{
+      return arr.filter((current => current.id !== id ))
+    });
+  }
   const serachFollower = (e) => {
     const fw = e.target.value;
     axios
@@ -121,25 +121,26 @@ function InsertTimeLine() {
                 />
               </div>
               <div className="area_posting_tag">
-                {/* {drawTag &&
-                  drawTag.map((item, index) => {
-                    return (
-                      <div
-                        className="area_posting_following"
-                        key={index}
-                        onClick={(e) => {}}
-                      >
-                        <span className="area_timeline_profil area_posting_profil">
-                          <img
-                            className="area_timeline_profil_img"
-                            src={item.profilImg}
-                            draggable="false"
-                          />
-                        </span>
-                        <div className="posting_follow">{item.id}</div>
-                      </div>
-                    );
-                  })} */}
+                {drawTag &&
+                  drawTag
+                    .map((item, index) => {
+                      return (
+                        <div
+                          className="area_posting_following"
+                          key={index}
+                          onClick={() => {deleteTag(item.id)}}
+                        >
+                          <span className="area_timeline_profil area_posting_profil">
+                            <img
+                              className="area_timeline_profil_img"
+                              src={item.profilImg}
+                              draggable="false"
+                            />
+                          </span>
+                          <div className="posting_follow">{item.id}</div>
+                        </div>
+                      );
+                    })}
               </div>
               <div className="area_posting_content">
                 <textarea
