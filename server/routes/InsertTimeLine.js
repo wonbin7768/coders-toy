@@ -3,7 +3,8 @@ const pool = require("../config/db");
 const router = express.Router();
 
 router.post("/api/insertTimeline", [], async (req, res) => {
-  const { tl_img, tl_content, id } = req.body.account;
+  const { id,img,content } = req.body.posting;
+  const tag = req.body.drawTag;
   await pool.getConnection((err, conn) => {
     if (err) {
       throw err;

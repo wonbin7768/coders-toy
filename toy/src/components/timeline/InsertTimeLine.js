@@ -8,21 +8,24 @@ function InsertTimeLine() {
   const dispatch = useDispatch();
   const id = useSelector((state) => state.page.stateReducer.id);
   const [posting, setPosting] = useState({
-    id: "",
-    img: "./img/add.png",
+    id: id,
+    content: "",
+    tag: "",
   });
   const [searchResult, setSearchResult] = useState([]);
   const [drawTag, setDrawTag] = useState([]);
   const [preImg, setPreImg] = useState("posting_img");
   const imgRef = useRef();
-  const saveImg = () => {
+  const formData = new FormData();
+  const saveImg = (e) => {
     const file = imgRef.current.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setPosting({ ...posting, img: reader.result });
       setPreImg("preview_img");
     };
+    const img = e.target.files[0];
+    formData.append("file", img);
   };
   let drawArr = {};
   const tag = (id, profilImg) => {
@@ -45,10 +48,10 @@ function InsertTimeLine() {
     }
   };
   const deleteTag = (id) => {
-    setDrawTag((arr) =>{
-      return arr.filter((current => current.id !== id ))
+    setDrawTag((arr) => {
+      return arr.filter((current) => current.id !== id);
     });
-  }
+  };
   const serachFollower = (e) => {
     const fw = e.target.value;
     axios
@@ -62,6 +65,27 @@ function InsertTimeLine() {
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+  const postContent = (content) => {
+    setPosting({ ...posting, content: content.target.value });
+    console.log(posting);
+  };
+  const goPosting = () => {
+    setPosting({ ...posting, tag: drawTag });
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(posting)], { type: "application/json" })
+    );
+    axios
+      .post("http://localhost:4000/api/insertTimeline", formData, {
+        headers: { "Contest-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        alert("Success Posting :)");
+      })
+      .catch((err) => {
+        alert("Sorry Error :( ");
       });
   };
   return (
@@ -114,42 +138,48 @@ function InsertTimeLine() {
                 <input
                   className="upload_img"
                   type="file"
-                  accept="image/*"
+                  accept="image/jpg,image/png,image/jpeg,image/gif,"
                   id="postingImg"
-                  onChange={saveImg}
+                  onChange={(e) => {
+                    saveImg(e);
+                  }}
                   ref={imgRef}
                 />
               </div>
               <div className="area_posting_tag">
                 {drawTag &&
-                  drawTag
-                    .map((item, index) => {
-                      return (
-                        <div
-                          className="area_posting_following"
-                          key={index}
-                          onClick={() => {deleteTag(item.id)}}
-                        >
-                          <span className="area_timeline_profil area_posting_profil">
-                            <img
-                              className="area_timeline_profil_img"
-                              src={item.profilImg}
-                              draggable="false"
-                            />
-                          </span>
-                          <div className="posting_follow">{item.id}</div>
-                        </div>
-                      );
-                    })}
+                  drawTag.map((item, index) => {
+                    return (
+                      <div
+                        className="area_posting_following"
+                        key={index}
+                        onClick={() => {
+                          deleteTag(item.id);
+                        }}
+                      >
+                        <span className="area_timeline_profil area_posting_profil">
+                          <img
+                            className="area_timeline_profil_img"
+                            src={item.profilImg}
+                            draggable="false"
+                          />
+                        </span>
+                        <div className="posting_follow">{item.id}</div>
+                      </div>
+                    );
+                  })}
               </div>
               <div className="area_posting_content">
                 <textarea
                   className="posting_content"
                   placeholder="300자 내외로 적어주세요 :)"
+                  onChange={(content) => {
+                    postContent(content);
+                  }}
                 />
               </div>
               <div className="area_btn">
-                <button className="login_btn" type="submit">
+                <button className="login_btn" type="submit" onClick={goPosting}>
                   Posting
                 </button>
               </div>

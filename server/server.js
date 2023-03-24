@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 4000;
 const cors = require("cors");
-const mysql = require("mysql2/promise");
 const connection = require("./config/db");
 const insertAccountDB = require("./routes/InsertAccountDB");
 const checkID = require("./routes/CheckIdDB");
