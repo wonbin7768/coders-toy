@@ -16,7 +16,20 @@ insertTimeLine 에서 사진 업로드 input tag 스타일링 react 이미지 �
   ㄴ안됨 account id가 pk로 되어 있는데 seq 로 분할하고 예를들어 1~1000 까지의 account
   seq를 가진 유저의 팔로우 테이블 1001~2000까지의 seq를가진 유저의 팔로우 테이블 이런식으로
   분할해서 관리하면 되나? 이게 베스튼거 같은디  
--tagging front ..
+-insert timeline backend...
+ ㄴfront 에서 formdata file 넘기는거부터 multer 로 back 에서 받아 업로드 하는거까지
+  첨부터 차근차근 갈아 엎어야함 너무 꼬인듯
+  ㄴmemorystoage가 아닌 diskstorage로 전환
+  ㄴ사진 사이즈 제한
+  ㄴback에서 multer 제구성 후에도 안되면 front에서 데이터 담는거
+  자체가 문제인가
+***************error note******************
+img upload 과정에서 front 에서의 formData.append 하는 과정에서 input onChange function
+에서 append를 한경우 데이터가 저장되지않고 날아간다.
+submit onClick function 에서 append해야만 날아가지 않고 그대로 전송된다.
+formData의 특성인가? 구글링해도 잘나오지 않는다. 
+왜 다른 function에서 append 한경우 데이터가 휘발성으로 날아가는지
+-다른 컴포넌트들 맵핑할때 전역변수로 지정한 formData가 새롭게 정의 되서 날아가는건가
 ****** 중간 로드맵 *******
 아 ui 하기 너무 귀찮누
 account 수정 -> 탐라 작성페이지 -> account porfil img 추가 기본값 기본이미지로 저장->탐라 좋아요 

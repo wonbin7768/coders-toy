@@ -27,7 +27,7 @@ app.use("/", insertCM);
 app.use("/", deleteCM);
 app.use("/", updateLike);
 app.use("/", insertTL);
-app.use("/", searchFollower);
+app.use("/" ,searchFollower);
 
 app.listen(port, async () => {
   connection.connect;

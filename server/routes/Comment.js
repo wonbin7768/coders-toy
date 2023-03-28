@@ -11,7 +11,7 @@ router.post("/api/comment", async (req, res) => {
           throw err;
         } else {
           conn.release();
-          console.log(rows);
+          // console.log(rows);
           if (rows[0] === undefined) {
             return res.send(false);
           } else {

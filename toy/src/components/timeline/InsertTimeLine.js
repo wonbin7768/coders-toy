@@ -14,18 +14,34 @@ function InsertTimeLine() {
   });
   const [searchResult, setSearchResult] = useState([]);
   const [drawTag, setDrawTag] = useState([]);
-  const [preImg, setPreImg] = useState("posting_img");
+  const [preImgArea, setpreImgArea] = useState("posting_img");
+  const [preImg, setPreImg] = useState("img/add.png");
+  const [img, setImg] = useState([]);
   const imgRef = useRef();
   const formData = new FormData();
   const saveImg = (e) => {
+    e.preventDefault();
     const file = imgRef.current.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setPreImg("preview_img");
+      setpreImgArea("preview_img");
+      setPreImg(reader.result);
     };
-    const img = e.target.files[0];
-    formData.append("file", img);
+    console.log(e.target.files[0]);
+    setImg([...img, file]);
+
+    // console.log(img);
+    // img.forEach((img) => {
+    //   formData.append("file", img);
+    // });
+    for (let key of formData.keys()) {
+      console.log(key);
+    }
+    /* value 확인하기 */
+    for (let value of formData.values()) {
+      console.log(value);
+    }
   };
   let drawArr = {};
   const tag = (id, profilImg) => {
@@ -43,6 +59,16 @@ function InsertTimeLine() {
       }
       if (count === 0) {
         setDrawTag((arr) => [...arr, drawArr]);
+//  tag 따로 보내는게 건강에 이로울꺼같은데
+        // var tag = "";
+        // for (let i = 0; i < drawTag.length; i++) {
+        //   if (tag === "") {
+        //     tag = tag.concat(drawTag[i].id);
+        //   } else {
+        //     tag = tag.concat(",", drawTag[i].id);
+        //   }
+        // }
+        // setPosting({ ...posting, tag: tag });
         count = 0;
       }
     }
@@ -71,15 +97,18 @@ function InsertTimeLine() {
     setPosting({ ...posting, content: content.target.value });
     console.log(posting);
   };
-  const goPosting = () => {
-    setPosting({ ...posting, tag: drawTag });
+  const goPosting = (e) => {
     formData.append(
-      "data",
-      new Blob([JSON.stringify(posting)], { type: "application/json" })
+      "file",
+      imgRef.current.files[0],
+      imgRef.current.files[0].name
     );
+    formData.append("data", JSON.stringify(posting));
+    // formData.append("tag", JSON.stringify(drawTag));
+
     axios
       .post("http://localhost:4000/api/insertTimeline", formData, {
-        headers: { "Contest-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
         alert("Success Posting :)");
@@ -96,7 +125,7 @@ function InsertTimeLine() {
         </div>
         <div className="type_timeline">
           <div className="area_postingPage">
-            <form>
+            <form encType="multipart/form-data">
               <div className="area_posting_follow_wrap">
                 <div className="area_posting_follow_search">
                   <input
@@ -133,10 +162,12 @@ function InsertTimeLine() {
                 <label
                   className="upload_img_label"
                   htmlFor="postingImg"
+                  name="file"
                 ></label>
-                <img className={preImg} src={posting.img} />
+                <img className={preImgArea} src={preImg} />
                 <input
                   className="upload_img"
+                  name="file"
                   type="file"
                   accept="image/jpg,image/png,image/jpeg,image/gif,"
                   id="postingImg"
@@ -179,7 +210,13 @@ function InsertTimeLine() {
                 />
               </div>
               <div className="area_btn">
-                <button className="login_btn" type="submit" onClick={goPosting}>
+                <button
+                  className="login_btn"
+                  type="button"
+                  onClick={(e) => {
+                    goPosting(e);
+                  }}
+                >
                   Posting
                 </button>
               </div>
