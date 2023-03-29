@@ -21,13 +21,13 @@ app.use(cors());
 app.use("/", insertAccountDB); //use->미들 웨어를 등록해주는 메서드
 app.use("/", checkID);
 app.use("/", loginDB);
-app.use("/", provideTL);
+app.use("/", provideTL, express.static("images"));
 app.use("/", comment);
 app.use("/", insertCM);
 app.use("/", deleteCM);
 app.use("/", updateLike);
 app.use("/", insertTL);
-app.use("/" ,searchFollower);
+app.use("/", searchFollower);
 
 app.listen(port, async () => {
   connection.connect;

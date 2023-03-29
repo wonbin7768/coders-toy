@@ -23,6 +23,10 @@ insertTimeLine 에서 사진 업로드 input tag 스타일링 react 이미지 �
   ㄴ사진 사이즈 제한
   ㄴback에서 multer 제구성 후에도 안되면 front에서 데이터 담는거
   자체가 문제인가
+-inset timeline front 
+ tag 손보고 후에 back 으로 db 저장
+ ㄴ useEffect 로 동기 처리 시켰다 이제 back 으로 gogo
+ ㄴ filename 뽑아오기 + timeline에서 img 불러오기 or aws s3 이용해서 업로딩 로드하기
 ***************error note******************
 img upload 과정에서 front 에서의 formData.append 하는 과정에서 input onChange function
 에서 append를 한경우 데이터가 저장되지않고 날아간다.

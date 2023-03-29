@@ -49,26 +49,16 @@ function InsertTimeLine() {
     drawArr = { id: id, profilImg: profilImg };
     if (drawTag.length === 0) {
       setDrawTag((arr) => [...arr, drawArr]);
-      console.log("first");
     } else {
       for (let i = 0; i < drawTag.length; i++) {
         if (drawTag[i].id === drawArr.id) {
           count = +1;
+          console.log(count);
           return count;
         }
       }
       if (count === 0) {
         setDrawTag((arr) => [...arr, drawArr]);
-//  tag 따로 보내는게 건강에 이로울꺼같은데
-        // var tag = "";
-        // for (let i = 0; i < drawTag.length; i++) {
-        //   if (tag === "") {
-        //     tag = tag.concat(drawTag[i].id);
-        //   } else {
-        //     tag = tag.concat(",", drawTag[i].id);
-        //   }
-        // }
-        // setPosting({ ...posting, tag: tag });
         count = 0;
       }
     }
@@ -97,12 +87,21 @@ function InsertTimeLine() {
     setPosting({ ...posting, content: content.target.value });
     console.log(posting);
   };
-  const goPosting = (e) => {
-    formData.append(
-      "file",
-      imgRef.current.files[0],
-      imgRef.current.files[0].name
-    );
+  useEffect(() => {
+    let tag = "";
+    for (let i = 0; i < drawTag.length; i++) {
+      if (tag === "") {
+        tag = drawTag[i].id;
+        setPosting({ ...posting, tag: tag });
+      } else {
+        tag = tag.concat(",", drawTag[i].id);
+        setPosting({ ...posting, tag: tag });
+      }
+    }
+    setPosting({ ...posting, tag: tag });
+  }, [drawTag]);
+  const goPosting = async (e) => {
+    formData.append("file", imgRef.current.files[0]);
     formData.append("data", JSON.stringify(posting));
     // formData.append("tag", JSON.stringify(drawTag));
 
@@ -212,7 +211,7 @@ function InsertTimeLine() {
               <div className="area_btn">
                 <button
                   className="login_btn"
-                  type="button"
+                  type="submit"
                   onClick={(e) => {
                     goPosting(e);
                   }}
