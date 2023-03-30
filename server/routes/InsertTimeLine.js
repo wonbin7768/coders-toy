@@ -9,13 +9,13 @@ router.post("/api/insertTimeline",dualUpload,async (req, res) => {
     if (err) {
       throw err;
     } else {
-      const filename = req.files.file.filename;
+      const filename = req.files.file[0].filename;
       const {id , content, tag} = JSON.parse(req.body.data);
       console.log(filename);
-      // conn.query(
-      //   "insert into timeline(tl_img,id,tl_content,tag,tl_dt,tl_like) values(?,?,?,?,now(),0);",
-      //   [img,id,content,tag]
-      // );
+      conn.query(
+        "insert into timeline(tl_img,id,tl_content,tag,tl_dt,tl_like) values(?,?,?,?,now(),0);",
+        [filename,id,content,tag]
+      );
     }
     conn.release();
   });

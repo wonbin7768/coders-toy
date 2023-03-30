@@ -10,6 +10,7 @@ function TimeLine(props) {
     tl_seq: 0,
     tl_like: 0,
   });
+  const [img,setImg] = useState("");
   const id = useSelector((state) => state.page.stateReducer.id);
   useEffect(() => {
     if (props.tl.like_id != null) {
@@ -18,6 +19,7 @@ function TimeLine(props) {
         setHeart("./img/redheart.png");
       }
     }
+    setImg("http://localhost:4000/"+props.tl.tl_img);
   }, []);
   const liked = (id, tl_seq, tl_like) => {
     if (heart === "./img/heart.png") {
@@ -78,7 +80,7 @@ function TimeLine(props) {
       <div className="area_timeline type_body">
         {/* Body */}
         <div className="area_post_img">
-          <img className="post_img" src={props.tl.tl_img} />
+          <img className="post_img" src={img} />
         </div>
         <div className="area_post_txt">
           <div className="post_txt">{props.tl.tl_content}</div>
