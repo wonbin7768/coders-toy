@@ -26,7 +26,20 @@ insertTimeLine 에서 사진 업로드 input tag 스타일링 react 이미지 �
 -inset timeline front 
  tag 손보고 후에 back 으로 db 저장
  ㄴ useEffect 로 동기 처리 시켰다 이제 back 으로 gogo
- ㄴ filename 뽑아오기 + timeline에서 img 불러오기 or aws s3 이용해서 업로딩 로드하기
+ ㄴ filename 뽑아오기 + timeline에서 img 불러오기 
+    ㄴ //// aws s3 이용해서 업로딩 로드하기 나중에 이방법도 적용해보자
+ㅁtimelinelike
+ ㄴ 시작하자 timelinelike
+  seq,id,like tlmelinelike로전송 -> db에서 일치하는 seq 에서 like_id 
+  문자열 (,) 로 토큰화 해서 뽑아내서 비교한후(legion 토큰화 참고)
+  일치하는 아이디가 없으면 concat 으로 추가 후 like +1 
+  일치하는 아이디가 있으면 split(?) 으로 제거후 like -1
+
+  front 에서 timeline db 뽑아올떄 로그인한 id 기준으로 게시글 like_id
+  에 일치하는 아이디가 있을경우 빨간 하트 아닐경우 빈하트
+
+
+
 ***************error note******************
 img upload 과정에서 front 에서의 formData.append 하는 과정에서 input onChange function
 에서 append를 한경우 데이터가 저장되지않고 날아간다.
@@ -36,11 +49,12 @@ formData의 특성인가? 구글링해도 잘나오지 않는다.
 -다른 컴포넌트들 맵핑할때 전역변수로 지정한 formData가 새롭게 정의 되서 날아가는건가
 ****** 중간 로드맵 *******
 아 ui 하기 너무 귀찮누
-account 수정 -> 탐라 작성페이지 -> account porfil img 추가 기본값 기본이미지로 저장->탐라 좋아요 
+ㅋaccount 수정 -> ㅋ탐라 작성페이지 -> ㅋaccount porfil img 추가 기본값 기본이미지로 저장->탐라 좋아요 
 게시글에서의 태그 기능 -> 알람 새로운 table 
 direact message - socket io 등 리서치 필요 
 alarm - 새로운 tab
 account db 를 더생각해보고 탐라 작성페이지 넘어가야하나
+
 -----------------------------------------------------------------
 ******account 수정 *********
 ㅁaccount db 수정
@@ -61,7 +75,7 @@ account db 를 더생각해보고 탐라 작성페이지 넘어가야하나
 slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 전달하면 되서
 굳이 사용할필요 없을듯
 ■ 맵핑
-ㅁ타임라인 작성 페이지
+■타임라인 작성 페이지
  ㄴUI  = 업로드할 사진 , 글  태그(?)
  ㄴ로그인한 id , img , content , tag.id
 
@@ -120,7 +134,11 @@ slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 �
 -------------------------------------------------------------------- 
 ㅁ더보기
 ㅁ위치기반 알고리즘 !account 먼저 수정해야함
-
+ㅁmypage
+ㅁback tagging
+ㅁfollower
+ㅁtimelinelike
+ㅁlocal algorithm
 *************** 
 -slice에 더미 데이터 넣어서 timeline 에서 체크하고 서버측 코딩하면됨
     ㄴslice 더미 timeline 체크 완료
