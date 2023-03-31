@@ -13,6 +13,7 @@ function TimeLine(props) {
   const [img,setImg] = useState("");
   const id = useSelector((state) => state.page.stateReducer.id);
   useEffect(() => {
+    //수정 
     if (props.tl.like_id != null) {
       var like_id = props.tl.like_id.indexOf(id);
       if (like_id != -1) {

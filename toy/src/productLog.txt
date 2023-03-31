@@ -34,12 +34,16 @@ insertTimeLine 에서 사진 업로드 input tag 스타일링 react 이미지 �
   문자열 (,) 로 토큰화 해서 뽑아내서 비교한후(legion 토큰화 참고)
   일치하는 아이디가 없으면 concat 으로 추가 후 like +1 
   일치하는 아이디가 있으면 split(?) 으로 제거후 like -1
-
-  front 에서 timeline db 뽑아올떄 로그인한 id 기준으로 게시글 like_id
-  에 일치하는 아이디가 있을경우 빨간 하트 아닐경우 빈하트
-
-
-
+  -> ㅋ provideTL timeline table join timelinelike 수정 
+  -> ㅋ timeline front check -> ㅋ click heart -> ㅋfront img change 
+  -> ㅋ axios (login id / tl_seq ) timelinelike 으로 전송
+  ->  db에서 일치하는 seq 에서 like_id  문자열 (,) 로 토큰화 해서
+   뽑아내서 비교(legion 토큰화 참고) 
+   -> 일치하는 아이디가 없으면 concat 으로 추가 후 like +1 
+      일치하는 아이디가 있으면 split(?) 으로 제거후 like -1
+ ㄴfront 에서 timeline db 뽑아올떄 로그인한 id 기준으로 게시글 like_id
+   에 일치하는 아이디가 있을경우 빨간 하트 아닐경우 빈하트
+   ㄴ하트는 현 demo 틀을 뜯어 고쳐야할듯
 ***************error note******************
 img upload 과정에서 front 에서의 formData.append 하는 과정에서 input onChange function
 에서 append를 한경우 데이터가 저장되지않고 날아간다.

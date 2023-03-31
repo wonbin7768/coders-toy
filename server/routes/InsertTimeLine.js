@@ -13,8 +13,8 @@ router.post("/api/insertTimeline",dualUpload,async (req, res) => {
       const {id , content, tag} = JSON.parse(req.body.data);
       console.log(filename);
       conn.query(
-        "insert into timeline(tl_img,id,tl_content,tag,tl_dt,tl_like) values(?,?,?,?,now(),0);",
-        [filename,id,content,tag]
+        "insert into timeline(tl_img,id,tl_content,tag,tl_dt) values(?,?,?,?,now());",
+        [filename,id,content,tag] 
       );
     }
     conn.release();
