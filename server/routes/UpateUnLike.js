@@ -2,12 +2,11 @@ const express = require("express");
 const pool = require("../config/db");
 const router = express.Router();
 
-router.post("/api/UpdateLike", async (req, res) => {
+router.post("/api/UpdateUnLike", async (req, res) => {
   const { id, tl_seq, tl_like } = req.body.like;
   await pool.getConnection((err, conn) => {
     const sql1 =
       "update timelinelike set like_id = CONCAT(like_id,',',?) , tl_like = ? where tl_seq = ?; ";
-    // const sql2 = " select * from comment;";
     if (err) {
       throw err;
     } else {

@@ -9,33 +9,61 @@ function TimeLine(props) {
     id: "",
     tl_seq: 0,
     tl_like: 0,
+    plus: true,
   });
-  const [img,setImg] = useState("");
+  const [img, setImg] = useState("");
   const id = useSelector((state) => state.page.stateReducer.id);
   useEffect(() => {
-    //수정 
+    //수정
     if (props.tl.like_id != null) {
       var like_id = props.tl.like_id.indexOf(id);
       if (like_id != -1) {
         setHeart("./img/redheart.png");
       }
     }
-    setImg("http://localhost:4000/"+props.tl.tl_img);
+    setImg("http://localhost:4000/" + props.tl.tl_img);
   }, []);
+  useEffect(() => {
+    if (like.id !== "") {
+      if (like.plus === true) {
+        axios
+          .post("http://localhost:4000/api/UpdateLike", { like })
+          .then((res) => {
+            console.log(res.data);
+            //setComment(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        axios
+          .post("http://localhost:4000/api/UpdateUnLike", { like })
+          .then((res) => {
+            console.log(res.data);
+            //setComment(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  }, [like]);
+  const sendLike = () => {};
   const liked = (id, tl_seq, tl_like) => {
+    //이 함수 안에 전역변수가 아닌 지역변수로 state 사용하면 바로 적용되나
     if (heart === "./img/heart.png") {
-      setLike({ ...like, id: id, tl_seq: tl_seq, tl_like: tl_like });
-      axios
-        .post("http://localhost:4000/api/UpdateLike", { like })
-        .then((res) => {
-          console.log(res.data);
-          //setComment(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      setLike({ ...like, id: id, tl_seq: tl_seq, tl_like: tl_like + 1 });
+      sendLike();
       setHeart("./img/redheart.png");
     } else {
+      setLike({
+        ...like,
+        id: id,
+        tl_seq: tl_seq,
+        tl_like: tl_like - 1,
+        plus: false,
+      });
+      sendLike();
       setHeart("./img/heart.png");
     }
   };

@@ -13,6 +13,7 @@ const deleteCM = require("./routes/DeleteCM");
 const updateLike = require("./routes/UpateLike");
 const insertTL = require("./routes/InsertTimeLine");
 const searchFollower = require("./routes/SearchFollower");
+const UpdateUnLike = require("./routes/UpateUnLike");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use("/", deleteCM);
 app.use("/", updateLike);
 app.use("/", insertTL);
 app.use("/", searchFollower);
+app.use("/", UpdateUnLike);
 
 app.listen(port, async () => {
   connection.connect;
