@@ -11,16 +11,24 @@ function TimeLine(props) {
     tl_like: 0,
     plus: true,
   });
+  const [propsLike, setPropsLike] = useState();
   const [img, setImg] = useState("");
   const id = useSelector((state) => state.page.stateReducer.id);
+  const tl_seq = props.tl.tl_seq;
   useEffect(() => {
-    //수정
-    if (props.tl.like_id != null) {
-      var like_id = props.tl.like_id.indexOf(id);
-      if (like_id != -1) {
-        setHeart("./img/redheart.png");
-      }
-    }
+    axios
+      .post("http://localhost:4000/api/timelinelike", { id, tl_seq })
+      .then((res) => {
+        if (res.data !== false) {
+          if (props.tl.tl_seq === res.data[0].tl_seq) {
+            setHeart("./img/redheart.png");
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setPropsLike(props.tl.tl_like);
     setImg("http://localhost:4000/" + props.tl.tl_img);
   }, []);
   useEffect(() => {
@@ -29,8 +37,7 @@ function TimeLine(props) {
         axios
           .post("http://localhost:4000/api/UpdateLike", { like })
           .then((res) => {
-            console.log(res.data);
-            //setComment(res.data);
+            setPropsLike(res.data[0].tl_like);
           })
           .catch((err) => {
             console.log(err);
@@ -39,8 +46,8 @@ function TimeLine(props) {
         axios
           .post("http://localhost:4000/api/UpdateUnLike", { like })
           .then((res) => {
-            console.log(res.data);
-            //setComment(res.data);
+            console.log(res.data[0].tl_like)
+            setPropsLike(res.data[0].tl_like);
           })
           .catch((err) => {
             console.log(err);
@@ -48,22 +55,19 @@ function TimeLine(props) {
       }
     }
   }, [like]);
-  const sendLike = () => {};
   const liked = (id, tl_seq, tl_like) => {
     //이 함수 안에 전역변수가 아닌 지역변수로 state 사용하면 바로 적용되나
     if (heart === "./img/heart.png") {
       setLike({ ...like, id: id, tl_seq: tl_seq, tl_like: tl_like + 1 });
-      sendLike();
       setHeart("./img/redheart.png");
     } else {
       setLike({
         ...like,
         id: id,
         tl_seq: tl_seq,
-        tl_like: tl_like - 1,
+        tl_like: tl_like,
         plus: false,
       });
-      sendLike();
       setHeart("./img/heart.png");
     }
   };
@@ -128,7 +132,7 @@ function TimeLine(props) {
             <img className="post_middlebar_img" src="./img/dm.png"></img>
           </button>
         </div>
-        <div className="area_post_likes">{props.tl.tl_like} Likes!!</div>
+        <div className="area_post_likes">{propsLike} Likes!!</div>
         <Comment tl_seq={props.tl.tl_seq} />
       </div>
     </div>
