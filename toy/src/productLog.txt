@@ -7,6 +7,11 @@
 내주변 위치기반으로 게시물 뿌리기 
 ------------------------------------------------------------------
 ****** 당장 해야할것 *******
+- mainpage를 제외한 다른 page 에서 새로고침을 할경우 에러발생
+ ㄴreact router를 사용하지 않아서 url 값이 그대로여서 새로고침시
+   에러가 발생한다 현재 redux만으로 page handling을 진행하였으나
+   react router와 같이 진행해야 해결가능하다. 
+ ㄴ확실한 해결을위한 더 많은 구글링 후 코딩 진행
 insertTimeLine 에서 사진 업로드 input tag 스타일링 react 이미지 업로드 구글링
  ㄴ account 팔로워 table 생성후
  ㄴ dummy account 및 follower insert and follower 중에 tag 해서
