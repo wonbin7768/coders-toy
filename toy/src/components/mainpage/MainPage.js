@@ -9,12 +9,12 @@ import InsertTimeLine from "../timeline/InsertTimeLine";
 function MainPage() {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.page.stateReducer.status);
+  const id = useSelector((state)=> state.page.stateReducer.id);
   const [timeline, setTimeline] = useState([]);
   const [comment, setComment] = useState([]);
   let content = null;
-  const [page , setPage] = useState();
   switch (status) {
-    case "MainPage":
+    case "MainPage":  
       content = <QuickLink />;
       break;
     case "MyPage":
@@ -28,13 +28,13 @@ function MainPage() {
     <TimeLine tl={item} key={index} />
   ))
   const pageHandle = () => {
-    if(status === "MainPage"){
+    if(status === "MainPage" && id !== "" ){
       return mapingTL;
-    }else{ return content;}
+    }
   }
   useEffect(() => {
     axios
-      .post("http://localhost:4000/api/timeline", {})
+      .post("http://localhost:4000/api/timeline", {id})
       .then((res) => {
         console.log(res.data);
         setTimeline(res.data);

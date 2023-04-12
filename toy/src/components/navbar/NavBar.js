@@ -178,8 +178,7 @@ function NavBar(props) {
               >
                 홈
               </a>
-            </li>
-            <li>내주변</li>
+            </li>      
             <li>질문</li>
             <li>프로젝트</li>
             <li>

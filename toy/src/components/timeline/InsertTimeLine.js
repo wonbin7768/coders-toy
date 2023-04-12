@@ -101,16 +101,17 @@ function InsertTimeLine() {
     setPosting({ ...posting, tag: tag });
   }, [drawTag]);
   const goPosting = async (e) => {
+    e.preventDefault();
     formData.append("file", imgRef.current.files[0]);
     formData.append("data", JSON.stringify(posting));
     // formData.append("tag", JSON.stringify(drawTag));
-
     axios
       .post("http://localhost:4000/api/insertTimeline", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
         alert("Success Posting :)");
+        dispatch(pageHandler({ status: "MainPage" ,login : true , id:id}));
       })
       .catch((err) => {
         alert("Sorry Error :( ");
