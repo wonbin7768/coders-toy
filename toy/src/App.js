@@ -29,10 +29,10 @@ function App(props) {
       break;
   }
   return (
-    <div className="App">
-      <NavBar />
-      {content}
-    </div>
+      <div className="App">
+        <NavBar />
+        {content}
+      </div>
   );
 }
 
