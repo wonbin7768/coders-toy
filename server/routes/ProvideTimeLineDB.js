@@ -3,7 +3,9 @@ const pool = require("../config/db");
 const router = express.Router();
 router.post("/api/timeline", async (req, res) => {
   const id = req.body.id;
-  console.log(id);
+  const offset = req.body.offset;
+  const limit = req.body.limit;
+  console.log(id,offset,limit);
   await pool.getConnection((err, conn, rows) => {
     if (err) {
       throw err;
@@ -29,16 +31,16 @@ router.post("/api/timeline", async (req, res) => {
                 "%'"
               );
             }
-            console.log(sql);
-            conn.query(sql, (err, rows) => {
+            sql = sql.concat(" order by tl_dt desc limit ? offset ?")
+            conn.query(sql,[limit,offset] ,(err, rows) => {
               if (err) {
                 throw err;
               } else {
                 conn.release();
-                console.log(rows);
                 if (rows[0] === undefined) {
                   return res.send(false);
                 } else {
+                  console.log(rows[0].tl_seq)
                   return res.send(rows);
                 }
               }
