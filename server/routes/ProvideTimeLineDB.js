@@ -5,7 +5,10 @@ router.post("/api/timeline", async (req, res) => {
   const id = req.body.id;
   const offset = req.body.offset;
   const limit = req.body.limit;
-  console.log(id,offset,limit);
+  console.log(req.body);
+  if(id===""){
+    return res.send("false");
+  }
   await pool.getConnection((err, conn, rows) => {
     if (err) {
       throw err;
@@ -32,7 +35,7 @@ router.post("/api/timeline", async (req, res) => {
               );
             }
             sql = sql.concat(" order by tl_dt desc limit ? offset ?")
-            conn.query(sql,[limit,offset] ,(err, rows) => {
+            conn.query(sql,[limit, offset] ,(err, rows) => {
               if (err) {
                 throw err;
               } else {
