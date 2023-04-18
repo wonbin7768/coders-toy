@@ -22,7 +22,7 @@ router.post("/api/login", async (req, res) => {
             if (rows[0] === undefined) {
               return res.send(false);
             } else {
-              return res.send(rows);
+              return res.send(true);
             }
           }
         }

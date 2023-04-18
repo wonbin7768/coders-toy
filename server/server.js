@@ -15,6 +15,7 @@ const insertTL = require("./routes/InsertTimeLine");
 const searchFollower = require("./routes/SearchFollower");
 const UpdateUnLike = require("./routes/UpateUnLike");
 const timelinelike = require("./routes/TimeLineLike");
+const updateAccount = require("./routes/UpdateAccount");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,6 +33,7 @@ app.use("/", insertTL);
 app.use("/", searchFollower);
 app.use("/", UpdateUnLike);
 app.use("/", timelinelike);
+app.use("/",updateAccount);
 
 app.listen(port, async () => {
   connection.connect;
