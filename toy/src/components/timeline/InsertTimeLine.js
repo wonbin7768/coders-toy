@@ -113,7 +113,6 @@ function InsertTimeLine() {
       })
       .then((res) => {
         alert("Success Posting :)");
-        dispatch(pageHandler({ status: "MainPage" ,login : true , id:id}));
         navi("/");
       })
       .catch((err) => {
@@ -152,7 +151,7 @@ function InsertTimeLine() {
                         <span className="area_timeline_profil area_posting_profil">
                           <img
                             className="area_timeline_profil_img"
-                            src={item.profilImg}
+                            src={"http://localhost:4000/"+ item.profilImg}
                             draggable="false"
                           />
                         </span>
@@ -194,7 +193,7 @@ function InsertTimeLine() {
                         <span className="area_timeline_profil area_posting_profil">
                           <img
                             className="area_timeline_profil_img"
-                            src={item.profilImg}
+                            src={"http://localhost:4000/"+item.profilImg}
                             draggable="false"
                           />
                         </span>

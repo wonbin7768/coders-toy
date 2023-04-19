@@ -7,6 +7,12 @@
 내주변 위치기반으로 게시물 뿌리기 
 ------------------------------------------------------------------
 ****** 당장 해야할것 *******
+알림 분리 
+-timeline tag
+cㄴinserttimeline -> alert_tl /
+-following
+ ㄴfollw 했을시 알림 -> alert_fw
+-> front alert modal 창 ui
 알림 tab 생성
  ㄴ태그하면 알림
  ㄴ알림 table
