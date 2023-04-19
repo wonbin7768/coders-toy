@@ -3,7 +3,9 @@ import axios from "axios";
 import "./InsertTimeLine.css";
 import { pageHandler } from "../../features/statusSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 function InsertTimeLine() {
+  const navi = useNavigate();
   const ref = useRef();
   const dispatch = useDispatch();
   const id = useSelector((state) => state.page.stateReducer.id);
@@ -15,7 +17,7 @@ function InsertTimeLine() {
   const [searchResult, setSearchResult] = useState([]);
   const [drawTag, setDrawTag] = useState([]);
   const [preImgArea, setpreImgArea] = useState("posting_img");
-  const [preImg, setPreImg] = useState("img/add.png");
+  const [preImg, setPreImg] = useState("http://localhost:4000/add.png");
   const [img, setImg] = useState([]);
   const imgRef = useRef();
   const formData = new FormData();
@@ -112,6 +114,7 @@ function InsertTimeLine() {
       .then((res) => {
         alert("Success Posting :)");
         dispatch(pageHandler({ status: "MainPage" ,login : true , id:id}));
+        navi("/");
       })
       .catch((err) => {
         alert("Sorry Error :( ");

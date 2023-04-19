@@ -29,6 +29,9 @@
     padding: 24px 16px 14px;
     border-radius: 0 0 20px 20px;
     background-color: #fff;
+  }.footer_page{
+    width: 100%;
+    background-color: black;
   }
    /*****************************************/
  

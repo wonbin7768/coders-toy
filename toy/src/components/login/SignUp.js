@@ -3,7 +3,9 @@ import axios from "axios";
 import "./SignUp.css";
 import { pageHandler } from "../../features/statusSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 function SignUp() {
+  const navi = useNavigate();
   const region = [
     "서울",
     "인천",
@@ -105,7 +107,10 @@ function SignUp() {
       case "region":
         if (account.region == "") {
           setAccount({ ...account, region: e.target.value });
-        } else if (countRegion < 4) {
+        } else if (
+          countRegion < 4 &&
+          account.region.indexOf(e.target.value) === -1
+        ) {
           setAccount({
             ...account,
             region: account.region + "," + e.target.value,
@@ -153,17 +158,17 @@ function SignUp() {
   };
   const submitConditions = () => {
     if (
-      account.id !== "" ||
-      account.pw !== "" ||
-      account.pwcf !== "" ||
-      account.name !== "" ||
-      account.phone !== "" ||
-      account.region !== "" ||
-      validation.idValidation !== "" ||
-      validation.pwValidation !== "" ||
-      validation.pwcfValidation !== "" ||
-      validation.phoneValidation !== "" ||
-      validation.nameValidation !== "" ||
+      account.id !== "" &&
+      account.pw !== "" &&
+      account.pwcf !== "" &&
+      account.name !== "" &&
+      account.phone !== "" &&
+      account.region !== "" &&
+      validation.idValidation === "" &&
+      validation.pwValidation === "" &&
+      validation.pwcfValidation === "" &&
+      validation.phoneValidation === "" &&
+      validation.nameValidation === "" &&
       idcheck.check !== false
     ) {
       onClickSignUp();
@@ -180,6 +185,7 @@ function SignUp() {
         if (response.data === "success") {
           console.log(response);
           alert("회원가입 성공! \n 로그인하세요 :)");
+          navi("/Login");
           dispatch(
             pageHandler({
               status: "LoginPage",
@@ -293,8 +299,12 @@ function SignUp() {
                     })}
                   </select>
                 </div>
-                <div><h3>1~5가지 지역을 선택해주세요!</h3></div>
-                <div><h3>{account.region}</h3></div>
+                <div>
+                  <h3>1~5가지 지역을 선택해주세요!</h3>
+                </div>
+                <div>
+                  <h3>{account.region}</h3>
+                </div>
                 <div className="area_btn">
                   <button
                     className="login_btn"

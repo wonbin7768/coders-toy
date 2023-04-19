@@ -15,6 +15,7 @@ function TimeLine(props) {
   const [img, setImg] = useState("");
   const id = useSelector((state) => state.page.stateReducer.id);
   const tl_seq = props.tl.tl_seq;
+  const profilImg = "http://localhost:4000/" + props.tl.profilImg;
   useEffect(() => {
     axios
       .post("http://localhost:4000/api/timelinelike", { id, tl_seq })
@@ -46,7 +47,7 @@ function TimeLine(props) {
         axios
           .post("http://localhost:4000/api/UpdateUnLike", { like })
           .then((res) => {
-            console.log(res.data[0].tl_like)
+            console.log(res.data[0].tl_like);
             setPropsLike(res.data[0].tl_like);
           })
           .catch((err) => {
@@ -96,7 +97,7 @@ function TimeLine(props) {
           <span className="area_timeline_profil">
             <img
               className="area_timeline_profil_img"
-              src="img/user.png"
+              src={profilImg}
               draggable="false"
             />
           </span>

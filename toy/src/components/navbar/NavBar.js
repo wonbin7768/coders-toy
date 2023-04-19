@@ -3,10 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { pageHandler } from "../../features/statusSlice";
 import { useEffect, useState, useRef } from "react";
 import useDetectClose from "../../hooks/useDetectClose";
+import { Link, useNavigate } from "react-router-dom";
 function NavBar(props) {
+  const navi = useNavigate();
   const dispatch = useDispatch();
   const dropDownRef = useRef(null);
   const statusBox = useSelector((state) => state.page.stateReducer);
+  var profilImg = "http://localhost:4000/"+statusBox.img;
   const [loginVisible, setLoginVisible] = useState({
     id: "",
     login: false,
@@ -15,6 +18,7 @@ function NavBar(props) {
   });
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
   useEffect(() => {
+    console.log(profilImg);
     if (statusBox.login === true) {
       setLoginVisible({
         ...loginVisible,
@@ -37,64 +41,38 @@ function NavBar(props) {
   useEffect(() => {
     dispatch(
       pageHandler({
-        status: "MainPage",
         login: loginVisible.login,
         id: loginVisible.id,
+        img: statusBox.img,
       })
     );
   }, [loginVisible.login]);
   const mypage = (e) => {
-    dispatch(
-      pageHandler({
-        status: "MyPage",
-        login: loginVisible.login,
-        id: loginVisible.id,
-      })
-    );
+    navi("/MyPage");
   };
   const insertTimeLine = (e) => {
-    dispatch(
-      pageHandler({
-        status: "PostingPage",
-        login: loginVisible.login,
-        id: loginVisible.id,
-      })
-    );
+    navi("/PostingPage");
   };
   return (
     <div>
       <div className="app_bar">
         <strong className="logo">
-          <a
+          <Link
             className="link_logo"
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(
-                pageHandler({
-                  status: "MainPage",
-                  login: loginVisible.login,
-                  id: loginVisible.id,
-                })
-              );
-            }}
-            href="L"
+            to="/"
           >
             Coders
-          </a>
+          </Link>
         </strong>
         <div className="app_bar_login">
           <div className={loginVisible.cnameLogin}>
-            <a
+            <Link
+              to="/Login"
               className=""
               name="undefined"
-              href="L"
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch(pageHandler({ status: "LoginPage" }));
-              }}
             >
               Login
-            </a>
+            </Link>
           </div>
           <div className={loginVisible.cnameMy}>
             <a
@@ -112,7 +90,7 @@ function NavBar(props) {
                 <span className="area_timeline_profil area_navbar_profil">
                   <img
                     className="area_timeline_profil_img"
-                    src="img/user.png"
+                    src={profilImg}
                     draggable="false"
                   />
                 </span>
@@ -167,18 +145,12 @@ function NavBar(props) {
                 href="L"
                 onClick={(e) => {
                   e.preventDefault();
-                  dispatch(
-                    pageHandler({
-                      status: "MainPage",
-                      login: loginVisible.login,
-                      id: loginVisible.id,
-                    })
-                  );
+                  navi("/");
                 }}
               >
                 홈
               </a>
-            </li>      
+            </li>
             <li>질문</li>
             <li>프로젝트</li>
             <li>

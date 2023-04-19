@@ -2,8 +2,9 @@ import "./MyPage.css";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { pageHandler } from "../../features/statusSlice";
+import { useNavigate } from "react-router";
 function MyPage() {
+  const navi = useNavigate();
   const dispatch = useDispatch();
   const [account, setAccount] = useState({
     id: "",
@@ -22,14 +23,8 @@ function MyPage() {
           account,
         })
         .then((res) => {
-          if (res.data === true) {
-            dispatch(
-              pageHandler({
-                status: "MyPage",
-                login: true,
-                id: account.id,
-              })
-            );
+          if (res.data !== false) {
+            navi("InnerMypage");
           } else {
             alert("비밀번호를 확인하세요");
           }

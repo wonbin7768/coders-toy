@@ -3,7 +3,9 @@ import "./Login.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { pageHandler } from "../../features/statusSlice";
+import { useNavigate } from "react-router-dom";
 function Login() {
+  const navi = useNavigate();
   const dispatch = useDispatch();
   const [account, setAccount] = useState({
     id: "",
@@ -22,11 +24,20 @@ function Login() {
         })
         .then((res) => {
           console.log(res.data);
-          if (res.data === true) {
+          if (res.data !== false) {
+            var profilImg = res.data[0].profilImg;
+            console.log(profilImg);
+
             dispatch(
-              pageHandler({ status: "MainPage", login: true, id: account.id })
+              pageHandler({
+                status: "MainPage",
+                login: true,
+                id: account.id,
+                img: profilImg,
+              })
             );
             alert("로그인성공!");
+            navi("/");
           } else {
             alert("아이디 비밀번호를 확인하세요");
           }
@@ -85,6 +96,7 @@ function Login() {
                   onClick={(e) => {
                     e.preventDefault();
                     dispatch(pageHandler({ status: "signupPage" }));
+                    navi("/SignUpPage");
                   }}
                 >
                   회원가입

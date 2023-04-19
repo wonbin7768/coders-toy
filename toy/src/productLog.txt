@@ -7,6 +7,24 @@
 내주변 위치기반으로 게시물 뿌리기 
 ------------------------------------------------------------------
 ****** 당장 해야할것 *******
+알림 tab 생성
+ ㄴ태그하면 알림
+ ㄴ알림 table
+ ㄴui modal 창 느낌으로
+
+navbar and timeline profilimg 가져오기
+ ㄴ프로필 이미지 사진 들어 차는거 보고 싸이즈 어케 할지
+ ㄴ현 프로필이미지 수정 탭 ui 조금 만질까
+
+signup and innermypage
+ ㄴregion fontend 중복된값 입력 안되게 수정 
+ ㄴ간단히 clear 로 날려버리기
+InnerMyPage
+ ㄴprofilimg uploading
+ ㄴregion
+
+현재 mainpage에서 offset 값이 증가되어 전달되지 않는다 
+ ㄴ해결해야함
 - mainpage를 제외한 다른 page 에서 새로고침을 할경우 에러발생
  ㄴreact router를 사용하지 않아서 url 값이 그대로여서 새로고침시
    에러가 발생한다 현재 redux만으로 page handling을 진행하였으나
@@ -147,9 +165,9 @@ slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 �
             onClick={deleteCM(item.cm_seq)} 요래 썻다가 삽질했다.
 
 -------------------------------------------------------------------- 
-ㅁ더보기
-ㅁ위치기반 알고리즘 !account 먼저 수정해야함
-ㅁmypage
+■더보기
+■위치기반 알고리즘 !account 먼저 수정해야함
+■mypage
  ㄴ내정보 수정 , 지역수정 
 ㅁback tagging
 ㅁfollower -> 알림 tab 구현이먼저
@@ -158,14 +176,14 @@ slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 �
    ㄴid 검색 ui + back
  ㄴtimeline 게시글에서 id click 으로 follow 하기
  ㄴfollow 했을시 당사자에게 *알림*
-
+ㅁdirect message
 ■local algorithm
  ㄴ내가 선택한 region의 게시글
  ㄴ(우선순위 좋아요가 많을수록 + 광고(money power))
 * 문제점 게시글이 많을경우 좋아요가 많이 박힌 게시글만 계속 위치한다
    ㄴ몇개의 게시글만 좋아요 많은순으로 배포 후에 난수로 랜덤 배포?
  ㄴ게시글 업로드한 최신순
-ㅁanother tab 
+ㅁanother tab
  ㄴfollowing 한 사람들의 게시글 
 ********************추가 계획********************
  ㅁ 광고 테이블 만들고 어케 뿌릴지 생각하기
