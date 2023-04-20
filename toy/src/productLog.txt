@@ -7,6 +7,19 @@
 내주변 위치기반으로 게시물 뿌리기 
 ------------------------------------------------------------------
 ****** 당장 해야할것 *******
+->아이디 상세탭 
+ ㄴ아이디 클릭시 모달창 or 상세탭 
+ ㄴprofilimg , follower count following count, follow and unfollow 
+ ㄴ최근 게시글 
+-> alert follow 알림 까지 같이 불러오기
+ ㄴ알림중 게시글 태그인 알림 파악해서 클릭시 해당게시글로 이동 or modal
+ ㄴ알림창 키면 alert_count 초기화 or update 받았던 알림데이터중 show_al
+   0 -> 1 로 업데이트
+-> 다하고 실시간 알림 구현할지 생각
+
+tagging or following  -> alert table update시 알림 가려면 socket io?
+알림 클릭시 ui 변경 and 게시글 tagging 일경우 해당 게시글을 modal로 띠우기
+수월 하게 하려면 dm 먼저 진행해야하나?
 알림 분리 
 -timeline tag
 cㄴinserttimeline -> alert_tl /

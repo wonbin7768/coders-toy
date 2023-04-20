@@ -4,19 +4,75 @@ import { pageHandler } from "../../features/statusSlice";
 import { useEffect, useState, useRef } from "react";
 import useDetectClose from "../../hooks/useDetectClose";
 import { Link, useNavigate } from "react-router-dom";
+import Modal from "./Modal";
+import axios from "axios";
 function NavBar(props) {
   const navi = useNavigate();
   const dispatch = useDispatch();
   const dropDownRef = useRef(null);
   const statusBox = useSelector((state) => state.page.stateReducer);
-  var profilImg = "http://localhost:4000/"+statusBox.img;
+  const id = useSelector((state) => state.page.stateReducer.id);
+  var profilImg = "http://localhost:4000/" + statusBox.img;
   const [loginVisible, setLoginVisible] = useState({
     id: "",
     login: false,
     cnameLogin: "visible_loginbox",
     cnameMy: "invisible_mybox",
   });
+  const [alertCount, setAlertCount] = useState(0);
+  const [alert, setAlert] = useState([]);
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    if (alert.length === 0) {
+      axios
+        .post("http://localhost:4000/api/Alert", { id })
+        .then((res) => {
+          if (res.data !== false && res.data !== alert) {
+            for (var i = 0; i < res.data.length; i++) {
+              if (res.data[i].show_al === 0) {
+                increaseCount();
+              }
+            }
+            setAlert((prevData) => [...prevData, ...res.data]);
+          } else {
+            console.log("알림이 없습니다");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const increaseCount = () => {
+    setAlertCount((alertCount) => alertCount + 1);
+  };
+  useEffect(() => {});
+  useEffect(() => {
+    if (id !== "") {
+      axios
+        .post("http://localhost:4000/api/Alert", { id })
+        .then((res) => {
+          if (res.data !== false && res.data !== alert) {
+            for (var i = 0; i < res.data.length; i++) {
+              if (res.data[i].show_al === 0) {
+                increaseCount();
+              }
+            }
+            setAlert((prevData) => [...prevData, ...res.data]);
+          } else {
+            console.log("알림이 없습니다");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
   useEffect(() => {
     console.log(profilImg);
     if (statusBox.login === true) {
@@ -30,6 +86,8 @@ function NavBar(props) {
     }
   }, [statusBox.login]);
   const testLogout = () => {
+    setAlert([]);
+    setAlertCount(0);
     setLoginVisible({
       ...loginVisible,
       id: "",
@@ -57,20 +115,26 @@ function NavBar(props) {
     <div>
       <div className="app_bar">
         <strong className="logo">
-          <Link
-            className="link_logo"
-            to="/"
-          >
+          <Link className="link_logo" to="/">
             Coders
           </Link>
         </strong>
         <div className="app_bar_login">
+          <div className="alert_wrap">
+            <img onClick={openModal} className="alert_img" src="http://localhost:4000/bell.png"></img>
+            <div className="alert_count">{alertCount}</div>
+            <Modal open={modalOpen} close={closeModal} header="Alert">
+              {alert.map((item, index) => {
+                return (
+                  <div className="alert_div" key={index}>
+                    {item.tl_sender}님이 태그 하셨습니다!
+                  </div>
+                );
+              })}
+            </Modal>
+          </div>
           <div className={loginVisible.cnameLogin}>
-            <Link
-              to="/Login"
-              className=""
-              name="undefined"
-            >
+            <Link to="/Login" className="" name="undefined">
               Login
             </Link>
           </div>
