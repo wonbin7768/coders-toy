@@ -47,11 +47,12 @@ function NavBar(props) {
   };
   const closeModal = () => {
     setModalOpen(false);
+    setAlertCount(0);
+    
   };
   const increaseCount = () => {
     setAlertCount((alertCount) => alertCount + 1);
   };
-  useEffect(() => {});
   useEffect(() => {
     if (id !== "") {
       axios

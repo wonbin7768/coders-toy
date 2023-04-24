@@ -3,19 +3,32 @@ import Comment from "./Comment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Modal from "../navbar/Modal";
 function TimeLine(props) {
   const [heart, setHeart] = useState("./img/heart.png");
+  const [hover, setHover] = useState(false);
   const [like, setLike] = useState({
     id: "",
     tl_seq: 0,
     tl_like: 0,
     plus: true,
   });
+  const [profil, setProfil] = useState({
+    id: "",
+    name: "",
+    region: "",
+    profilImg: "",
+    follower: 0,
+    following: 0,
+  });
+  const [profilTL, setProfilTL] = useState([]);
+  let [loading, setLoading] = useState(false);
   const [propsLike, setPropsLike] = useState();
   const [img, setImg] = useState("");
   const id = useSelector((state) => state.page.stateReducer.id);
   const tl_seq = props.tl.tl_seq;
   const profilImg = "http://localhost:4000/" + props.tl.profilImg;
+  const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => {
     axios
       .post("http://localhost:4000/api/timelinelike", { id, tl_seq })
@@ -89,23 +102,129 @@ function TimeLine(props) {
     const years = days / 365;
     return `${Math.floor(years)}년 전`;
   };
+  const openModal = (id) => {
+    axios
+      .post("http://localhost:4000/api/profil", { id })
+      .then((res) => {
+        setProfil(res.data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setModalOpen(true);
+    setLoading(true);
+    setTimeout(() => {
+      axios
+        .post("http://localhost:4000/api/profilTimeline", { id })
+        .then((res) => {
+          setLoading(false);
+          console.log(res.data);
+          setProfilTL((prevData) => [...prevData, ...res.data]);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    }, 1000);
+  };
+  const drawContent = (seq) => {
+    console.log(profilTL);
+    return <div>{profilTL.tl_content}</div>
+  };
+  const drawProfilTL = () => {
+    if (profilTL.length === 0) {
+      return <div>게시글이 없습니다</div>;
+    }
+    return profilTL.map((item, index) => (
+      <div
+        onMouseEnter={() => {
+          setHover(true);
+          console.log(hover);
+        }}
+        onMouseLeave={() => {
+          setHover(false);
+          console.log(hover);
+        }}
+        className="profil_tl_box"
+        key={index}
+      >
+        <div className="profil_tl_img_box">
+          {hover !== true ? (
+            <img
+              className="profil_tl_img"
+              src={"http://localhost:4000/" + item.tl_img}
+            />
+          ) : (
+            drawContent(item.tl_seq)
+          )}
+        </div>
+      </div>
+    ));
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   return (
     <div className="area_home type_timeline">
       <div className="area_timeline type_header">
         {/* Header */}
         <div>
-          <span className="area_timeline_profil">
-            <img
-              className="area_timeline_profil_img"
-              src={profilImg}
-              draggable="false"
-            />
-          </span>
-        </div>
-        <div className="id">
-          <span className="id_span">
-            <a href="L">{props.tl.id}</a>
-          </span>
+          <div className="tl_profil_modal_wrap">
+            <span className="area_timeline_profil">
+              <img
+                onClick={() => {
+                  openModal(props.tl.id);
+                }}
+                className="area_timeline_profil_img"
+                src={profilImg}
+                draggable="false"
+              />
+            </span>
+            <div className="id">
+              <span className="id_span">
+                <a
+                  onClick={() => {
+                    openModal(props.tl.id);
+                  }}
+                >
+                  {props.tl.id}
+                </a>
+              </span>
+            </div>
+            <Modal open={modalOpen} close={closeModal} header="Profil">
+              <div className="area_timeline type_header profil_header">
+                <span className="area_timeline_profil modal_profil">
+                  <img
+                    className="area_timeline_profil_img"
+                    src={"http://localhost:4000/" + profil.profilImg}
+                    draggable="false"
+                  />
+                </span>
+                <div className="id profil_id modal_profil">
+                  <span className="id_span">
+                    <a>{profil.id}</a>
+                  </span>
+                </div>
+                <div className="profil_followBox">
+                  <span className="profil_follower">
+                    <div className="follow_counting"> {profil.follower}</div>
+                    Follower
+                  </span>
+                  <span className="profil_following">
+                    <div className="follow_counting"> {profil.following}</div>
+                    Following
+                  </span>
+                </div>
+              </div>
+              <div className="profil_body">
+                {loading === true ? (
+                  <div>게시글 로딩중...</div>
+                ) : (
+                  drawProfilTL()
+                )}
+              </div>
+            </Modal>
+          </div>
         </div>
         <div className="post_dt">
           <div>{detailDate(new Date(props.tl.tl_dt))}</div>
