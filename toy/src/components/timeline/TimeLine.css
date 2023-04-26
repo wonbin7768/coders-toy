@@ -210,5 +210,14 @@
   border: 1px solid #eee;
   border-radius: 8px;
 }
-.profil_tl_img_box {
+.hover_div{
+  font-size: 12px
+}
+.follow_btn{
+  border-radius: 8px;
+  padding: 3px;
+  font-size: 12px;
+}
+.follow_div{
+  margin-left: 10px;
 }

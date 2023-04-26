@@ -21,11 +21,15 @@ function TimeLine(props) {
     follower: 0,
     following: 0,
   });
+  const m1 = "팔로우";
+  const m2 = "언팔";
+  const [followM, setFollowM] = useState("");
   const [profilTL, setProfilTL] = useState([]);
   let [loading, setLoading] = useState(false);
   const [propsLike, setPropsLike] = useState();
   const [img, setImg] = useState("");
   const id = useSelector((state) => state.page.stateReducer.id);
+  const loginID = useSelector((state) => state.page.stateReducer.id);
   const tl_seq = props.tl.tl_seq;
   const profilImg = "http://localhost:4000/" + props.tl.profilImg;
   const [modalOpen, setModalOpen] = useState(false);
@@ -103,10 +107,16 @@ function TimeLine(props) {
     return `${Math.floor(years)}년 전`;
   };
   const openModal = (id) => {
+    console.log(profil);
     axios
-      .post("http://localhost:4000/api/profil", { id })
+      .post("http://localhost:4000/api/profil", { id, loginID })
       .then((res) => {
         setProfil(res.data[0]);
+        if (profil.fCheck === 0) {
+          setFollowM("팔로우");
+        } else {
+          setFollowM("언팔");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -125,11 +135,10 @@ function TimeLine(props) {
           setLoading(false);
           console.log(err);
         });
-    }, 1000);
+    }, 500);
   };
-  const drawContent = (seq) => {
-    console.log(profilTL);
-    return <div>{profilTL.tl_content}</div>
+  const drawContent = (index) => {
+    return <div className="hover_div">{profilTL[index].tl_content}</div>;
   };
   const drawProfilTL = () => {
     if (profilTL.length === 0) {
@@ -139,12 +148,11 @@ function TimeLine(props) {
       <div
         onMouseEnter={() => {
           setHover(true);
-          console.log(hover);
         }}
         onMouseLeave={() => {
           setHover(false);
-          console.log(hover);
         }}
+        onClick={() => {}}
         className="profil_tl_box"
         key={index}
       >
@@ -155,14 +163,34 @@ function TimeLine(props) {
               src={"http://localhost:4000/" + item.tl_img}
             />
           ) : (
-            drawContent(item.tl_seq)
+            drawContent(index)
           )}
         </div>
       </div>
     ));
   };
-  const closeModal = () => {
+  const closeModal = () => {  
     setModalOpen(false);
+  };
+  const follow = (id, bool) => {
+    axios
+      .post("http://localhost:4000/api/updateFollow", { id, loginID, bool })
+      .then((res) => {
+        if (res.data === true) {
+          if (profil.fCheck === 0) {
+            setProfil({ ...profil, fCheck: 1});
+            console.log(profil.fCheck);
+            setFollowM("언팔");
+          } else {
+            setProfil({ ...profil, fCheck: 0 });
+            console.log(profil.fCheck);
+            setFollowM("팔로우");
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="area_home type_timeline">
@@ -204,6 +232,19 @@ function TimeLine(props) {
                   <span className="id_span">
                     <a>{profil.id}</a>
                   </span>
+                </div>
+                <div className="follow_div">
+                  {loginID !== profil.id ? (
+                    <button
+                      className="follow_btn"
+                      onClick={() => {
+                        follow(profil.id, profil.fCheck);
+                      }}
+                    >
+                      {/* {profil.fCheck === 0 ? m1 : m2} */}
+                      {followM}
+                    </button>
+                  ) : null}
                 </div>
                 <div className="profil_followBox">
                   <span className="profil_follower">
