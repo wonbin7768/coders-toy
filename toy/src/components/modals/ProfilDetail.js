@@ -2,7 +2,6 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Modal from "../navbar/Modal";
-import { useLocation } from "react-router";
 function ProfilDetail(props) {
   const [hover, setHover] = useState(false);
   const [profil, setProfil] = useState({
@@ -18,7 +17,6 @@ function ProfilDetail(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [followM, setFollowM] = useState("");
   const loginID = useSelector((state) => state.page.stateReducer.id);
-  const state = useLocation();
   useEffect(() => {
     console.log(props.id);
     if (props.id) {
@@ -47,7 +45,9 @@ function ProfilDetail(props) {
         .then((res) => {
           setLoading(false);
           console.log(res.data);
-          setProfilTL((prevData) => [...prevData, ...res.data]);
+          if (res.data !== false) {
+            setProfilTL((prevData) => [...prevData, ...res.data]);
+          }
         })
         .catch((err) => {
           setLoading(false);
@@ -91,6 +91,7 @@ function ProfilDetail(props) {
   };
   const closeModal = () => {
     setModalOpen(false);
+    setProfilTL([]);
   };
   const follow = (id, bool) => {
     axios

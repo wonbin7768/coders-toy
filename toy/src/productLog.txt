@@ -8,17 +8,21 @@
 ------------------------------------------------------------------
 ****** 당장 해야할것 *******
 보류 - profil mouseHover 한객체객체 적용하기 
--> 현재 timeline에 있는 profil 상세 띠우는 function을 다른 컴포넌트로 
+보류 - 게시글 태그시 해당 게시글 모달
+
+-comment alert
+-follow tab
+-question tab
+
+-> ㅋ현재 timeline에 있는 profil 상세 띠우는 function을 다른 컴포넌트로 
  분리해서 nav_bar 와 차후 개발할 search follower 등에서 재사용
 ->alert
- ㄴ디자인 
- ㄴ게시글 태그시 해당 게시글 모달
- ㄴfollow 시 해당 프로필 상세 모달
+ ㄴㅋfollow 시 해당 프로필 상세 모달 
 
-->alert front
+->ㅋalert front
  ㄴnavbar에서 뿌려주는거 이후에 alertclose 시 update show_al = 1 
 
-->아이디 상세탭 
+->ㅋ아이디 상세탭 
  ㄴ아이디 클릭시 모달창 or 상세탭 
  ㄴprofilimg , follower count following count, follow and unfollow 
  ㄴ최근 게시글
@@ -201,8 +205,8 @@ slice는 상태관리할때 사용했는데 timeline에선 props도 한번만 �
 ■위치기반 알고리즘 !account 먼저 수정해야함
 ■mypage
  ㄴ내정보 수정 , 지역수정 
-ㅁback tagging
-ㅁfollower -> 알림 tab 구현이먼저
+■back tagging
+■follower -> 알림 tab 구현이먼저
  follower 구현 
  ㄴid 검색으로 찾아 follow 하기
    ㄴid 검색 ui + back

@@ -7,7 +7,7 @@ import MyPage from "./components/mypage/MyPage";
 import InnerMyPage from "./components/mypage/InnerMyPage";
 import InsertTimeLine from "./components/timeline/InsertTimeLine";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ProfilDetail from "./components/profilDetail/ProfilDetail";
+import ProfilDetail from "./components/modals/ProfilDetail";
 
 function App() {
   return (

@@ -6,6 +6,7 @@ import useDetectClose from "../../hooks/useDetectClose";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import axios from "axios";
+import ProfilDetail from "../modals/ProfilDetail";
 function NavBar(props) {
   const navi = useNavigate();
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ function NavBar(props) {
   const statusBox = useSelector((state) => state.page.stateReducer);
   const id = useSelector((state) => state.page.stateReducer.id);
   var profilImg = "http://localhost:4000/" + statusBox.img;
-  const [alertRead, setAlertRead] = useState("");
+  const [profilDetail, setProfilDetail] = useState();
   const [loginVisible, setLoginVisible] = useState({
     id: "",
     login: false,
@@ -119,6 +120,10 @@ function NavBar(props) {
   const insertTimeLine = (e) => {
     navi("/PostingPage");
   };
+  const openProfilDetail = (id) => { 
+    closeModal();
+    setProfilDetail(<ProfilDetail id={id} />);
+  };
   return (
     <div>
       <div className="app_bar">
@@ -135,6 +140,7 @@ function NavBar(props) {
               src="http://localhost:4000/bell.png"
             ></img>
             <div className="alert_count">{alertCount}</div>
+            {profilDetail}
             <Modal open={modalOpen} close={closeModal} header="Alert">
               {alert.map((item, index) => {
                 if (item.tl_sender !== null) {
@@ -154,13 +160,25 @@ function NavBar(props) {
                 } else {
                   if (item.show_al === 1) {
                     return (
-                      <div className="alert_div_read" key={index}>
+                      <div
+                        onClick={() => {
+                          openProfilDetail(item.follower);
+                        }}
+                        className="alert_div_read"
+                        key={index}
+                      >
                         {item.follower} 님이 팔로우 하셨습니다!
                       </div>
                     );
                   } else {
                     return (
-                      <div className="alert_div" key={index}>
+                      <div
+                        onClick={() => {
+                          openProfilDetail(item.follower);
+                        }}
+                        className="alert_div"
+                        key={index}
+                      >
                         {item.follower} 님이 팔로우 하셨습니다!
                       </div>
                     );
@@ -248,11 +266,11 @@ function NavBar(props) {
                   navi("/");
                 }}
               >
-                홈
+                Region
               </a>
             </li>
-            <li>질문</li>
-            <li>프로젝트</li>
+            <li>Follow</li>
+            <li>Question</li>
             <li>
               <a
                 href="L"
@@ -261,7 +279,7 @@ function NavBar(props) {
                   mypage();
                 }}
               >
-                마이
+                My
               </a>
             </li>
           </ul>

@@ -3,11 +3,9 @@ import Comment from "./Comment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import Modal from "../navbar/Modal";
-import ProfilDetail from "../profilDetail/ProfilDetail";
+import ProfilDetail from "../modals/ProfilDetail";
 import { useNavigate } from "react-router";
 function TimeLine(props) {
-  const navi = useNavigate();
   const [heart, setHeart] = useState("./img/heart.png");
   const [like, setLike] = useState({
     id: "",
@@ -106,7 +104,6 @@ function TimeLine(props) {
             <span className="area_timeline_profil">
               <img
                 onClick={() => {
-                  // navi("/", {state:props.tl.id});
                   openDetail(props.tl.id);
                 }}
                 className="area_timeline_profil_img"
