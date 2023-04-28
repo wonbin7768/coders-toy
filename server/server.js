@@ -16,6 +16,11 @@ const searchFollower = require("./routes/SearchFollower");
 const UpdateUnLike = require("./routes/UpateUnLike");
 const timelinelike = require("./routes/TimeLineLike");
 const updateAccount = require("./routes/UpdateAccount");
+const Alert = require("./routes/Alert");
+const profil = require("./routes/Profil");
+const profilTimeline = require("./routes/ProfilTimeline");
+const updateFollow = require("./routes/UpdateFollow");
+const updateAlert = require("./routes/UpdateAlert");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -33,7 +38,12 @@ app.use("/", insertTL);
 app.use("/", searchFollower);
 app.use("/", UpdateUnLike);
 app.use("/", timelinelike);
-app.use("/",updateAccount);
+app.use("/", updateAccount);
+app.use("/", Alert);
+app.use("/", profil);
+app.use("/", profilTimeline);
+app.use("/", updateFollow);
+app.use("/",updateAlert);
 
 app.listen(port, async () => {
   connection.connect;

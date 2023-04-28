@@ -4,9 +4,10 @@ import MainPage from "./components/mainpage/MainPage";
 import Login from "./components/login/Login";
 import SignUp from "./components/login/SignUp";
 import MyPage from "./components/mypage/MyPage";
-import InnerMyPage from "./components/mypage/InnerMyPage"
+import InnerMyPage from "./components/mypage/InnerMyPage";
 import InsertTimeLine from "./components/timeline/InsertTimeLine";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProfilDetail from "./components/profilDetail/ProfilDetail";
 
 function App() {
   return (
@@ -20,9 +21,9 @@ function App() {
           <Route path="/MyPage" element={<MyPage />} />
           <Route path="/MyPage/InnerMyPage" element={<InnerMyPage />} />
           <Route path="/PostingPage" element={<InsertTimeLine />} />
+          <Route path="/" element={<ProfilDetail />} />
         </Routes>
       </BrowserRouter>
-     
     </div>
   );
 }

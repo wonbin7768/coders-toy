@@ -6,7 +6,7 @@ router.post("/api/timeline", async (req, res) => {
   const offset = req.body.offset;
   const limit = req.body.limit;
   console.log(req.body);
-  if(id===""){
+  if (id === "") {
     return res.send("false");
   }
   await pool.getConnection((err, conn, rows) => {
@@ -14,7 +14,7 @@ router.post("/api/timeline", async (req, res) => {
       throw err;
     } else {
       conn.query(
-        `select j.region_json from account join json_table(` +
+        `select j.region_json  from account join json_table(` +
           `replace(json_array(region), ',' ,'","'),` +
           `'$[*]' columns(region_json varchar(50) path '$'))j ` +
           `where id = ?`,
@@ -24,18 +24,20 @@ router.post("/api/timeline", async (req, res) => {
             throw err;
           } else {
             var sql =
-              "select * from timeline where region like '%" +
+              "select t.* , a.profilImg from timeline t join account a " +
+              "on t.id = a.id where t.region like '%" +
               rows[0].region_json +
               "%'";
             for (var i = 1; i < rows.length; i++) {
               var sql = sql.concat(
-                " or region like '%",
+                " or t.region like '%",
                 rows[i].region_json,
                 "%'"
               );
             }
-            sql = sql.concat(" order by tl_dt desc limit ? offset ?")
-            conn.query(sql,[limit, offset] ,(err, rows) => {
+            sql = sql.concat(" order by t.tl_dt desc limit ? offset ?");
+            console.log(sql);
+            conn.query(sql, [limit, offset], (err, rows) => {
               if (err) {
                 throw err;
               } else {
@@ -43,7 +45,7 @@ router.post("/api/timeline", async (req, res) => {
                 if (rows[0] === undefined) {
                   return res.send(false);
                 } else {
-                  console.log(rows[0].tl_seq)
+                  console.log(rows[0]);
                   return res.send(rows);
                 }
               }

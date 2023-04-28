@@ -13,6 +13,7 @@ function NavBar(props) {
   const statusBox = useSelector((state) => state.page.stateReducer);
   const id = useSelector((state) => state.page.stateReducer.id);
   var profilImg = "http://localhost:4000/" + statusBox.img;
+  const [alertRead, setAlertRead] = useState("");
   const [loginVisible, setLoginVisible] = useState({
     id: "",
     login: false,
@@ -48,7 +49,13 @@ function NavBar(props) {
   const closeModal = () => {
     setModalOpen(false);
     setAlertCount(0);
-    
+    setAlert([]);
+    axios
+      .post("http://localhost:4000/api/updateAlert", { alert })
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const increaseCount = () => {
     setAlertCount((alertCount) => alertCount + 1);
@@ -122,15 +129,43 @@ function NavBar(props) {
         </strong>
         <div className="app_bar_login">
           <div className="alert_wrap">
-            <img onClick={openModal} className="alert_img" src="http://localhost:4000/bell.png"></img>
+            <img
+              onClick={openModal}
+              className="alert_img"
+              src="http://localhost:4000/bell.png"
+            ></img>
             <div className="alert_count">{alertCount}</div>
             <Modal open={modalOpen} close={closeModal} header="Alert">
               {alert.map((item, index) => {
-                return (
-                  <div className="alert_div" key={index}>
-                    {item.tl_sender}님이 태그 하셨습니다!
-                  </div>
-                );
+                if (item.tl_sender !== null) {
+                  if (item.show_al === 1) {
+                    return (
+                      <div className="alert_div_read" key={index}>
+                        {item.tl_sender} 님이 태그 하셨습니다!
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div className="alert_div" key={index}>
+                        {item.tl_sender} 님이 태그 하셨습니다!
+                      </div>
+                    );
+                  }
+                } else {
+                  if (item.show_al === 1) {
+                    return (
+                      <div className="alert_div_read" key={index}>
+                        {item.follower} 님이 팔로우 하셨습니다!
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div className="alert_div" key={index}>
+                        {item.follower} 님이 팔로우 하셨습니다!
+                      </div>
+                    );
+                  }
+                }
               })}
             </Modal>
           </div>

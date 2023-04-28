@@ -1,18 +1,21 @@
 const express = require("express");
 const pool = require("../config/db");
 const router = express.Router();
-const { body, check } = require("express-validator");
-const validate = require("../middleware/validate");
 
-router.post("/api/login", async (req, res) => {
-  const { id, pw } = req.body.account;
+router.post("/api/profil", async (req, res) => {
+  const id = req.body.id;
+  const loginID = req.body.loginID;
   await pool.getConnection((err, conn, rows) => {
     if (err) {
       throw err;
     } else {
       conn.query(
-        "select * from account where ID = ? and PW = ?;",
-        [id, pw],
+        "select id,name,region,profilImg ,"+
+        "(select count(follower) from follow where follower=?) follower,"+
+        "(select count(following) from follow where following=?) following, "+
+        "(select count(*) from follow where follower = ? and following = ?) fCheck "+
+        "from account where id = ?;",
+        [id,id,loginID,id,id],
         (err, rows) => {
           if (err) {
             throw err;

@@ -4,23 +4,35 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Modal from "../navbar/Modal";
-import ProfilDetail from "../profilDetail/ProfilDetail";
-import { useNavigate } from "react-router";
 function TimeLine(props) {
-  const navi = useNavigate();
   const [heart, setHeart] = useState("./img/heart.png");
+  const [hover, setHover] = useState(false);
   const [like, setLike] = useState({
     id: "",
     tl_seq: 0,
     tl_like: 0,
     plus: true,
   });
+  const [profil, setProfil] = useState({
+    id: "",
+    name: "",
+    region: "",
+    profilImg: "",
+    follower: 0,
+    following: 0,
+  });
+  const m1 = "팔로우";
+  const m2 = "언팔";
+  const [followM, setFollowM] = useState("");
+  const [profilTL, setProfilTL] = useState([]);
+  let [loading, setLoading] = useState(false);
   const [propsLike, setPropsLike] = useState();
   const [img, setImg] = useState("");
-  const [modalContent, setModalContent] = useState();
   const id = useSelector((state) => state.page.stateReducer.id);
+  const loginID = useSelector((state) => state.page.stateReducer.id);
   const tl_seq = props.tl.tl_seq;
   const profilImg = "http://localhost:4000/" + props.tl.profilImg;
+  const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => {
     axios
       .post("http://localhost:4000/api/timelinelike", { id, tl_seq })
@@ -94,8 +106,92 @@ function TimeLine(props) {
     const years = days / 365;
     return `${Math.floor(years)}년 전`;
   };
-  const openDetail = (id) => {
-    setModalContent(<ProfilDetail id={id} />);
+  const openModal = (id) => {
+    console.log(profil);
+    axios
+      .post("http://localhost:4000/api/profil", { id, loginID })
+      .then((res) => {
+        setProfil(res.data[0]);
+        if (profil.fCheck === 0) {
+          setFollowM("팔로우");
+        } else {
+          setFollowM("언팔");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setModalOpen(true);
+    setLoading(true);
+    setTimeout(() => {
+      axios
+        .post("http://localhost:4000/api/profilTimeline", { id })
+        .then((res) => {
+          setLoading(false);
+          console.log(res.data);
+          setProfilTL((prevData) => [...prevData, ...res.data]);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    }, 500);
+  };
+  const drawContent = (index) => {
+    return <div className="hover_div">{profilTL[index].tl_content}</div>;
+  };
+  const drawProfilTL = () => {
+    if (profilTL.length === 0) {
+      return <div>게시글이 없습니다</div>;
+    }
+    return profilTL.map((item, index) => (
+      <div
+        onMouseEnter={() => {
+          setHover(true);
+          drawContent(index)
+        }}
+        onMouseLeave={() => {
+          setHover(false);
+        }}
+        onClick={() => {}}
+        className="profil_tl_box"
+        key={index}
+      >
+        <div className="profil_tl_img_box">
+          {hover !== true ? (
+            <img
+              className="profil_tl_img"
+              src={"http://localhost:4000/" + item.tl_img}
+            />
+          ) : (
+            drawContent(index)
+          )}
+        </div>
+      </div>
+    ));
+  };
+  const closeModal = () => {  
+    setModalOpen(false);
+  };
+  const follow = (id, bool) => {
+    axios
+      .post("http://localhost:4000/api/updateFollow", { id, loginID, bool })
+      .then((res) => {
+        if (res.data === true) {
+          if (profil.fCheck === 0) {
+            setProfil({ ...profil, fCheck: 1});
+            console.log(profil.fCheck);
+            setFollowM("언팔");
+          } else {
+            setProfil({ ...profil, fCheck: 0 });
+            console.log(profil.fCheck);
+            setFollowM("팔로우");
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="area_home type_timeline">
@@ -106,8 +202,7 @@ function TimeLine(props) {
             <span className="area_timeline_profil">
               <img
                 onClick={() => {
-                  // navi("/", {state:props.tl.id});
-                  openDetail(props.tl.id);
+                  openModal(props.tl.id);
                 }}
                 className="area_timeline_profil_img"
                 src={profilImg}
@@ -118,14 +213,59 @@ function TimeLine(props) {
               <span className="id_span">
                 <a
                   onClick={() => {
-                    openDetail(props.tl.id);
+                    openModal(props.tl.id);
                   }}
                 >
                   {props.tl.id}
                 </a>
               </span>
             </div>
-            {modalContent}
+            <Modal open={modalOpen} close={closeModal} header="Profil">
+              <div className="area_timeline type_header profil_header">
+                <span className="area_timeline_profil modal_profil">
+                  <img
+                    className="area_timeline_profil_img"
+                    src={"http://localhost:4000/" + profil.profilImg}
+                    draggable="false"
+                  />
+                </span>
+                <div className="id profil_id modal_profil">
+                  <span className="id_span">
+                    <a>{profil.id}</a>
+                  </span>
+                </div>
+                <div className="follow_div">
+                  {loginID !== profil.id ? (
+                    <button
+                      className="follow_btn"
+                      onClick={() => {
+                        follow(profil.id, profil.fCheck);
+                      }}
+                    >
+                      {/* {profil.fCheck === 0 ? m1 : m2} */}
+                      {followM}
+                    </button>
+                  ) : null}
+                </div>
+                <div className="profil_followBox">
+                  <span className="profil_follower">
+                    <div className="follow_counting"> {profil.follower}</div>
+                    Follower
+                  </span>
+                  <span className="profil_following">
+                    <div className="follow_counting"> {profil.following}</div>
+                    Following
+                  </span>
+                </div>
+              </div>
+              <div className="profil_body">
+                {loading === true ? (
+                  <div>게시글 로딩중...</div>
+                ) : (
+                  drawProfilTL()
+                )}
+              </div>
+            </Modal>
           </div>
         </div>
         <div className="post_dt">

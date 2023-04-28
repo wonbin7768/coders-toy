@@ -8,7 +8,7 @@ end $$
 delimiter ;
 desc timelinelike;
 
-drop trigger if exists tl_like;
+drop trigger if exists tl_after_tllike_insert;
 
 delimiter $$
 create trigger tl_after_tllike_insert after insert on timeline
