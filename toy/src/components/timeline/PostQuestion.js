@@ -4,7 +4,7 @@ import "./InsertTimeLine.css";
 import { pageHandler } from "../../features/statusSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-function InsertTimeLine() {
+function PostQuestion() {
   const navi = useNavigate();
   const ref = useRef();
   const dispatch = useDispatch();
@@ -32,11 +32,6 @@ function InsertTimeLine() {
     };
     console.log(e.target.files[0]);
     setImg([...img, file]);
-
-    // console.log(img);
-    // img.forEach((img) => {
-    //   formData.append("file", img);
-    // });
     for (let key of formData.keys()) {
       console.log(key);
     }
@@ -103,10 +98,9 @@ function InsertTimeLine() {
     setPosting({ ...posting, tag: tag });
   }, [drawTag]);
   const goPosting = async (e) => {
-    console.log(e);
+    e.preventDefault();
     formData.append("file", imgRef.current.files[0]);
     formData.append("data", JSON.stringify(posting));
-    formData.append("type", JSON.stringify(e));
     // formData.append("tag", JSON.stringify(drawTag));
     axios
       .post("http://localhost:4000/api/insertTimeline", formData, {
@@ -152,7 +146,7 @@ function InsertTimeLine() {
                         <span className="area_timeline_profil area_posting_profil">
                           <img
                             className="area_timeline_profil_img"
-                            src={"http://localhost:4000/" + item.profilImg}
+                            src={"http://localhost:4000/"+ item.profilImg}
                             draggable="false"
                           />
                         </span>
@@ -194,7 +188,7 @@ function InsertTimeLine() {
                         <span className="area_timeline_profil area_posting_profil">
                           <img
                             className="area_timeline_profil_img"
-                            src={"http://localhost:4000/" + item.profilImg}
+                            src={"http://localhost:4000/"+item.profilImg}
                             draggable="false"
                           />
                         </span>
@@ -212,26 +206,15 @@ function InsertTimeLine() {
                   }}
                 />
               </div>
-              <div className="area_btn_insertTL">
+              <div className="area_btn">
                 <button
-                  className="login_btn_insertTL"
+                  className="login_btn"
                   type="submit"
                   onClick={(e) => {
-                    e.preventDefault();
-                    goPosting("tl");
+                    goPosting(e);
                   }}
                 >
-                  Posting Timeline
-                </button>
-                <button
-                  className="login_btn_insertTL"
-                  type="submit"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    goPosting("qt");
-                  }}
-                >
-                  Posting Question
+                  Posting
                 </button>
               </div>
             </form>
@@ -241,4 +224,4 @@ function InsertTimeLine() {
     </div>
   );
 }
-export default InsertTimeLine;
+export default PostQuestion;

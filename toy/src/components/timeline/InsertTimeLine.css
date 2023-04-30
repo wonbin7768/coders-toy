@@ -18,6 +18,28 @@
   background-color: #eee;
   border-radius: 7px;
 }
+.login_btn_insertTL{
+  display: block;
+  width: 45%;
+  height: 50px;
+  border-radius: 4px;
+  border: 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 51px;
+  color: #191919;
+  background-color: #ffe900;
+  cursor: pointer;   
+  margin-left: 15px;
+}
+.login_btn_insertTL:hover{
+  background-color: #ffe000;
+}
+.area_btn_insertTL{
+  padding-top: 40px;
+  text-align: center;
+  display: flex;
+}
 .area_posting_content {
   display: flex;
   margin-top: 30px;

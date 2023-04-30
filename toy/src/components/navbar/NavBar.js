@@ -37,6 +37,8 @@ function NavBar(props) {
               }
             }
             setAlert((prevData) => [...prevData, ...res.data]);
+            
+            console.log(alert)
           } else {
             console.log("알림이 없습니다");
           }
@@ -50,10 +52,11 @@ function NavBar(props) {
   const closeModal = () => {
     setModalOpen(false);
     setAlertCount(0);
-    setAlert([]);
     axios
       .post("http://localhost:4000/api/updateAlert", { alert })
-      .then((res) => {})
+      .then((res) => {
+        setAlert([]);
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -114,13 +117,13 @@ function NavBar(props) {
       })
     );
   }, [loginVisible.login]);
-  const mypage = (e) => {
+  const mypage = () => {
     navi("/MyPage");
   };
-  const insertTimeLine = (e) => {
+  const insertTimeLine = () => {
     navi("/PostingPage");
   };
-  const openProfilDetail = (id) => { 
+  const openProfilDetail = (id) => {
     closeModal();
     setProfilDetail(<ProfilDetail id={id} />);
   };
@@ -157,7 +160,7 @@ function NavBar(props) {
                       </div>
                     );
                   }
-                } else {
+                } else if (item.follower !== null) {
                   if (item.show_al === 1) {
                     return (
                       <div
@@ -180,6 +183,20 @@ function NavBar(props) {
                         key={index}
                       >
                         {item.follower} 님이 팔로우 하셨습니다!
+                      </div>
+                    );
+                  }
+                } else if (item.qt_sender !== null) {
+                  if (item.show_al === 1) {
+                    return (
+                      <div className="alert_div_read" key={index}>
+                        {item.qt_sender} 님이 질문 하셨습니다!
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div className="alert_div" key={index}>
+                        {item.qt_sender} 님이 질문 하셨습니다!
                       </div>
                     );
                   }
@@ -230,23 +247,21 @@ function NavBar(props) {
                       }
                     }}
                   >
-                    로그아웃
+                    Logout
                   </li>
                   <li
-                    href="L"
-                    onClick={(e) => {
-                      insertTimeLine(e);
+                    onClick={() => {
+                      insertTimeLine();
                     }}
                   >
-                    글 작성
+                    Posting
                   </li>
                   <li
-                    href="L"
-                    onClick={(e) => {
-                      mypage(e);
+                    onClick={() => {
+                      mypage();
                     }}
                   >
-                    마이
+                    My
                   </li>
                 </ul>
               </div>

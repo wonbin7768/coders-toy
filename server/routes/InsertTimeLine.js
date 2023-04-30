@@ -13,6 +13,23 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
         filename = req.files.file[0].filename;
       }
       const { id, content, tag } = JSON.parse(req.body.data);
+      const { type } = JSON.parse(req.body.type);
+      var sql_insert = "";
+      var sql_select = "";
+      var sql_insert_alert = "";
+      if (type === "tl") {
+        sql_insert =
+          "insert into timeline(tl_img,id,tl_content,tag,region,tl_dt) values(?,?,?,?,?,now());";
+        sql_select = "select tl_seq from timeline where tl_img = ?;";
+        sql_insert_alert =
+          "insert into alert_tl(tl_seq,al_receiver,tl_sender) values (?,?,?);";
+      } else {
+        sql_insert =
+          "insert into question(qt_img,id,qt_content,tag,region,qt_dt) values(?,?,?,?,?,now());";
+        sql_select = "select qt_seq from question where qt_img = ?;";
+        sql_insert_alert =
+          "insert into alert_qt(qt_seq,al_receiver,qt_sender) values (?,?,?);";
+      }
       console.log(filename);
       if (tag === "") {
         conn.query(
@@ -24,10 +41,7 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
             } else {
               console.log(res[0].region);
               const region = res[0].region;
-              conn.query(
-                "insert into timeline(tl_img,id,tl_content,tag,region,tl_dt) values(?,?,?,?,?,now());",
-                [filename, id, content, tag, region]
-              );
+              conn.query(sql_insert, [filename, id, content, tag, region]);
             }
           }
         );
@@ -41,22 +55,28 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
             } else {
               console.log(res[0].region);
               const region = res[0].region;
-              conn.query(
-                "insert into timeline(tl_img,id,tl_content,tag,region,tl_dt) values(?,?,?,?,?,now());",
-                [filename, id, content, tag, region]
-              );
-              console.log("hi"+filename);
-              conn.query(
-                "select tl_seq from timeline where tl_img = ?;",
-                [filename],
-                (err, row) => {
-                  if (err) {
-                    throw err;
-                  } else {
-                    console.log(row[0].tl_seq);
+              conn.query(sql_insert, [filename, id, content, tag, region]);
+              console.log("hi" + filename);
+              conn.query(sql_select, [filename], (err, row) => {
+                if (err) {
+                  throw err;
+                } else {
+                  if (type === "tl") {
                     conn.query(
-                      "insert into alert_tl(tl_seq,al_receiver) values (?,?);",
-                      [row[0].tl_seq, tag],
+                      sql_insert_alert,
+                      [row[0].tl_seq, tag, id],
+                      (err) => {
+                        if (err) {
+                          throw err;
+                        } else {
+                          console.log("success!!");
+                        }
+                      }
+                    );
+                  } else {
+                    conn.query(
+                      sql_insert_alert,
+                      [row[0].qt_seq, tag, id],
                       (err) => {
                         if (err) {
                           throw err;
@@ -67,7 +87,7 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
                     );
                   }
                 }
-              );
+              });
             }
           }
         );

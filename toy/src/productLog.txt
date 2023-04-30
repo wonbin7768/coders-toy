@@ -9,10 +9,18 @@
 ****** 당장 해야할것 *******
 보류 - profil mouseHover 한객체객체 적용하기 
 보류 - 게시글 태그시 해당 게시글 모달
-
+보류 - alert table 에서 like 절로 아이디를 탐색 하는데 오류가 발생할수 있다
+ ㄴex) jolly7768 과 jolly77685 이런 아이디가 있다고 가정하에 태그를 안해도
+    ㄴ알림이 가버리는 오류가 생김 
+    ㄴ해결법은 tag를 여러사람 했을 시 다 다른 칼럼으로 저장 
+    ㄴ아니면 조건을 (,)이것으로 아이디를 나누니 잘줘서 거르기?
 -comment alert
 -follow tab
 -question tab
+ ㄴinsert 쪽은 어느정도 끝냇음 이제 provide 탭만 하면 되는데
+   ㄴtimeline 에서 하는거 보다 새로 하나 하는게 나을듯
+-direact message
+
 
 -> ㅋ현재 timeline에 있는 profil 상세 띠우는 function을 다른 컴포넌트로 
  분리해서 nav_bar 와 차후 개발할 search follower 등에서 재사용
