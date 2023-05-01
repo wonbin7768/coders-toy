@@ -10,12 +10,18 @@ function Comment(props) {
   const [insertCM, setInsertCM] = useState({
     id: "",
     cm_content: "",
-    tl_seq: "",
+    seq: "",
   });
+  const type = props.type;
   const [comment, setComment] = useState([]);
   useEffect(() => {
+    if (props.type === "tl") {
+      setInsertCM({ ...insertCM, id: statusBox.id, seq: props.tl_seq });
+    } else {
+      setInsertCM({ ...insertCM, id: statusBox.id, seq: props.qt_seq });
+    }
     axios
-      .post("http://localhost:4000/api/comment", {})
+      .post("http://localhost:4000/api/comment", { type })
       .then((res) => {
         console.log(res.data);
         setComment(res.data);
@@ -23,7 +29,6 @@ function Comment(props) {
       .catch((err) => {
         console.log(err);
       });
-    setInsertCM({ ...insertCM, id: statusBox.id, tl_seq: props.tl_seq });
   }, []);
 
   const onChange = (e) => {
@@ -36,6 +41,7 @@ function Comment(props) {
     axios
       .post("http://localhost:4000/api/insertCM", {
         insertCM,
+        type,
       })
       .then((res) => {
         setComment(res.data);
@@ -71,7 +77,7 @@ function Comment(props) {
   const deleteCM = (cm_seq) => {
     console.log(cm_seq);
     axios
-      .post("http://localhost:4000/api/deleteCM", { cm_seq })
+      .post("http://localhost:4000/api/deleteCM", { cm_seq, type })
       .then((res) => {
         setComment(res.data);
       })
@@ -84,7 +90,10 @@ function Comment(props) {
       <div className="area_post_comment">
         {comment &&
           comment.map((item, index) => {
-            if (item.tl_seq === props.tl_seq) {
+            if (
+              (item.tl_seq === props.tl_seq && type === "tl") ||
+              (item.qt_seq === props.qt_seq && type === "qt")
+            ) {
               return (
                 <div key={index} className="area_post_comment">
                   <div className="wrap_comment">
@@ -103,7 +112,9 @@ function Comment(props) {
                       </button>
                     </div>
                     <div className="post_comment_dt">
-                      <div className="comment_dt">{detailDate(new Date(item.cm_dt))}</div>
+                      <div className="comment_dt">
+                        {detailDate(new Date(item.cm_dt))}
+                      </div>
                     </div>
                   </div>
                 </div>

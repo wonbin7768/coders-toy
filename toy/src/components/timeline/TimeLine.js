@@ -152,7 +152,7 @@ function TimeLine(props) {
           </button>
         </div>
         <div className="area_post_likes">{propsLike} Likes!!</div>
-        <Comment tl_seq={props.tl.tl_seq} />
+        <Comment type="tl" tl_seq={props.tl.tl_seq} />
       </div>
     </div>
   );

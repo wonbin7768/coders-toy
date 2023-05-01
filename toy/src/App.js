@@ -8,7 +8,7 @@ import InnerMyPage from "./components/mypage/InnerMyPage";
 import InsertTimeLine from "./components/timeline/InsertTimeLine";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProfilDetail from "./components/modals/ProfilDetail";
-import PostQuestion from "./components/timeline/PostQuestion"
+import QuestionBridge from "./components/timeline/QuestionBridge"
 function App() {
   return (
     <div className="App">
@@ -22,7 +22,7 @@ function App() {
           <Route path="/MyPage/InnerMyPage" element={<InnerMyPage />} />
           <Route path="/PostingPage" element={<InsertTimeLine />} />
           <Route path="/" element={<ProfilDetail />} />
-          <Route path="/PostQuestionPage" element={<PostQuestion/>} />
+          <Route path="/QuestionPage" element={<QuestionBridge/>} />
           
         </Routes>
       </BrowserRouter>

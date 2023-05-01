@@ -258,10 +258,10 @@ function NavBar(props) {
                   </li>
                   <li
                     onClick={() => {
-                      mypage();
+                      setProfilDetail(<ProfilDetail id={id} />);
                     }}
                   >
-                    My
+                    Profil
                   </li>
                 </ul>
               </div>
@@ -285,7 +285,9 @@ function NavBar(props) {
               </a>
             </li>
             <li>Follow</li>
-            <li>Question</li>
+            <li onClick={()=>{
+              navi("/QuestionPage")
+            }}>Question</li>
             <li>
               <a
                 href="L"
