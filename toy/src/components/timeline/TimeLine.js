@@ -39,7 +39,7 @@ function TimeLine(props) {
       id: id,
       tl_seq: tl_seq,
       tl_like: props.tl.tl_like,
-      plue: true,
+      plus: true,
     });
     setImg("http://localhost:4000/" + props.tl.tl_img);
   }, []);
@@ -65,7 +65,7 @@ function TimeLine(props) {
           });
       }
     }
-  }, [like]);
+  }, [heart]);
   const liked = (id, tl_seq, tl_like) => {
     //이 함수 안에 전역변수가 아닌 지역변수로 state 사용하면 바로 적용되나
     if (heart === "./img/heart.png") {
@@ -75,7 +75,7 @@ function TimeLine(props) {
           id: id,
           tl_seq: tl_seq,
           tl_like: tl_like,
-          plue: true,
+          plus: true,
         });
       } else {
         setLike({
@@ -83,7 +83,7 @@ function TimeLine(props) {
           id: id,
           tl_seq: tl_seq,
           tl_like: tl_like + 1,
-          plue: true,
+          plus: true,
         });
       }
 

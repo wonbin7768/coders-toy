@@ -154,7 +154,7 @@ function Question(props) {
       id: id,
       qt_seq: qt_seq,
       qt_like: props.qt.qt_like,
-      plue: true,
+      plus: true,
     });
     setImg("http://localhost:4000/" + props.qt.qt_img);
   }, []);
@@ -182,7 +182,7 @@ function Question(props) {
           });
       }
     }
-  }, [like]);
+  }, [heart]);
   const liked = (id, qt_seq, qt_like) => {
     //이 함수 안에 전역변수가 아닌 지역변수로 state 사용하면 바로 적용되나
     if (heart === "./img/heart.png") {
@@ -192,7 +192,7 @@ function Question(props) {
           id: id,
           qt_seq: qt_seq,
           qt_like: qt_like,
-          plue: true,
+          plus: true,
         });
       } else {
         setLike({
@@ -200,7 +200,7 @@ function Question(props) {
           id: id,
           qt_seq: qt_seq,
           qt_like: qt_like + 1,
-          plue: true,
+          plus: true,
         });
       }
       setHeart("./img/redheart.png");
@@ -319,7 +319,8 @@ function Question(props) {
         <div className="area_post_middlebar">
           <button
             className="like_btn"
-            onClick={() => liked(id, props.qt.qt_seq, props.qt.qt_like)}
+            onClick={() => {liked(id, props.qt.qt_seq, props.qt.qt_like)
+            console.log(like)}}
           >
             <img className="post_middlebar_img" src={heart}></img>
           </button>
