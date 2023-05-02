@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import QuickLink from "../quicklink/QuickLink";
-import TimeLine from "../timeline/TimeLine";
-import "./MainPage.css";
 import { useNavigate } from "react-router-dom";
-function MainPage() {
+import Follower from "./Follower";
+function FollowerBridge() {
   const navi = useNavigate();
   const dispatch = useDispatch();
   const id = useSelector((state) => state.page.stateReducer.id);
@@ -15,7 +13,7 @@ function MainPage() {
   const [loading, setLoading] = useState(false);
   const [timeline, setTimeline] = useState([]);
   const mapingTL = timeline.map((item, index) => (
-    <TimeLine tl={item} key={index} />
+    <Follower qt={item} key={index} />
   ));
   const pageHandle = () => {
     if (id !== "") {
@@ -27,7 +25,7 @@ function MainPage() {
       navi("/Login");
     }
     return axios
-      .post("http://localhost:4000/api/timeline", { id, limit, offset })
+      .post("http://localhost:4000/api/follower", { id, limit, offset })
       .then((res) => {
         console.log(res.data);
         if (res.data === false) {
@@ -70,12 +68,10 @@ function MainPage() {
         <div className="page_home type_around">
           <h1 className="screen_out">홈</h1>
           <div className="area_home type_top">
-            {/* <strong className="welcome">
-              안녕하세요. ㅎㅇ"
-              <br></br>
-              "코더즈입니다. ㅎ ㅇ"
-            </strong> */}
-            <QuickLink />
+            <strong className="welcome">
+              Hi Follower Tab
+               
+            </strong>
           </div>
           {pageHandle()}
         </div>
@@ -84,4 +80,4 @@ function MainPage() {
     </div>
   );
 }
-export default MainPage;
+export default FollowerBridge;

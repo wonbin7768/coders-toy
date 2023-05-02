@@ -63,6 +63,8 @@
   width: 100%;
   height: auto;
 }
+.timeline{visibility: hidden;}
+.question{visibility: hidden;}
 .post_img {
   width: 100%;;
   height: auto;

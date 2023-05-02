@@ -19,9 +19,10 @@ DEAD LINE 0505
 -comment Alert
  ㄴ comment tag?
 -follow tab
+ ㄴ question tab like 구현 후 timeline 기반으로 코딩
 
 -question tab
- ㄴ liked and catagory ---> search 
+ ㄴ liked and catagory ---> search
   ㄴdb수정 catagory column 추가 -> insert 에서 catagory 선택
   -> question tab onchange catagory 선택시 리로딩
  ㄴ ui change?

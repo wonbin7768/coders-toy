@@ -22,6 +22,8 @@ const profilTimeline = require("./routes/ProfilTimeline");
 const updateFollow = require("./routes/UpdateFollow");
 const updateAlert = require("./routes/UpdateAlert");
 const provideQuestion = require("./routes/ProvideQuestion");
+const searchPeople = require("./routes/SearchPeople");
+const provideFollower = require("./routes/ProvideFollower");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -46,6 +48,8 @@ app.use("/", profilTimeline);
 app.use("/", updateFollow);
 app.use("/", updateAlert);
 app.use("/", provideQuestion);
+app.use("/", searchPeople);
+app.use("/",provideFollower);
 
 app.listen(port, async () => {
   connection.connect;

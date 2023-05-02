@@ -3,32 +3,41 @@ const pool = require("../config/db");
 const router = express.Router();
 
 router.post("/api/UpdateLike", async (req, res) => {
-  const { id, tl_seq, tl_like } = req.body.like;
+  const type = req.body.type;
+  if (type === "tl") {
+    var { id } = req.body.like;
+    var seq = req.body.like.tl_seq;
+    var like = req.body.like.tl_like;
+    var sql1 = "update timeline set tl_like = ? where tl_seq = ?; ";
+    var sql2 = "insert into timelinelike(tl_seq,like_id)values(?,?)";
+    var sql3 = "select tl_like from timeline where tl_seq = ?;";
+  } else if (type === "qt") {
+    var { id } = req.body.like;
+    var seq = req.body.like.qt_seq;
+    var like = req.body.like.qt_like;
+    var sql1 = "update question set qt_like = ? where qt_seq = ?; ";
+    var sql2 = "insert into questionlike(qt_seq,like_id)values(?,?)";
+    var sql3 = "select qt_like from question where qt_seq = ?;";
+  }
   await pool.getConnection((err, conn) => {
-    const sql1 = "update timeline set tl_like = ? where tl_seq = ?; ";
-    const sql2 = "insert into timelinelike(tl_seq,like_id)values(?,?)";
     if (err) {
       throw err;
     } else {
-      conn.query(sql1, [tl_like, tl_seq], (err, rows) => {
+      conn.query(sql1, [like, seq], (err, rows) => {
         if (err) {
           throw err;
         } else {
-          conn.query(sql2, [tl_seq, id], (err) => {
+          conn.query(sql2, [seq, id], (err) => {
             if (err) {
               throw err;
             } else {
-              conn.query(
-                "select tl_like from timeline where tl_seq = ?;",
-                tl_seq,
-                (err, rows) => {
-                  if (err) {
-                    throw err;
-                  } else {
-                    return res.send(rows);
-                  }
+              conn.query(sql3, seq, (err, rows) => {
+                if (err) {
+                  throw err;
+                } else {
+                  return res.send(rows);
                 }
-              );
+              });
             }
           });
           conn.release();

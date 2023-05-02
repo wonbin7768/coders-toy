@@ -180,8 +180,30 @@
   height: 25px;
   cursor: pointer;
 }
+.search_img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin-left: 15px;
+}
 .alert_count {
   margin-left: 2px;
   font-size: 12px;
   color: rgb(98, 97, 94);
+}
+.area_follow_wrap {
+  margin-right: 10px;
+  background-color: #eee;
+  border-radius: 7px;
+  width: 50%;
+}
+.area_posting_follow {
+  display: flex;
+  cursor: pointer;
+}
+.area_posting_following {
+  margin-left: 5px;
+  display: flex;
+  flex: auto;
+  cursor: pointer;
 }

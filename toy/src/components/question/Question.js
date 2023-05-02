@@ -1,5 +1,4 @@
-import "./TimeLine.css";
-import Comment from "./Comment";
+import Comment from "../timeline/Comment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -7,6 +6,13 @@ import Modal from "../navbar/Modal";
 function Question(props) {
   const [heart, setHeart] = useState("./img/heart.png");
   const [hover, setHover] = useState(false);
+  const type = "qt";
+  const [like, setLike] = useState({
+    id: "",
+    qt_seq: 0,
+    qt_like: 0,
+    plus: true,
+  });
   const [profil, setProfil] = useState({
     id: "",
     name: "",
@@ -19,7 +25,7 @@ function Question(props) {
   const [profilTL, setProfilTL] = useState([]);
   let [loading, setLoading] = useState(false);
   const [propsLike, setPropsLike] = useState();
-  const [img, setImg] = useState("http://localhost:4000/"+props.qt.qt_img);
+  const [img, setImg] = useState("http://localhost:4000/" + props.qt.qt_img);
   const id = useSelector((state) => state.page.stateReducer.id);
   const loginID = useSelector((state) => state.page.stateReducer.id);
   const qt_seq = props.qt.qt_seq;
@@ -84,7 +90,7 @@ function Question(props) {
       <div
         onMouseEnter={() => {
           setHover(true);
-          drawContent(index)
+          drawContent(index);
         }}
         onMouseLeave={() => {
           setHover(false);
@@ -106,7 +112,7 @@ function Question(props) {
       </div>
     ));
   };
-  const closeModal = () => {  
+  const closeModal = () => {
     setModalOpen(false);
   };
   const follow = (id, bool) => {
@@ -115,7 +121,7 @@ function Question(props) {
       .then((res) => {
         if (res.data === true) {
           if (profil.fCheck === 0) {
-            setProfil({ ...profil, fCheck: 1});
+            setProfil({ ...profil, fCheck: 1 });
             console.log(profil.fCheck);
             setFollowM("언팔");
           } else {
@@ -128,6 +134,97 @@ function Question(props) {
       .catch((err) => {
         console.log(err);
       });
+  };
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/timelinelike", { id, qt_seq, type })
+      .then((res) => {
+        if (res.data !== false) {
+          if (props.qt.qt_seq === res.data[0].qt_seq) {
+            setHeart("./img/redheart.png");
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setPropsLike(props.qt.qt_like);
+    setLike({
+      ...like,
+      id: id,
+      qt_seq: qt_seq,
+      qt_like: props.qt.qt_like,
+      plue: true,
+    });
+    setImg("http://localhost:4000/" + props.qt.qt_img);
+  }, []);
+
+  useEffect(() => {
+    if (like.id !== "") {
+      if (like.plus === true) {
+        axios
+          .post("http://localhost:4000/api/UpdateLike", { like, type })
+          .then((res) => {
+            setPropsLike(res.data[0].qt_like);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        axios
+          .post("http://localhost:4000/api/UpdateUnLike", { like, type })
+          .then((res) => {
+            console.log(res.data[0].qt_like);
+            setPropsLike(res.data[0].qt_like);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  }, [like]);
+  const liked = (id, qt_seq, qt_like) => {
+    //이 함수 안에 전역변수가 아닌 지역변수로 state 사용하면 바로 적용되나
+    if (heart === "./img/heart.png") {
+      if (like.qt_like !== qt_like) {
+        setLike({
+          ...like,
+          id: id,
+          qt_seq: qt_seq,
+          qt_like: qt_like,
+          plue: true,
+        });
+      } else {
+        setLike({
+          ...like,
+          id: id,
+          qt_seq: qt_seq,
+          qt_like: qt_like + 1,
+          plue: true,
+        });
+      }
+      setHeart("./img/redheart.png");
+    } else {
+      if (like.qt_like !== qt_like) {
+        setLike({
+          ...like,
+          id: id,
+          qt_seq: qt_seq,
+          qt_like: qt_like,
+          plus: false,
+        });
+      } else {
+        setLike({
+          ...like,
+          id: id,
+          qt_seq: qt_seq,
+          qt_like: qt_like - 1,
+          plus: false,
+        });
+      }
+
+      setHeart("./img/heart.png");
+    }
   };
   return (
     <div className="area_home type_timeline">
@@ -222,13 +319,15 @@ function Question(props) {
         <div className="area_post_middlebar">
           <button
             className="like_btn"
-           >
+            onClick={() => liked(id, props.qt.qt_seq, props.qt.qt_like)}
+          >
             <img className="post_middlebar_img" src={heart}></img>
           </button>
           <button className="like_btn">
             <img className="post_middlebar_img" src="./img/dm.png"></img>
           </button>
         </div>
+        <div className="area_post_likes">{propsLike} Likes!!</div>
         <Comment type="qt" qt_seq={props.qt.qt_seq} />
       </div>
     </div>

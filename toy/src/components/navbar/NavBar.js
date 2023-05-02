@@ -37,8 +37,8 @@ function NavBar(props) {
               }
             }
             setAlert((prevData) => [...prevData, ...res.data]);
-            
-            console.log(alert)
+
+            console.log(alert);
           } else {
             console.log("알림이 없습니다");
           }
@@ -143,6 +143,7 @@ function NavBar(props) {
               src="http://localhost:4000/bell.png"
             ></img>
             <div className="alert_count">{alertCount}</div>
+            <img onClick={()=>{navi("/SearchFollower")}} className="search_img" src ="http://localhost:4000/search.png"></img>
             {profilDetail}
             <Modal open={modalOpen} close={closeModal} header="Alert">
               {alert.map((item, index) => {
@@ -213,7 +214,7 @@ function NavBar(props) {
             <a
               className="area_navbar_profil_id"
               name="undefined"
-              href="/testLogout"
+              href="L"
               onClick={(e) => {
                 e.preventDefault();
                 if (loginVisible.id !== "") {
@@ -284,10 +285,17 @@ function NavBar(props) {
                 Region
               </a>
             </li>
-            <li>Follow</li>
-            <li onClick={()=>{
-              navi("/QuestionPage")
-            }}>Question</li>
+            <li 
+              onClick={() => {
+                navi("/Follower");
+              }}>Follower</li>
+            <li
+              onClick={() => {
+                navi("/QuestionPage");
+              }}
+            >
+              Question
+            </li>
             <li>
               <a
                 href="L"

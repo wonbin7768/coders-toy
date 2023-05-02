@@ -12,8 +12,9 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
       } else {
         filename = req.files.file[0].filename;
       }
-      const { id, content, tag } = JSON.parse(req.body.data);
-      const { type } = JSON.parse(req.body.type);
+      var { id, content, tag, catagory } = JSON.parse(req.body.data);
+      console.log(catagory);
+      const { type } = req.body;
       var sql_insert = "";
       var sql_select = "";
       var sql_insert_alert = "";
@@ -23,9 +24,9 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
         sql_select = "select tl_seq from timeline where tl_img = ?;";
         sql_insert_alert =
           "insert into alert_tl(tl_seq,al_receiver,tl_sender) values (?,?,?);";
-      } else {
+      } else if (type === "qt") {
         sql_insert =
-          "insert into question(qt_img,id,qt_content,tag,region,qt_dt) values(?,?,?,?,?,now());";
+          "insert into question(qt_img,id,qt_content,tag,region,qt_dt,catagory) values(?,?,?,?,?,now(),?);";
         sql_select = "select qt_seq from question where qt_img = ?;";
         sql_insert_alert =
           "insert into alert_qt(qt_seq,al_receiver,qt_sender) values (?,?,?);";
@@ -41,7 +42,18 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
             } else {
               console.log(res[0].region);
               const region = res[0].region;
-              conn.query(sql_insert, [filename, id, content, tag, region]);
+              if (catagory !== "") {
+                conn.query(sql_insert, [
+                  filename,
+                  id,
+                  content,
+                  tag,
+                  region,
+                  catagory,
+                ]);
+              } else {
+                conn.query(sql_insert, [filename, id, content, tag, region]);
+              }
             }
           }
         );
@@ -55,7 +67,18 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
             } else {
               console.log(res[0].region);
               const region = res[0].region;
-              conn.query(sql_insert, [filename, id, content, tag, region]);
+              if (catagory !== "") {
+                conn.query(sql_insert, [
+                  filename,
+                  id,
+                  content,
+                  tag,
+                  region,
+                  catagory,
+                ]);
+              } else {
+                conn.query(sql_insert, [filename, id, content, tag, region]);
+              }
               console.log("hi" + filename);
               conn.query(sql_select, [filename], (err, row) => {
                 if (err) {

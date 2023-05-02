@@ -7,6 +7,7 @@ import ProfilDetail from "../modals/ProfilDetail";
 import { useNavigate } from "react-router";
 function TimeLine(props) {
   const [heart, setHeart] = useState("./img/heart.png");
+  const type = "tl";
   const [like, setLike] = useState({
     id: "",
     tl_seq: 0,
@@ -21,7 +22,7 @@ function TimeLine(props) {
   const profilImg = "http://localhost:4000/" + props.tl.profilImg;
   useEffect(() => {
     axios
-      .post("http://localhost:4000/api/timelinelike", { id, tl_seq })
+      .post("http://localhost:4000/api/timelinelike", { id, tl_seq, type })
       .then((res) => {
         if (res.data !== false) {
           if (props.tl.tl_seq === res.data[0].tl_seq) {
@@ -33,13 +34,20 @@ function TimeLine(props) {
         console.log(err);
       });
     setPropsLike(props.tl.tl_like);
+    setLike({
+      ...like,
+      id: id,
+      tl_seq: tl_seq,
+      tl_like: props.tl.tl_like,
+      plue: true,
+    });
     setImg("http://localhost:4000/" + props.tl.tl_img);
   }, []);
   useEffect(() => {
     if (like.id !== "") {
       if (like.plus === true) {
         axios
-          .post("http://localhost:4000/api/UpdateLike", { like })
+          .post("http://localhost:4000/api/UpdateLike", { like, type })
           .then((res) => {
             setPropsLike(res.data[0].tl_like);
           })
@@ -48,9 +56,8 @@ function TimeLine(props) {
           });
       } else {
         axios
-          .post("http://localhost:4000/api/UpdateUnLike", { like })
+          .post("http://localhost:4000/api/UpdateUnLike", { like, type })
           .then((res) => {
-            console.log(res.data[0].tl_like);
             setPropsLike(res.data[0].tl_like);
           })
           .catch((err) => {
@@ -62,16 +69,44 @@ function TimeLine(props) {
   const liked = (id, tl_seq, tl_like) => {
     //이 함수 안에 전역변수가 아닌 지역변수로 state 사용하면 바로 적용되나
     if (heart === "./img/heart.png") {
-      setLike({ ...like, id: id, tl_seq: tl_seq, tl_like: tl_like + 1 });
+      if (like.tl_like !== tl_like) {
+        setLike({
+          ...like,
+          id: id,
+          tl_seq: tl_seq,
+          tl_like: tl_like,
+          plue: true,
+        });
+      } else {
+        setLike({
+          ...like,
+          id: id,
+          tl_seq: tl_seq,
+          tl_like: tl_like + 1,
+          plue: true,
+        });
+      }
+
       setHeart("./img/redheart.png");
     } else {
-      setLike({
-        ...like,
-        id: id,
-        tl_seq: tl_seq,
-        tl_like: tl_like,
-        plus: false,
-      });
+      if (like.tl_like !== tl_like) {
+        setLike({
+          ...like,
+          id: id,
+          tl_seq: tl_seq,
+          tl_like: tl_like,
+          plus: false,
+        });
+      } else {
+        setLike({
+          ...like,
+          id: id,
+          tl_seq: tl_seq,
+          tl_like: tl_like - 1,
+          plus: false,
+        });
+      }
+
       setHeart("./img/heart.png");
     }
   };

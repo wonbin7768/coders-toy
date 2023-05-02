@@ -1,16 +1,40 @@
+import { useNavigate } from "react-router";
 import "./QuickLink.css";
 function QuickLink(){
+  const navi = useNavigate();
     return(
         <div className="group_quicklink">
         <h3 className="screen_out">퀵링크</h3>
         <div className="item_quick">
-          <a className="link_quick" draggable="false" href="L">
+          <a onClick={(e)=>{e.preventDefault(); navi("/")}} className="link_quick" draggable="false" href="L">
             <img
               src="img/muscle.png"
               className="img_quick"
               draggable="false"
             />
-            <span className="txt_quick">코더뉴스</span>
+            <span className="txt_quick">Region</span>
+          </a>
+        </div>
+        <div className="item_quick">
+          <a onClick={(e)=>{e.preventDefault(); navi("/Follower")}} className="link_quick" draggable="false" href="L">
+            <img
+              src="img/muscle.png"
+              className="img_quick"
+              draggable="false"
+
+            />
+            <span className="txt_quick">Follower</span>
+          </a>
+        </div>
+        <div className="item_quick">
+          <a onClick={(e)=>{e.preventDefault(); navi("/QuestionPage")}} className="link_quick" draggable="false" href="L">
+            <img
+              src="img/muscle.png"
+              className="img_quick"
+              draggable="false"
+
+            />
+            <span className="txt_quick">Question</span>
           </a>
         </div>
         <div className="item_quick">
@@ -21,29 +45,7 @@ function QuickLink(){
               draggable="false"
 
             />
-            <span className="txt_quick">스터디</span>
-          </a>
-        </div>
-        <div className="item_quick">
-          <a className="link_quick" draggable="false" href="L">
-            <img
-              src="img/muscle.png"
-              className="img_quick"
-              draggable="false"
-
-            />
-            <span className="txt_quick">추천</span>
-          </a>
-        </div>
-        <div className="item_quick">
-          <a className="link_quick" draggable="false" href="L">
-            <img
-              src="img/muscle.png"
-              className="img_quick"
-              draggable="false"
-
-            />
-            <span className="txt_quick">쇼츠</span>
+            <span className="txt_quick">My</span>
           </a>
         </div>
       </div>

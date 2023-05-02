@@ -7,12 +7,15 @@ import { useNavigate } from "react-router";
 function InsertTimeLine() {
   const navi = useNavigate();
   const ref = useRef();
+  const catagory = ["java", "c++", "c#", "javaScript"];
   const dispatch = useDispatch();
   const id = useSelector((state) => state.page.stateReducer.id);
+  const [pageControll, setPageControll] = useState("timeline");
   const [posting, setPosting] = useState({
     id: id,
     content: "",
     tag: "",
+    catagory: "",
   });
   const [searchResult, setSearchResult] = useState([]);
   const [drawTag, setDrawTag] = useState([]);
@@ -106,7 +109,7 @@ function InsertTimeLine() {
     console.log(e);
     formData.append("file", imgRef.current.files[0]);
     formData.append("data", JSON.stringify(posting));
-    formData.append("type", JSON.stringify(e));
+    formData.append("type", e);
     // formData.append("tag", JSON.stringify(drawTag));
     axios
       .post("http://localhost:4000/api/insertTimeline", formData, {
@@ -120,15 +123,82 @@ function InsertTimeLine() {
         alert("Sorry Error :( ");
       });
   };
+  const countCatagory = posting.catagory.split(",").length - 1;
+  const selectCatagory = (e) => {
+    if (posting.catagory == "") {
+      setPosting({ ...posting, catagory: e.target.value });
+    } else if (
+      countCatagory < 4 &&
+      posting.catagory.indexOf(e.target.value) === -1
+    ) {
+      setPosting({
+        ...posting,
+        catagory: posting.catagory + "," + e.target.value,
+      });
+    }
+  };
+  const page = (e) => {
+    if (pageControll === "timeline") {
+      return;
+    } else {
+      return (
+        <div>
+          <div className="area_account">
+            <select
+              className="cont_region"
+              name="catagory"
+              onChange={(e) => {
+                selectCatagory(e);
+              }}
+            >
+              {catagory.map((item, index) => {
+                return (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div>
+            <h3>1~5가지 기술을 선택해주세요!</h3>
+          </div>
+          <div>
+            <h3>{posting.catagory}</h3>
+          </div>
+        </div>
+      );
+    }
+  };
   return (
     <div className="group_page">
       <div className="page_home type around">
         <div className="area_home type_top">
           <h2>Posting Page</h2>
+          <h4>Chose Type</h4>
+          <div className="area_btn_insertTL">
+            <button
+              className="login_btn_insertTL"
+              onClick={(e) => {
+                setPageControll("timeline");
+              }}
+            >
+              Timeline
+            </button>
+            <button
+              className="login_btn_insertTL"
+              onClick={(e) => {
+                setPageControll("question");
+              }}
+            >
+              Question
+            </button>
+          </div>
         </div>
-        <div className="type_timeline">
+        <div className="type_timeline ">
           <div className="area_postingPage">
             <form encType="multipart/form-data">
+              {page()}
               <div className="area_posting_follow_wrap">
                 <div className="area_posting_follow_search">
                   <input
@@ -212,9 +282,9 @@ function InsertTimeLine() {
                   }}
                 />
               </div>
-              <div className="area_btn_insertTL">
+              <div className="area_btn">
                 <button
-                  className="login_btn_insertTL"
+                  className={"login_btn " + (pageControll === "question" ? pageControll:null)}
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();
@@ -224,7 +294,7 @@ function InsertTimeLine() {
                   Posting Timeline
                 </button>
                 <button
-                  className="login_btn_insertTL"
+                  className={"login_btn " + (pageControll === "timeline" ? pageControll:null)}
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();
