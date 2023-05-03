@@ -16,17 +16,9 @@ DEAD LINE 0505
     ㄴ해결법은 tag를 여러사람 했을 시 다 다른 칼럼으로 저장 
     ㄴ아니면 조건을 (,)이것으로 아이디를 나누니 잘줘서 거르기?
 
+
 -comment Alert
  ㄴ comment tag?
--follow tab
- ㄴ ㅋquestion tab like 구현 후 timeline 기반으로 코딩
- ㄴ follower 기반으로 provide follower 하고 후에 like un like 는 어케 처리해야하지?
- ㄴ type = fw ? 하고 join으로 두개묶어서 처리? union? 
--question tab
- ㄴ liked and catagory ---> search
-  ㄴdb수정 catagory column 추가 -> insert 에서 catagory 선택
-  -> question tab onchange catagory 선택시 리로딩
- ㄴ ui change?
 
 -direact message
 

@@ -1,4 +1,3 @@
-
 import Comment from "../timeline/Comment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -7,6 +6,13 @@ import Modal from "../navbar/Modal";
 function Follower(props) {
   const [heart, setHeart] = useState("./img/heart.png");
   const [hover, setHover] = useState(false);
+  const type = "tl";
+  const [like, setLike] = useState({
+    id: "",
+    tl_seq: 0,
+    tl_like: 0,
+    plus: true,
+  });
   const [profil, setProfil] = useState({
     id: "",
     name: "",
@@ -19,11 +25,11 @@ function Follower(props) {
   const [profilTL, setProfilTL] = useState([]);
   let [loading, setLoading] = useState(false);
   const [propsLike, setPropsLike] = useState();
-  const [img, setImg] = useState("http://localhost:4000/"+props.qt.qt_img);
+  const [img, setImg] = useState("http://localhost:4000/" + props.tl.tl_img);
   const id = useSelector((state) => state.page.stateReducer.id);
   const loginID = useSelector((state) => state.page.stateReducer.id);
-  const qt_seq = props.qt.qt_seq;
-  const profilImg = "http://localhost:4000/" + props.qt.profilImg;
+  const tl_seq = props.tl.tl_seq;
+  const profilImg = "http://localhost:4000/" + props.tl.profilImg;
   const [modalOpen, setModalOpen] = useState(false);
   const detailDate = (a) => {
     const milliSeconds = new Date() - a;
@@ -84,7 +90,7 @@ function Follower(props) {
       <div
         onMouseEnter={() => {
           setHover(true);
-          drawContent(index)
+          drawContent(index);
         }}
         onMouseLeave={() => {
           setHover(false);
@@ -106,7 +112,7 @@ function Follower(props) {
       </div>
     ));
   };
-  const closeModal = () => {  
+  const closeModal = () => {
     setModalOpen(false);
   };
   const follow = (id, bool) => {
@@ -115,7 +121,7 @@ function Follower(props) {
       .then((res) => {
         if (res.data === true) {
           if (profil.fCheck === 0) {
-            setProfil({ ...profil, fCheck: 1});
+            setProfil({ ...profil, fCheck: 1 });
             console.log(profil.fCheck);
             setFollowM("언팔");
           } else {
@@ -129,6 +135,97 @@ function Follower(props) {
         console.log(err);
       });
   };
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/api/timelinelike", { id, tl_seq, type })
+      .then((res) => {
+        if (res.data !== false) {
+          if (props.tl.tl_seq === res.data[0].tl_seq) {
+            setHeart("./img/redheart.png");
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setPropsLike(props.tl.tl_like);
+    setLike({
+      ...like,
+      id: id,
+      tl_seq: tl_seq,
+      tl_like: props.tl.tl_like,
+      plus: true,
+    });
+    setImg("http://localhost:4000/" + props.tl.tl_img);
+  }, []);
+
+  useEffect(() => {
+    if (like.id !== "") {
+      if (like.plus === true) {
+        axios
+          .post("http://localhost:4000/api/UpdateLike", { like, type })
+          .then((res) => {
+            setPropsLike(res.data[0].tl_like);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        axios
+          .post("http://localhost:4000/api/UpdateUnLike", { like, type })
+          .then((res) => {
+            console.log(res.data[0].tl_like);
+            setPropsLike(res.data[0].tl_like);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  }, [heart]);
+  const liked = (id, tl_seq, tl_like) => {
+    //이 함수 안에 전역변수가 아닌 지역변수로 state 사용하면 바로 적용되나
+    if (heart === "./img/heart.png") {
+      if (like.tl_like !== tl_like) {
+        setLike({
+          ...like,
+          id: id,
+          tl_seq: tl_seq,
+          tl_like: tl_like,
+          plus: true,
+        });
+      } else {
+        setLike({
+          ...like,
+          id: id,
+          tl_seq: tl_seq,
+          tl_like: tl_like + 1,
+          plus: true,
+        });
+      }
+      setHeart("./img/redheart.png");
+    } else {
+      if (like.tl_like !== tl_like) {
+        setLike({
+          ...like,
+          id: id,
+          tl_seq: tl_seq,
+          tl_like: tl_like,
+          plus: false,
+        });
+      } else {
+        setLike({
+          ...like,
+          id: id,
+          tl_seq: tl_seq,
+          tl_like: tl_like - 1,
+          plus: false,
+        });
+      }
+
+      setHeart("./img/heart.png");
+    }
+  };
   return (
     <div className="area_home type_timeline">
       <div className="area_timeline type_header">
@@ -138,7 +235,7 @@ function Follower(props) {
             <span className="area_timeline_profil">
               <img
                 onClick={() => {
-                  openModal(props.qt.id);
+                  openModal(props.tl.id);
                 }}
                 className="area_timeline_profil_img"
                 src={profilImg}
@@ -149,10 +246,10 @@ function Follower(props) {
               <span className="id_span">
                 <a
                   onClick={() => {
-                    openModal(props.qt.id);
+                    openModal(props.tl.id);
                   }}
                 >
-                  {props.qt.id}
+                  {props.tl.id}
                 </a>
               </span>
             </div>
@@ -205,7 +302,7 @@ function Follower(props) {
           </div>
         </div>
         <div className="post_dt">
-          <div>{detailDate(new Date(props.qt.qt_dt))}</div>
+          <div>{detailDate(new Date(props.tl.tl_dt))}</div>
         </div>
       </div>
       <div className="area_timeline type_body">
@@ -214,7 +311,7 @@ function Follower(props) {
           <img className="post_img" src={img} />
         </div>
         <div className="area_post_txt">
-          <div className="post_txt">{props.qt.qt_content}</div>
+          <div className="post_txt">{props.tl.tl_content}</div>
         </div>
       </div>
       <div className="area_timeline type_footer">
@@ -222,14 +319,17 @@ function Follower(props) {
         <div className="area_post_middlebar">
           <button
             className="like_btn"
-           >
+            onClick={() => {liked(id, props.tl.tl_seq, props.tl.tl_like)
+            console.log(like)}}
+          >
             <img className="post_middlebar_img" src={heart}></img>
           </button>
           <button className="like_btn">
             <img className="post_middlebar_img" src="./img/dm.png"></img>
           </button>
         </div>
-        <Comment type="qt" qt_seq={props.qt.qt_seq} />
+        <div className="area_post_likes">{propsLike} Likes!!</div>
+        <Comment type="tl" tl_seq={props.tl.tl_seq} />
       </div>
     </div>
   );

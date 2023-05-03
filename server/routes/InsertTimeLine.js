@@ -12,8 +12,8 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
       } else {
         filename = req.files.file[0].filename;
       }
-      var { id, content, tag, catagory } = JSON.parse(req.body.data);
-      console.log(catagory);
+      var { id, content, tag, category } = JSON.parse(req.body.data);
+      console.log(category);
       const { type } = req.body;
       var sql_insert = "";
       var sql_select = "";
@@ -26,7 +26,7 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
           "insert into alert_tl(tl_seq,al_receiver,tl_sender) values (?,?,?);";
       } else if (type === "qt") {
         sql_insert =
-          "insert into question(qt_img,id,qt_content,tag,region,qt_dt,catagory) values(?,?,?,?,?,now(),?);";
+          "insert into question(qt_img,id,qt_content,tag,region,qt_dt,category) values(?,?,?,?,?,now(),?);";
         sql_select = "select qt_seq from question where qt_img = ?;";
         sql_insert_alert =
           "insert into alert_qt(qt_seq,al_receiver,qt_sender) values (?,?,?);";
@@ -42,14 +42,14 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
             } else {
               console.log(res[0].region);
               const region = res[0].region;
-              if (catagory !== "") {
+              if (category !== "") {
                 conn.query(sql_insert, [
                   filename,
                   id,
                   content,
                   tag,
                   region,
-                  catagory,
+                  category,
                 ]);
               } else {
                 conn.query(sql_insert, [filename, id, content, tag, region]);
@@ -67,14 +67,14 @@ router.post("/api/insertTimeline", dualUpload, async (req, res) => {
             } else {
               console.log(res[0].region);
               const region = res[0].region;
-              if (catagory !== "") {
+              if (category !== "") {
                 conn.query(sql_insert, [
                   filename,
                   id,
                   content,
                   tag,
                   region,
-                  catagory,
+                  category,
                 ]);
               } else {
                 conn.query(sql_insert, [filename, id, content, tag, region]);

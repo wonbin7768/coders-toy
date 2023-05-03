@@ -6,6 +6,23 @@ import Question from "./Question";
 function QuestionBridge() {
   const navi = useNavigate();
   const dispatch = useDispatch();
+  const [searchCG, setSearchCG] = useState("");
+  const category = [
+    "java",
+    "c++",
+    "c#",
+    "javaScript",
+    "react",
+    "typescript",
+    "python",
+    "node js",
+    "flutter",
+    "jango",
+    "flask",
+    "spring",
+    "mysql",
+    "oracle",
+  ];
   const id = useSelector((state) => state.page.stateReducer.id);
   const limit = 5;
   const [counting, setCounting] = useState(0);
@@ -20,18 +37,29 @@ function QuestionBridge() {
       return mapingTL;
     }
   };
-  const getData = (id, limit, offset) => {
+  const getData = (id, limit, offset, searchCG) => {
     if (id === "") {
       navi("/Login");
     }
     return axios
-      .post("http://localhost:4000/api/question", { id, limit, offset })
+      .post("http://localhost:4000/api/question", {
+        id,
+        limit,
+        offset,
+        searchCG,
+      })
       .then((res) => {
         console.log(res.data);
         if (res.data === false) {
           setLoading(true);
         } else {
-          setTimeline((prevData) => [...prevData, ...res.data]);
+          setTimeline((prevData) => {
+            const prevSEQ = prevData.map((item) => item.qt_seq);
+            const filteredData = res.data.filter(
+              (item) => !prevSEQ.includes(item.qt_seq)
+            );
+            return [...prevData, ...filteredData];
+          });
         }
       })
       .catch((err) => {
@@ -39,7 +67,7 @@ function QuestionBridge() {
       });
   };
   const getMoreData = async () => {
-    await getData(id, limit, offset);
+    await getData(id, limit, offset, searchCG);
     console.log(timeline);
     setLoading(false);
   };
@@ -62,18 +90,47 @@ function QuestionBridge() {
       window.removeEventListener("scroll", infinityScroll);
     };
   }, []);
+  const selectcategory = (e) => {
+    setSearchCG(e.target.value);
+    setOffset(0);
+    setTimeline([]);
+    getData(id, limit, 0, e.target.value);
+  };
+
   return (
     <div className="group_page">
       <div>
         <div className="page_home type_around">
           <h1 className="screen_out">홈</h1>
           <div className="area_home type_top">
-            <strong className="welcome">
-              Hi 
-              Question Tab
-              <br></br>
-              Catagory 
-            </strong>
+            <strong className="welcome">Question Tab</strong>
+            <form>
+              <div>
+                <div className="area_account">
+                  <select
+                    className="cont_region"
+                    name="category"
+                    onChange={(e) => {
+                      selectcategory(e);
+                    }}
+                  >
+                    {category.map((item, index) => {
+                      return (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                <div>
+                  <h3>검색할 기술을 선택해주세요!</h3>
+                </div>
+                <div>
+                  <h3>{searchCG}</h3>
+                </div>
+              </div>
+            </form>
           </div>
           {pageHandle()}
         </div>

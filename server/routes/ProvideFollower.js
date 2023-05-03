@@ -13,6 +13,33 @@ router.post("/api/follower", async (req, res) => {
     if (err) {
       throw err;
     } else {
+      conn.query(
+        "select following from follow where follower = ?",
+        id,
+        (err, rows) => {
+          if (err) {
+            throw err;
+          } else {
+            var data = [];
+            sql =
+              "select t.*,a.profilImg from timeline t join account a " +
+              "on t.id = a.id where t.id in(?)";
+            sql = sql.concat(" order by tl_dt desc limit ? offset ?");
+            for (var i = 0; i < rows.length; i++) {
+              data.push(rows[i].following);
+            }
+            conn.query(sql, [data, limit, offset], (err, rows) => {
+              if (err) {
+                throw err;
+              } else {
+                console.log(rows);
+                conn.release();
+                return res.send(rows);
+              }
+            });
+          }
+        }
+      );
     }
   });
 });

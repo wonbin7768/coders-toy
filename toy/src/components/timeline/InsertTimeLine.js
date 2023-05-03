@@ -7,7 +7,22 @@ import { useNavigate } from "react-router";
 function InsertTimeLine() {
   const navi = useNavigate();
   const ref = useRef();
-  const catagory = ["java", "c++", "c#", "javaScript"];
+  const category = [
+    "java",
+    "c++",
+    "c#",
+    "javaScript",
+    "react",
+    "typescript",
+    "python",
+    "node js",
+    "flutter",
+    "jango",
+    "flask",
+    "spring",
+    "mysql",
+    "oracle",
+  ];
   const dispatch = useDispatch();
   const id = useSelector((state) => state.page.stateReducer.id);
   const [pageControll, setPageControll] = useState("timeline");
@@ -15,7 +30,7 @@ function InsertTimeLine() {
     id: id,
     content: "",
     tag: "",
-    catagory: "",
+    category: "",
   });
   const [searchResult, setSearchResult] = useState([]);
   const [drawTag, setDrawTag] = useState([]);
@@ -123,17 +138,17 @@ function InsertTimeLine() {
         alert("Sorry Error :( ");
       });
   };
-  const countCatagory = posting.catagory.split(",").length - 1;
-  const selectCatagory = (e) => {
-    if (posting.catagory == "") {
-      setPosting({ ...posting, catagory: e.target.value });
+  const countcategory = posting.category.split(",").length - 1;
+  const selectcategory = (e) => {
+    if (posting.category == "") {
+      setPosting({ ...posting, category: e.target.value });
     } else if (
-      countCatagory < 4 &&
-      posting.catagory.indexOf(e.target.value) === -1
+      countcategory < 4 &&
+      posting.category.indexOf(e.target.value) === -1
     ) {
       setPosting({
         ...posting,
-        catagory: posting.catagory + "," + e.target.value,
+        category: posting.category + "," + e.target.value,
       });
     }
   };
@@ -146,12 +161,12 @@ function InsertTimeLine() {
           <div className="area_account">
             <select
               className="cont_region"
-              name="catagory"
+              name="category"
               onChange={(e) => {
-                selectCatagory(e);
+                selectcategory(e);
               }}
             >
-              {catagory.map((item, index) => {
+              {category.map((item, index) => {
                 return (
                   <option key={index} value={item}>
                     {item}
@@ -164,7 +179,7 @@ function InsertTimeLine() {
             <h3>1~5가지 기술을 선택해주세요!</h3>
           </div>
           <div>
-            <h3>{posting.catagory}</h3>
+            <h3>{posting.category}</h3>
           </div>
         </div>
       );
@@ -284,7 +299,10 @@ function InsertTimeLine() {
               </div>
               <div className="area_btn">
                 <button
-                  className={"login_btn " + (pageControll === "question" ? pageControll:null)}
+                  className={
+                    "login_btn " +
+                    (pageControll === "question" ? pageControll : null)
+                  }
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();
@@ -294,7 +312,10 @@ function InsertTimeLine() {
                   Posting Timeline
                 </button>
                 <button
-                  className={"login_btn " + (pageControll === "timeline" ? pageControll:null)}
+                  className={
+                    "login_btn " +
+                    (pageControll === "timeline" ? pageControll : null)
+                  }
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();

@@ -28,7 +28,7 @@ function ProfilDetail(props) {
       .post("http://localhost:4000/api/profil", { id, loginID })
       .then((res) => {
         setProfil(res.data[0]);
-        if (profil.fCheck === 0) {
+        if (res.data[0].fCheck === 0) {
           setFollowM("팔로우");
         } else {
           setFollowM("언팔");
@@ -101,11 +101,11 @@ function ProfilDetail(props) {
           if (profil.fCheck === 0) {
             setProfil({ ...profil, fCheck: 1 });
             console.log(profil.fCheck);
-            setFollowM("언팔");
+            setFollowM("팔로우");
           } else {
             setProfil({ ...profil, fCheck: 0 });
             console.log(profil.fCheck);
-            setFollowM("팔로우");
+            setFollowM("언팔");
           }
         }
       })

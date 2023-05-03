@@ -13,7 +13,7 @@ function FollowerBridge() {
   const [loading, setLoading] = useState(false);
   const [timeline, setTimeline] = useState([]);
   const mapingTL = timeline.map((item, index) => (
-    <Follower qt={item} key={index} />
+    <Follower tl={item} key={index} />
   ));
   const pageHandle = () => {
     if (id !== "") {
