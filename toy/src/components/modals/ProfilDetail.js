@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Modal from "../navbar/Modal";
 function ProfilDetail(props) {
-  const [hover, setHover] = useState(false);
+  const [hover, setHover] = useState(-1);
+  const [check, setCheck] = useState(false);
   const [profil, setProfil] = useState({
     id: "",
     name: "",
@@ -18,7 +19,6 @@ function ProfilDetail(props) {
   const [followM, setFollowM] = useState("");
   const loginID = useSelector((state) => state.page.stateReducer.id);
   useEffect(() => {
-    console.log(props.id);
     if (props.id) {
       openModal(props.id);
     }
@@ -55,9 +55,47 @@ function ProfilDetail(props) {
         });
     }, 500);
   };
-
+  const deletePost = (i) => {
+    if (profilTL[i].tl_seq === null) {
+      var seq = profilTL[i].qt_seq;
+      var type = "qt";
+    } else {
+      var seq = profilTL[i].tl_seq;
+      var type = "tl";
+    }
+    axios
+      .post("http://localhost:4000/api/deleteTL", { seq, type, loginID })
+      .then((res) => {
+        setProfilTL([]);
+        setProfilTL((prevData) => [...prevData, ...res.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const drawContent = (index) => {
-    return <div className="hover_div">{profilTL[index].tl_content}</div>;
+    if (profilTL[index].tl_seq === null) {
+      return <div className="hover_div">{profilTL[index].qt_content}</div>;
+    } else {
+      return <div className="hover_div">{profilTL[index].tl_content}</div>;
+    }
+  };
+  const drawImg = (index) => {
+    if (profilTL[index].tl_seq === null) {
+      return (
+        <img
+          className="profil_tl_img"
+          src={"http://localhost:4000/" + profilTL[index].qt_img}
+        />
+      );
+    } else {
+      return (
+        <img
+          className="profil_tl_img"
+          src={"http://localhost:4000/" + profilTL[index].tl_img}
+        />
+      );
+    }
   };
   const drawProfilTL = () => {
     if (profilTL.length === 0) {
@@ -66,26 +104,30 @@ function ProfilDetail(props) {
     return profilTL.map((item, index) => (
       <div
         onMouseEnter={() => {
-          setHover(true);
-          drawContent(index);
+          setHover(index);
         }}
         onMouseLeave={() => {
-          setHover(false);
+          setHover(-1);
         }}
         onClick={() => {}}
         className="profil_tl_box"
         key={index}
       >
         <div className="profil_tl_img_box">
-          {hover !== true ? (
-            <img
-              className="profil_tl_img"
-              src={"http://localhost:4000/" + item.tl_img}
-            />
-          ) : (
-            drawContent(index)
-          )}
+          {hover === -1 ? drawImg(index) : drawContent(index)}
         </div>
+        {loginID === item.id ? (
+          <div>
+            <button
+              onClick={() => {
+                deletePost(index);
+              }}
+              className="detail_btn"
+            >
+              삭제
+            </button>
+          </div>
+        ) : null}
       </div>
     ));
   };

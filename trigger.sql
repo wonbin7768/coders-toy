@@ -19,6 +19,7 @@ end;
 $$
 delimiter ;
 
+
 select * from timelinelike;
 select * from timeline;
 

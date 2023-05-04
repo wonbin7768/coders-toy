@@ -1,13 +1,20 @@
 import "./NavBar.css";
 import { useSelector } from "react-redux";
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import axios from "axios";
 import ProfilDetail from "../modals/ProfilDetail";
+import { useNavigate } from "react-router";
 function SearchFollower() {
   const [searchResult, setSearchResult] = useState([]);
   const id = useSelector((state) => state.page.stateReducer.id);
   const [drawTag, setDrawTag] = useState([]);
   const [profilDetail, setProfilDetail] = useState();
+  const navi = useNavigate();
+  useEffect(()=>{
+    if(id === ""){
+      navi("/Login")
+    }
+  },[])
   const serachFollower = (e) => {
     const fw = e.target.value;
     axios

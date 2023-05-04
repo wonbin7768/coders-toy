@@ -209,7 +209,7 @@
 }
 .profil_tl_box {
   width: 28%;
-  height: 100px;
+  height: 130px;
   text-align: center;
   margin-bottom: 10px;
   border: 1px solid #eee;
@@ -225,4 +225,8 @@
 }
 .follow_div{
   margin-left: 10px;
+}.detail_btn{
+  margin-left: 4px;
+  border-radius: 8px;
+  font-size: 11px;
 }

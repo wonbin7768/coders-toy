@@ -103,12 +103,26 @@ function Login() {
                 </a>
                 <ul className="list_info_user">
                   <li>
-                    <a href="L" className="link_info_user">
-                      계정 찾기
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navi("/SignUpPage");
+                      }}
+                      href="L"
+                      className="link_info_user"
+                    >
+                      아이디 찾기
                     </a>
                   </li>
                   <li>
-                    <a href="L" className="link_info_user">
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navi("/SignUpPage");
+                      }}
+                      href="L"
+                      className="link_info_user"
+                    >
                       비밀번호 찾기
                     </a>
                   </li>

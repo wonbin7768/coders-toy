@@ -26,7 +26,8 @@ function NavBar(props) {
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => {
-    if (alert.length === 0) {
+    setModalOpen(true);
+    if (alert.length === 0 && id !== "") {
       axios
         .post("http://localhost:4000/api/Alert", { id })
         .then((res) => {
@@ -47,7 +48,6 @@ function NavBar(props) {
           console.log(err);
         });
     }
-    setModalOpen(true);
   };
   const closeModal = () => {
     setModalOpen(false);
@@ -127,6 +127,10 @@ function NavBar(props) {
     closeModal();
     setProfilDetail(<ProfilDetail id={id} />);
   };
+  const openTagPost = (seq) => {
+    closeModal();
+    setProfilDetail(<ProfilDetail seq={seq} />);
+  };
   return (
     <div>
       <div className="app_bar">
@@ -143,14 +147,20 @@ function NavBar(props) {
               src="http://localhost:4000/bell.png"
             ></img>
             <div className="alert_count">{alertCount}</div>
-            <img onClick={()=>{navi("/SearchFollower")}} className="search_img" src ="http://localhost:4000/search.png"></img>
+            <img
+              onClick={() => {
+                navi("/SearchFollower");
+              }}
+              className="search_img"
+              src="http://localhost:4000/search.png"
+            ></img>
             {profilDetail}
             <Modal open={modalOpen} close={closeModal} header="Alert">
               {alert.map((item, index) => {
                 if (item.tl_sender !== null) {
                   if (item.show_al === 1) {
                     return (
-                      <div className="alert_div_read" key={index}>
+                      <div onClick={()=>{}} className="alert_div_read" key={index}>
                         {item.tl_sender} 님이 태그 하셨습니다!
                       </div>
                     );
@@ -285,10 +295,13 @@ function NavBar(props) {
                 Region
               </a>
             </li>
-            <li 
+            <li
               onClick={() => {
                 navi("/Follower");
-              }}>Follower</li>
+              }}
+            >
+              Follower
+            </li>
             <li
               onClick={() => {
                 navi("/QuestionPage");

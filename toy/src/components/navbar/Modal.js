@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./Modal.css";
 import axios from "axios";
 function Modal(props) {
-  const { open, close, header } = props;
+  var { open, close, header } = props;
   useEffect(() => {
-    console.log("hi modal")
-}, []);
+    console.log(open);
+    console.log("hi modal");
+  }, []);
   return (
     // 모달이 열릴때 openModal 클래스가 생성된다.
     <div className={open ? "openModal modal" : "modal"}>
@@ -13,13 +14,25 @@ function Modal(props) {
         <section>
           <header>
             {header}
-            <button className="close" onClick={close}>
+            <button
+              className="close"
+              onClick={() => {
+                close();
+                // window.location.reload();
+              }}
+            >
               &times;
             </button>
           </header>
           <main>{props.children}</main>
           <footer>
-            <button className="close" onClick={close}>
+            <button
+              className="close"
+              onClick={() => {
+                close();
+                // window.location.reload();
+              }}
+            >
               close
             </button>
           </footer>

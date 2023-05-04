@@ -2,7 +2,6 @@ import "./TimeLine.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { commentHandler } from "../../features/commentSlice";
 function Comment(props) {
   const dispatch = useDispatch();
   const seq = useRef();

@@ -1,14 +1,22 @@
 use toy;
+
 select * from account;
-select * from timeline;
-select * from comment;
+select * from question;
 select * from timelinelike;
+select * from questionlike;
+select * from follow where follower="jjiyun7768";
+ 
+
+delete from timelinelike where tl_seq < 3000;
+desc timelinelike;
+desc questionlike;
+alter table questionlike rename column tl_like_seq to qt_like_seq; 
+create table questionlike like timelinelike;
+select * from comment;
 select * from follow;
 select region from account where id = "jelly7768";
 delete from timelinelike where tl_like_seq >=8;	
 update timeline set tl_like = 0 where tl_seq >= 3;
-update timeline set tl_like = 2 where tl_seq = 1 ;
-update timeline set tl_like = 1 where tl_seq = 2;
 show tables;
 desc timelinelike;
 desc account;
@@ -56,6 +64,7 @@ select * from timelinelike;
 select substring_index2(area,',',1) from account where id ="jell7768";
 insert into timelinelike(tl_seq) values (1);
 
+select * from question;
 drop table timelinelike;
 create table timelinelike(
 tl_seq bigint,
@@ -67,31 +76,77 @@ fw_seq bigint auto_increment primary key,
 follower varchar(50) not null,
 following varchar(50) not null
 );
+create table question like timeline;
+select * from alert_tl;
+select * from question;
+alter table question rename column tl_like to qt_like;
+alter table comment_qt rename column tl_seq to qt_seq;
+use toy;
+desc comment_qt;
+desc comment;
+desc information_schema.table_constraints;
+select * from information_schema.table_constraints where table_name = "comment_qt";
+alter table comment_qt add constraint cm_qt_id foreign key(id) references account(id) on delete cascade;
+alter table comment_qt add constraint cm_qt_seq foreign key(qt_seq) references question(qt_seq) on delete cascade;
+select * from comment_qt;
+alter table question add catagory varchar(50) after tag;
+
+select * from question;
+ㄴ
+
 
 drop table follow;
 insert into follow(follower,following)values("jull7768","jjiyun7768");
 select * from follow;
 
-create table alert_tl(
+create table alert_qt(
 al_seq bigint auto_increment primary key,
-tl_seq bigint,
+qt_seq bigint,
 al_receiver varchar(50) not null,
 show_al boolean not null default false,
 al_dt datetime not null default now(),
-foreign key(tl_seq) references timeline(tl_seq)
+foreign key(qt_seq) references question(qt_seq)
 );
---  7 jelly7768 jolly7768 jull7768 jell7768
--- 8 jelly7768 joly7768
--- 9 jell7768 jull7768 jolly7768
--- 11 jjiyun7768
--- 13 jjiyun7768
--- 16 jell7768 jolly7768 jelly7768
--- 22~24 jjiyun7768
--- 25 26
--- jjiyun7768 7 8 9 16 20 26
--- jolly7768 25242322
--- jull7768 11
--- jelly7768 13
+select * from alert_tl;
+select * from alert_qt;
+
+
+create table alert_fw(
+al_seq bigint auto_increment primary key,
+fw_seq bigint not null,
+follower varchar(50) not null,
+following varchar(50) not null,
+show_al boolean not null default false,
+al_dt datetime not null default now(),
+foreign key(fw_seq) references follow(fw_seq) on delete cascade
+);
+drop table alert_fw;
+
+SELECT *
+FROM (
+  SELECT al_seq, tl_seq, al_receiver, show_al, al_dt, NULL AS fw_seq, NULL AS follower, NULL AS following
+  FROM alert_tl
+  where al_receiver like "%jjiyun7768%"
+  union
+  SELECT al_seq, NULL AS tl_seq, NULL AS al_receiver, show_al, al_dt, fw_seq, follower, following
+  FROM alert_fw where following = "jjiyun7768"
+) AS alerts
+where show_al = 0
+ORDER BY al_dt DESC limit 10 offset 0;
+select * from timeline;
+select * from question;
+alter table question rename column catagory to category;
+select q.* , a.profilImg from question q join account a on q.id=a.id where category like '%c++%';
+select * from questionlike;
+select * from alert_fw;
+select * from alert_tl;
+
+update alert_fw set show_al = 0 where al_seq = 6 or al_seq = 7;
+update alert_tl set show_al = 0 where al_seq in (7,8,9,10);
+
+select * , (select * from alert_fw where following= "jjiyun7768" and show_al = 0) a
+from alert_tl where al_receiver like '%jjiyun7768%'  and show_al = 0  order by al_dt desc limit 10 offset 0;
+
 select * from account where id= "jjiyun7768";
 select a.* , count(b.follower) , count(b.following) from account a join follow b where a.id = "jjiyun7768" and b.follower = "jjiyun7768";
 select count(follower) , count(following) from follow where following = "jjiyun7768" ;
@@ -99,9 +154,20 @@ select count(follower) , (select count(following) from follow where following = 
 select * from follow where follower ="jjiyun7768" and following ="jolly7768";
 update alert_tl set tl_sender = "jull7768" where tl_seq = 11;
 insert into alert_tl(tl_seq,al_receiver) values(300,"jjiyun7768123");
-alter table alert_tl add tl_sender varchar(50) after tl_seq;
+alter table alert_qt add qt_sender varchar(50) after qt_seq;
 select * from timeline;
 select * from alert_tl;
+select * from alert_qt;
+
+select * from (
+  select al_seq,tl_sender,tl_seq,al_receiver,show_al,al_dt,null as qt_seq , null as fw_seq, null as follower ,null as qt_sender , null as following from alert_tl where al_receiver like '%jjiyun7768%' 
+  union 
+  select al_seq , null as tl_seq ,null as tl_sender ,null as al_receiver, show_al, al_dt,fw_seq,follower, null as qt_seq ,null as qt_sender , following from alert_fw where following = 'jjiyun7768'
+  union
+  select al_seq , null as tl_seq , null as tl_sender, al_receiver, show_al, al_dt, qt_seq, null as fw_seq, null as follower, qt_sender, null as following from alert_qt where al_receiver like '%jjiyun7768%' 
+) as alerts where show_al = 0 order by al_dt desc limit 10 offset 0;
+
+update alert_qt set qt_sender = "jjiyun7768" where al_seq = 1; 
 select * from alert_tl where al_receiver like "%jjiyun7768%";
 
 desc alert_tl;
@@ -132,6 +198,13 @@ insert into timelinelike(tl_seq,like_id)values(1,"jolly7768,jell7768,jull7768,je
 insert into timelinelike(tl_seq)values (7);
 select * from timelinelike;
 
+select * from comment;
+
+create table comment_qt like comment;
+
+select * from alert_qt;
+select * from question;
+select * from account;
 
 -- search query
 select a.id , a.profilImg from account a

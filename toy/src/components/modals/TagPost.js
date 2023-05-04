@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Modal from "../navbar/Modal";
 function ProfilDetail(props) {
-  const [hover, setHover] = useState(false);
+  const [hover, setHover] = useState(-1);
   const [profil, setProfil] = useState({
     id: "",
     name: "",
@@ -56,9 +56,6 @@ function ProfilDetail(props) {
     }, 500);
   };
 
-  const drawContent = (index) => {
-    return <div className="hover_div">{profilTL[index].tl_content}</div>;
-  };
   const drawProfilTL = () => {
     if (profilTL.length === 0) {
       return <div>게시글이 없습니다</div>;
@@ -66,24 +63,23 @@ function ProfilDetail(props) {
     return profilTL.map((item, index) => (
       <div
         onMouseEnter={() => {
-          setHover(true);
-          drawContent(index);
+          setHover(index);
         }}
         onMouseLeave={() => {
-          setHover(false);
+          setHover(-1);
         }}
         onClick={() => {}}
         className="profil_tl_box"
         key={index}
       >
         <div className="profil_tl_img_box">
-          {hover !== true ? (
+          {hover !== index ? (
             <img
               className="profil_tl_img"
               src={"http://localhost:4000/" + item.tl_img}
             />
           ) : (
-            drawContent(index)
+            <div className="hover_div">{hover}</div>
           )}
         </div>
       </div>

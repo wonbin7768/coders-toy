@@ -24,6 +24,7 @@ const updateAlert = require("./routes/UpdateAlert");
 const provideQuestion = require("./routes/ProvideQuestion");
 const searchPeople = require("./routes/SearchPeople");
 const provideFollower = require("./routes/ProvideFollower");
+const deleteTL = require("./routes/DeleteTL");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -49,7 +50,8 @@ app.use("/", updateFollow);
 app.use("/", updateAlert);
 app.use("/", provideQuestion);
 app.use("/", searchPeople);
-app.use("/",provideFollower);
+app.use("/", provideFollower);
+app.use("/", deleteTL);
 
 app.listen(port, async () => {
   connection.connect;

@@ -70,11 +70,11 @@ function MainPage() {
         <div className="page_home type_around">
           <h1 className="screen_out">홈</h1>
           <div className="area_home type_top">
-            {/* <strong className="welcome">
-              안녕하세요. ㅎㅇ"
+            <strong className="welcome">
+              안녕하세요 코더즈입니다 :)
               <br></br>
-              "코더즈입니다. ㅎ ㅇ"
-            </strong> */}
+              내 주변 개발자들을 만나보세요 !
+            </strong>
             <QuickLink />
           </div>
           {pageHandle()}

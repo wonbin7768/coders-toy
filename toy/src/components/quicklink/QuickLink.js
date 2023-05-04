@@ -38,7 +38,7 @@ function QuickLink(){
           </a>
         </div>
         <div className="item_quick">
-          <a className="link_quick" draggable="false" href="L">
+          <a onClick={(e)=>{e.preventDefault(); navi("/MyPage")}} className="link_quick" draggable="false" href="L">
             <img
               src="img/muscle.png"
               className="img_quick"
