@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Modal from "../navbar/Modal";
 function ProfilDetail(props) {
   const [hover, setHover] = useState(-1);
-  const [check, setCheck] = useState(false);
   const [profil, setProfil] = useState({
     id: "",
     name: "",
@@ -97,6 +96,7 @@ function ProfilDetail(props) {
       );
     }
   };
+  
   const drawProfilTL = () => {
     if (profilTL.length === 0) {
       return <div>게시글이 없습니다</div>;

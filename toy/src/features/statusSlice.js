@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const status = {
   login: false,
   id: "",
-  img:"",
+  img: "",
+  // modalOpen: "",
 };
 const initialState = status;
 export const statusSlice = createSlice({
@@ -15,6 +16,7 @@ export const statusSlice = createSlice({
         login: action.payload.login,
         id: action.payload.id,
         img: action.payload.img,
+        // modalOpen: action.payload.modalOpen,
       };
     },
   },

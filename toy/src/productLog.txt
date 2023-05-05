@@ -12,14 +12,16 @@ DEAD LINE 0505
 보류 - 게시글 태그시 해당 게시글 모달
 보류 - alert table 에서 like 절로 아이디를 탐색 하는데 오류가 발생할수 있다
  ㄴex) jolly7768 과 jolly77685 이런 아이디가 있다고 가정하에 태그를 안해도
-    ㄴ알림이 가버리는 오류가 생김 
+    ㄴ알림이 가버리는 오류가 생김
     ㄴ해결법은 tag를 여러사람 했을 시 다 다른 칼럼으로 저장 
     ㄴ아니면 조건을 (,)이것으로 아이디를 나누니 잘줘서 거르기?
 보류 - modal을 한번열고 닫을시 다시 같은 모달을 열수 없음 location.reload는
  너무 꼴보기 싫다
+ ㄴ setProfilDetail 값을 redux로 컨트롤 하면 상태관리가 될꺼 같은데?
 
 -comment Alert
  ㄴ comment tag?
+
 -direact message
 
 --ㅋ tl and qt post img css max wid and height 안넘을시 div 사진에 맞게

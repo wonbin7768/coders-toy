@@ -185,7 +185,13 @@
   width: 25px;
   height: 25px;
   cursor: pointer;
-  margin-left: 15px;
+  margin-left: 12px;
+}
+.alert_dm {
+  width: 25px;
+  height: 25px;
+  margin-left: 20px;
+  cursor: pointer;
 }
 .alert_count {
   margin-left: 2px;
