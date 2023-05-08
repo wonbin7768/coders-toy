@@ -13,6 +13,7 @@ function NavBar(props) {
   const navi = useNavigate();
   const dispatch = useDispatch();
   const dropDownRef = useRef(null);
+  const [chatHandle, setChatHandle] = useState(false);
   const statusBox = useSelector((state) => state.page.stateReducer);
   const id = useSelector((state) => state.page.stateReducer.id);
   var profilImg = "http://localhost:4000/" + statusBox.img;
@@ -74,6 +75,7 @@ function NavBar(props) {
   };
   const closeDM = () => {
     setDmOpen(false);
+    setChatHandle(false);
   };
 
   const openModal = () => {
@@ -178,7 +180,32 @@ function NavBar(props) {
     closeModal();
     setProfilDetail(<ProfilDetail id={id} />);
   };
-
+  const chatDetail = (sender, receiver) => {
+    setChatHandle(true);
+    axios
+      .post("http://localhost:5000/api/loadMessages")
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const detailDate = (a) => {
+    const milliSeconds = new Date() - a;
+    const seconds = milliSeconds / 1000;
+    if (seconds < 60) return `방금 전`;
+    const minutes = seconds / 60;
+    if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+    const hours = minutes / 60;
+    if (hours < 24) return `${Math.floor(hours)}시간 전`;
+    const days = hours / 24;
+    if (days < 7) return `${Math.floor(days)}일 전`;
+    const weeks = days / 7;
+    if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+    const months = days / 30;
+    if (months < 12) return `${Math.floor(months)}개월 전`;
+    const years = days / 365;
+    return `${Math.floor(years)}년 전`;
+  };
   return (
     <div>
       <div className="app_bar">
@@ -277,10 +304,35 @@ function NavBar(props) {
             </Modal>
           </div>
           <Modal open={dmOpen} close={closeDM} header="Direct Message">
-            <div>Message Room</div>
-            {messageRoom.map((item, index) => (
-              <div key={index}>{item.sender}</div>
-            ))}
+            {chatHandle !== true ? (
+              <div>
+                <div>Chat Room</div>
+                {messageRoom.map((item, index) => (
+                  <div
+                    onClick={() => {
+                      chatDetail(item.sender, item.receiver);
+                    }}
+                    className="chat_room_div"
+                    key={index}
+                  >
+                    <div className="chat_room_div_profil">
+                      {item.sender === id ? item.receiver : item.sender}{" "}
+                    </div>
+                    <div className="chat_room_div_recentMessage">
+                      {" "}
+                      {item.sender} : {item.message}{" "}
+                    </div>
+                    <div className="chat_room_div_dt">
+                      {detailDate(new Date(item.ct_dt))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div><div onClick={()=>{
+                setChatHandle(false);
+              }}>Go to Chat Room{}</div></div>
+            )}
           </Modal>
           <div className={loginVisible.cnameLogin}>
             <Link to="/Login" className="" name="undefined">

@@ -1,7 +1,14 @@
 const express = require("express");
 const app = express();
+const server = require("http").createServer(app);
 const port = process.env.PORT || 4000;
 const cors = require("cors");
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
+});
 const connection = require("./config/db");
 const insertAccountDB = require("./routes/InsertAccountDB");
 const checkID = require("./routes/CheckIdDB");
@@ -25,6 +32,18 @@ const provideQuestion = require("./routes/ProvideQuestion");
 const searchPeople = require("./routes/SearchPeople");
 const provideFollower = require("./routes/ProvideFollower");
 const deleteTL = require("./routes/DeleteTL");
+const loadMessageRoom = require("./routes/LoadMessageRoom");
+
+io.on("connection", (socket) => {
+  console.log("new client connected");
+  socket.on("disconnect", () => {
+    console.log("client disconnected");
+  });
+  // socket.on("/", loadMessages);
+});
+server.listen(5000, () => {
+  console.log("listening on port 5000");
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -52,6 +71,7 @@ app.use("/", provideQuestion);
 app.use("/", searchPeople);
 app.use("/", provideFollower);
 app.use("/", deleteTL);
+app.use("/", loadMessageRoom);
 
 app.listen(port, async () => {
   connection.connect;

@@ -124,7 +124,8 @@
   opacity: 1;
   visibility: visible;
   transform: translateY(25px);
-  height: 100px;}
+  height: 100px;
+}
 /*********************************************/
 .nav_bar {
   position: fixed;
@@ -213,4 +214,30 @@
   display: flex;
   flex: auto;
   cursor: pointer;
+}
+.chat_room_div {
+  flex: auto;
+  display: flex;
+  background-color: #eee;
+  border-radius: 8px;
+  margin-top: 10px;
+  height: 40px;
+  padding: 10px;
+  cursor: pointer;
+  line-height: 35px;
+}
+.chat_room_div_profil {
+  text-align: center;
+  border-right: 1px solid #9e9c9c;
+  font-size: 15px;
+  width: 100px;
+}
+.chat_room_div_recentMessage {
+  margin-left: 10px;
+  font-size: 12px;
+}
+.chat_room_div_dt{
+  line-height: 55px;
+  margin-left: auto;
+  font-size: 8px;
 }
