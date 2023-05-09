@@ -33,6 +33,7 @@ const searchPeople = require("./routes/SearchPeople");
 const provideFollower = require("./routes/ProvideFollower");
 const deleteTL = require("./routes/DeleteTL");
 const loadMessageRoom = require("./routes/LoadMessageRoom");
+const loadMessages = require("./routes/LoadMessages");
 
 io.on("connection", (socket) => {
   console.log("new client connected");
@@ -72,6 +73,7 @@ app.use("/", searchPeople);
 app.use("/", provideFollower);
 app.use("/", deleteTL);
 app.use("/", loadMessageRoom);
+app.use("/",loadMessages);
 
 app.listen(port, async () => {
   connection.connect;

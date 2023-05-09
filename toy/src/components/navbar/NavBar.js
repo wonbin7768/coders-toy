@@ -10,6 +10,7 @@ import ProfilDetail from "../modals/ProfilDetail";
 import io from "socket.io-client";
 const socket = io.connect("http://localhost:5000");
 function NavBar(props) {
+  const scrollRef = useRef();
   const navi = useNavigate();
   const dispatch = useDispatch();
   const dropDownRef = useRef(null);
@@ -183,11 +184,21 @@ function NavBar(props) {
   const chatDetail = (sender, receiver) => {
     setChatHandle(true);
     axios
-      .post("http://localhost:5000/api/loadMessages")
-      .then((res) => {})
+      .post("http://localhost:5000/api/loadMessages", { sender, receiver })
+      .then((res) => {
+        if (res.data !== false) {
+          setMessages((prevData) => [...prevData, ...res.data]);
+        }
+      })
       .catch((err) => {
         console.log(err);
       });
+    };
+  useEffect(()=>{
+    scrollBottom();
+  },[messages])
+  const scrollBottom = () => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   const detailDate = (a) => {
     const milliSeconds = new Date() - a;
@@ -303,7 +314,12 @@ function NavBar(props) {
               })}
             </Modal>
           </div>
-          <Modal open={dmOpen} close={closeDM} header="Direct Message">
+          <Modal
+            id="modal"
+            open={dmOpen}
+            close={closeDM}
+            header="Direct Message"
+          >
             {chatHandle !== true ? (
               <div>
                 <div>Chat Room</div>
@@ -329,9 +345,57 @@ function NavBar(props) {
                 ))}
               </div>
             ) : (
-              <div><div onClick={()=>{
-                setChatHandle(false);
-              }}>Go to Chat Room{}</div></div>
+              <div className="chatRoom_div">
+                <div onClick={() => {}}>
+                  {messages.map((item, index) => (
+                    <div key={index}>
+                      <div className="area_sender">
+                        {item.sender === id ? null : (
+                          <div className="chat_sender">{item.sender}</div>
+                        )}
+                      </div>
+                      <div className="area_message_div">
+                        <div className="message_div">
+                          {item.sender === id ? (
+                            <div className="my_message">{item.message}</div>
+                          ) : (
+                            <div className="receiver_message">
+                              {item.message}
+                            </div>
+                          )}
+                        </div>
+                        {item.sender === id ? (
+                          <div id="me" className="my_message_dt">
+                            {detailDate(new Date(item.ct_dt))}
+                          </div>
+                        ) : (
+                          <div id="me" className="receiver_message_dt">
+                            {" "}
+                            {detailDate(new Date(item.ct_dt))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="div_flex">
+                  <div
+                    className="go_chat_room"
+                    onClick={() => {
+                      setChatHandle(false);
+                      setMessages([]);
+                    }}
+                  >
+                    Go Chat Room
+                  </div>
+                  <div ref={scrollRef} className="send_message_div">
+                    <form>
+                      <input className="message_box" type="text"></input>
+                      <button className="send_message_btn">전송</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
             )}
           </Modal>
           <div className={loginVisible.cnameLogin}>
