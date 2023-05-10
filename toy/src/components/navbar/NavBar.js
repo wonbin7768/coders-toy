@@ -32,6 +32,8 @@ function NavBar(props) {
   const [dmOpen, setDmOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [messageRoom, setMessageRoom] = useState([]);
+  const [pushMessage, setPushMessage] = useState("");
+  const [receiver, setReceiver] = useState("");
   const loadMessages = (id) => {
     setDmOpen(true);
     console.log(id);
@@ -47,7 +49,11 @@ function NavBar(props) {
       });
   };
   const sendMessage = (message) => {
-    socket.emit("message", message);
+    const sender = id;
+    socket.emit("message", { sender, receiver, message }, (err) => {
+      alert(err);
+    });
+    setPushMessage("");
   };
 
   const openDM = () => {
@@ -182,6 +188,11 @@ function NavBar(props) {
     setProfilDetail(<ProfilDetail id={id} />);
   };
   const chatDetail = (sender, receiver) => {
+    if (sender === id) {
+      setReceiver(receiver);
+    } else {
+      setReceiver(sender);
+    }
     setChatHandle(true);
     axios
       .post("http://localhost:5000/api/loadMessages", { sender, receiver })
@@ -193,12 +204,15 @@ function NavBar(props) {
       .catch((err) => {
         console.log(err);
       });
-    };
-  useEffect(()=>{
+  };
+  useEffect(() => {
     scrollBottom();
-  },[messages])
+  }, [messages]);
   const scrollBottom = () => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  const onChangeMessage = (e) => {
+    setPushMessage(e.target.value);
   };
   const detailDate = (a) => {
     const milliSeconds = new Date() - a;
@@ -390,8 +404,23 @@ function NavBar(props) {
                   </div>
                   <div ref={scrollRef} className="send_message_div">
                     <form>
-                      <input className="message_box" type="text"></input>
-                      <button className="send_message_btn">전송</button>
+                      <input
+                      value={pushMessage}
+                        onChange={(e) => {
+                          onChangeMessage(e);
+                        }}
+                        className="message_box"
+                        type="text"
+                      ></input>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sendMessage(pushMessage);
+                        }}
+                        className="send_message_btn"
+                      >
+                        전송
+                      </button>
                     </form>
                   </div>
                 </div>

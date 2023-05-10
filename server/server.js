@@ -9,6 +9,7 @@ const io = require("socket.io")(server, {
     credentials: true,
   },
 });
+const pool = require("./config/db");
 const connection = require("./config/db");
 const insertAccountDB = require("./routes/InsertAccountDB");
 const checkID = require("./routes/CheckIdDB");
@@ -34,13 +35,32 @@ const provideFollower = require("./routes/ProvideFollower");
 const deleteTL = require("./routes/DeleteTL");
 const loadMessageRoom = require("./routes/LoadMessageRoom");
 const loadMessages = require("./routes/LoadMessages");
-
-io.on("connection", (socket) => {
-  console.log("new client connected");
-  socket.on("disconnect", () => {
-    console.log("client disconnected");
-  });
-  // socket.on("/", loadMessages);
+// DB 연결
+pool.getConnection((err, conn) => {
+  if (err) {
+    throw err;
+  } else {
+    console.log("DB connected");
+    io.on("connection", (socket) => {
+      console.log("new client connected");
+      socket.on("message", (data) => {
+        const {sender,receiver,message} = data;
+        conn.query(
+          "insert into chat(sender , receiver , message) values(?,?,?);",
+          [sender, receiver, message],
+          (err, result) => {
+            if (err) {
+              throw err;
+            }
+            console.log("Message inserted: ", result.insertId);
+          }
+        );
+      });
+      socket.on("disconnect", () => {
+        console.log("client disconnected");
+      });
+    });
+  }
 });
 server.listen(5000, () => {
   console.log("listening on port 5000");
@@ -73,7 +93,7 @@ app.use("/", searchPeople);
 app.use("/", provideFollower);
 app.use("/", deleteTL);
 app.use("/", loadMessageRoom);
-app.use("/",loadMessages);
+app.use("/", loadMessages);
 
 app.listen(port, async () => {
   connection.connect;
