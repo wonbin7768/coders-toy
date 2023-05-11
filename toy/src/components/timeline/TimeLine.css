@@ -63,10 +63,14 @@
   width: 100%;
   height: auto;
 }
-.timeline{visibility: hidden;}
-.question{visibility: hidden;}
+.timeline {
+  visibility: hidden;
+}
+.question {
+  visibility: hidden;
+}
 .post_img {
-  width: 100%;;
+  width: 100%;
   height: auto;
   max-height: 600px;
   object-fit: contain;
@@ -215,18 +219,23 @@
   border: 1px solid #eee;
   border-radius: 8px;
 }
-.hover_div{
-  font-size: 12px
+.hover_div {
+  font-size: 12px;
 }
-.follow_btn{
+.follow_btn {
   border-radius: 8px;
   padding: 3px;
   font-size: 12px;
 }
-.follow_div{
+.follow_div {
   margin-left: 10px;
-}.detail_btn{
+  margin-bottom: 5px;
+}
+.detail_btn {
   margin-left: 4px;
   border-radius: 8px;
   font-size: 11px;
+}
+.wrap_follow_div {
+  margin-top: 10px;
 }

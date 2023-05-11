@@ -18,11 +18,15 @@ DEAD LINE 0505
 보류 - modal을 한번열고 닫을시 다시 같은 모달을 열수 없음 location.reload는
  너무 꼴보기 싫다
  ㄴ setProfilDetail 값을 redux로 컨트롤 하면 상태관리가 될꺼 같은데?
-
+error - timelinelike uesEffect 로 업데이트 컨트롤 하는거 때매 새로고침이나
+ 새로 로딩시 마다 같은 데이터가 올라감
+-profilDetail + send_dm 추가하기
 -comment Alert
  ㄴ comment tag?
 
 -direact message
+  ㄴload 도 socket io 를 통해서 해야 되나?
+  ㄴ실시간 챗을 하려면 두아이디가 동시에 입장
 
 --ㅋ tl and qt post img css max wid and height 안넘을시 div 사진에 맞게
   축소되면 깔끔할듯

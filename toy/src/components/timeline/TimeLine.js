@@ -12,7 +12,7 @@ function TimeLine(props) {
     id: "",
     tl_seq: 0,
     tl_like: 0,
-    plus: true,
+    plus: null,
   });
   const [propsLike, setPropsLike] = useState();
   const [img, setImg] = useState("");

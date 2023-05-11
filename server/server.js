@@ -43,19 +43,47 @@ pool.getConnection((err, conn) => {
     console.log("DB connected");
     io.on("connection", (socket) => {
       console.log("new client connected");
+      socket.on("loadMessages", (data) => {
+        const { sender, receiver } = data;
+        conn.query(
+          "select * from chat where (sender = ? and receiver = ? ) " +
+            "or (sender = ? and receiver = ?)",
+          [sender, receiver, receiver, sender],
+          (err, rows) => {
+            if (err) {
+              throw err;
+            } else {
+              io.emit("loadMessages", rows);
+            }
+          }
+        );
+      });
       socket.on("message", (data) => {
-        const {sender,receiver,message} = data;
+        const { sender, receiver, message } = data;
         conn.query(
           "insert into chat(sender , receiver , message) values(?,?,?);",
           [sender, receiver, message],
           (err, result) => {
             if (err) {
               throw err;
+            } else {
+              conn.query(
+                "select * from chat where (sender = ? and receiver = ? ) " +
+                  "or (sender = ? and receiver = ?)",
+                [sender, receiver, receiver, sender],
+                (err, rows) => {
+                  if (err) {
+                    throw err;
+                  } else {
+                    io.emit("loadMessages", rows);
+                  }
+                }
+              );
             }
-            console.log("Message inserted: ", result.insertId);
           }
         );
       });
+      socket.emit("loadMessage", () => {});
       socket.on("disconnect", () => {
         console.log("client disconnected");
       });

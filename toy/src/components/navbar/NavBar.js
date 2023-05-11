@@ -54,35 +54,14 @@ function NavBar(props) {
       alert(err);
     });
     setPushMessage("");
-  };
-
-  const openDM = () => {
-    setModalOpen(true);
-    if (alert.length === 0 && id !== "") {
-      axios
-        .post("http://localhost:4000/api/Alert", { id })
-        .then((res) => {
-          if (res.data !== false && res.data !== alert) {
-            for (var i = 0; i < res.data.length; i++) {
-              if (res.data[i].show_al === 0) {
-                increaseCount();
-              }
-            }
-            setAlert((prevData) => [...prevData, ...res.data]);
-
-            console.log(alert);
-          } else {
-            console.log("알림이 없습니다");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    return () => {
+      socket.off("message");
+    };
   };
   const closeDM = () => {
     setDmOpen(false);
     setChatHandle(false);
+    setMessageRoom([]);
   };
 
   const openModal = () => {
@@ -194,22 +173,20 @@ function NavBar(props) {
       setReceiver(sender);
     }
     setChatHandle(true);
-    axios
-      .post("http://localhost:5000/api/loadMessages", { sender, receiver })
-      .then((res) => {
-        if (res.data !== false) {
-          setMessages((prevData) => [...prevData, ...res.data]);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    socket.emit("loadMessages", { sender, receiver });
+    socket.on("loadMessages", (rows) => {
+      setMessages([]);
+      setMessages((prevData) => [...prevData, ...rows]);
+    });
+    return () => {
+      socket.off("loadMessages");
+    };
   };
   useEffect(() => {
     scrollBottom();
   }, [messages]);
   const scrollBottom = () => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current?.scrollIntoView({});
   };
   const onChangeMessage = (e) => {
     setPushMessage(e.target.value);
@@ -261,8 +238,6 @@ function NavBar(props) {
               className="alert_dm"
               src="http://localhost:4000/dm.png"
             ></img>
-            <div className="alert_count">{alertCount}</div>
-
             {profilDetail}
             <Modal open={modalOpen} close={closeModal} header="Alert">
               {alert.map((item, index) => {
@@ -397,7 +372,7 @@ function NavBar(props) {
                     className="go_chat_room"
                     onClick={() => {
                       setChatHandle(false);
-                      setMessages([]);
+                      loadMessages(id);
                     }}
                   >
                     Go Chat Room
@@ -405,7 +380,7 @@ function NavBar(props) {
                   <div ref={scrollRef} className="send_message_div">
                     <form>
                       <input
-                      value={pushMessage}
+                        value={pushMessage}
                         onChange={(e) => {
                           onChangeMessage(e);
                         }}
