@@ -5,7 +5,7 @@ select * from question;
 select * from timelinelike;
 select * from questionlike;
 select * from follow where follower="jjiyun7768";
- 
+select * from chat;
 
 delete from timelinelike where tl_seq < 3000;
 desc timelinelike;
@@ -71,6 +71,43 @@ tl_seq bigint,
 like_id varchar(13000),
 foreign key(tl_seq) references timeline(tl_seq) on update cascade
 );
+
+create table chat(
+ct_seq bigint auto_increment primary key,
+sender varchar(50) not null,
+receiver varchar(50) not null,
+message varchar(255) not null,
+ct_dt datetime not null default now()
+);
+
+SELECT sender, receiver, message, ct_dt
+FROM (
+  SELECT sender, receiver, message, ct_dt,
+         ROW_NUMBER() OVER (PARTITION BY CASE WHEN sender = 'jjiyun7768' THEN receiver ELSE sender END
+                            ORDER BY ct_dt DESC) AS rn
+  FROM chat
+  WHERE sender = 'jjiyun7768' OR receiver = 'jjiyun7768'
+) AS subquery
+WHERE rn = 1;
+
+select * from chat where sender = "jjiyun7768" and receiver ="jolly7768" or sender = "jolly7768" and receiver = "jjiyun7768" order by ct_Dt;
+
+insert into chat(sender,receiver,message) values("jolly7768","jjiyun7768","socket io test :)");
+insert into chat(sender,receiver,message) values("jjiyun7768","jolly7768","ahahhahahah");
+ select * from chat where sender ="jjiyun7768"or receiver = "jjiyun7768" ;
+select * from account;
+select * from chat;
+select distinct * from(
+select distinct sender from chat where sender ="jjiyun7768"or receiver = "jjiyun7768" 
+union
+select distinct receiver from chat where sender ="jjiyun7768"or receiver = "jjiyun7768" 
+) as total;
+
+select * from chat where sender ="jjiyun7768" or receiver = "jjiyun7768" ;
+use toy;
+select distinct sender from chat where sender ="jjiyun7768"or receiver = "jjiyun7768" ;
+select distinct receiver from chat where sender ="jjiyun7768"or receiver = "jjiyun7768";
+
 create table follow(
 fw_seq bigint auto_increment primary key,
 follower varchar(50) not null,
@@ -85,14 +122,25 @@ use toy;
 desc comment_qt;
 desc comment;
 desc information_schema.table_constraints;
-select * from information_schema.table_constraints where table_name = "comment_qt";
+desc toy.alert_tl;
+
+select * from information_schema.table_constraints where table_name = "questionlike";	
+select * from questionlike;
+ALTER TABLE questionlike
+ADD CONSTRAINT questionlike_ibfk_1
+FOREIGN KEY (qt_seq) REFERENCES question (qt_seq) ON DELETE CASCADE;
+
+alter table questionlike drop foreign key timelinelike_ibfk_1;
+
+
+
 alter table comment_qt add constraint cm_qt_id foreign key(id) references account(id) on delete cascade;
 alter table comment_qt add constraint cm_qt_seq foreign key(qt_seq) references question(qt_seq) on delete cascade;
 select * from comment_qt;
 alter table question add catagory varchar(50) after tag;
 
 select * from question;
-ㄴ
+
 
 
 drop table follow;
@@ -172,8 +220,18 @@ select * from alert_tl where al_receiver like "%jjiyun7768%";
 
 desc alert_tl;
 select * from follow;
+select t.*, q.* from timeline t join question q where t.id ="jjiyun7768";
 
-select tl_seq from timeline where tl_img ="1681884887594-user.png";
+
+select * from (
+select tl_seq , tl_img ,tl_content,tl_dt,id,tl_like, null as qt_seq ,null as qt_img,null as qt_content
+,null as qt_dt ,null as qt_like from timeline where id = "jjiyun7768"
+union
+select null as tl_seq, null as tl_img ,null as tl_content,null as tl_dt, id,null as tl_like ,qt_seq,qt_img,qt_content
+,qt_dt,qt_like from question where id = "jjiyun7768") as a;
+select * from alert_tl;
+
+ select tl_seq from timeline where tl_img ="1681884887594-user.png";
 select * from timeline;
 delete from timelinelike where like_id = null;
 update timeline set tl_like = 1 where tl_seq = 2;
