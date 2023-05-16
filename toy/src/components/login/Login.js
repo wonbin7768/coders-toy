@@ -30,7 +30,6 @@ function Login() {
 
             dispatch(
               pageHandler({
-                status: "MainPage",
                 login: true,
                 id: account.id,
                 img: profilImg,

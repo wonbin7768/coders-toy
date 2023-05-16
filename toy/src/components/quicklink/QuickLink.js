@@ -8,7 +8,7 @@ function QuickLink(){
         <div className="item_quick">
           <a onClick={(e)=>{e.preventDefault(); navi("/")}} className="link_quick" draggable="false" href="L">
             <img
-              src="img/muscle.png"
+              src="http://localhost:4000/region.png"
               className="img_quick"
               draggable="false"
             />
@@ -18,7 +18,7 @@ function QuickLink(){
         <div className="item_quick">
           <a onClick={(e)=>{e.preventDefault(); navi("/Follower")}} className="link_quick" draggable="false" href="L">
             <img
-              src="img/muscle.png"
+              src="http://localhost:4000/follow.png"
               className="img_quick"
               draggable="false"
 
@@ -29,7 +29,7 @@ function QuickLink(){
         <div className="item_quick">
           <a onClick={(e)=>{e.preventDefault(); navi("/QuestionPage")}} className="link_quick" draggable="false" href="L">
             <img
-              src="img/muscle.png"
+              src="http://localhost:4000/question.png"
               className="img_quick"
               draggable="false"
 
@@ -40,7 +40,7 @@ function QuickLink(){
         <div className="item_quick">
           <a onClick={(e)=>{e.preventDefault(); navi("/MyPage")}} className="link_quick" draggable="false" href="L">
             <img
-              src="img/muscle.png"
+              src="http://localhost:4000/my.png"
               className="img_quick"
               draggable="false"
 

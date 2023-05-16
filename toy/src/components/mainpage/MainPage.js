@@ -22,7 +22,7 @@ function MainPage() {
       return mapingTL;
     }
   };
-  const getData = (id, limit, offset) => {
+  const hookData = (id, limit, offset) => {
     if (id === "") {
       navi("/Login");
     }
@@ -41,13 +41,13 @@ function MainPage() {
       });
   };
   const getMoreData = async () => {
-    await getData(id, limit, offset);
+    await hookData(id, limit, offset);
     console.log(timeline);
     setLoading(false);
   };
   const infinityScroll = () => {
     const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollHeight = document.documentElement.scrollHeight -100;
     const clientHeight = document.documentElement.clientHeight;
     if (scrollTop + clientHeight >= scrollHeight && loading === false) {
       setCounting((counting) => counting + 1);

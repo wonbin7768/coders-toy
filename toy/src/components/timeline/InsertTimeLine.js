@@ -50,18 +50,12 @@ function InsertTimeLine() {
     };
     console.log(e.target.files[0]);
     setImg([...img, file]);
-
-    // console.log(img);
-    // img.forEach((img) => {
-    //   formData.append("file", img);
-    // });
-    for (let key of formData.keys()) {
-      console.log(key);
-    }
-    /* value 확인하기 */
-    for (let value of formData.values()) {
-      console.log(value);
-    }
+    // for (let key of formData.keys()) {
+    //   console.log(key);
+    // }
+    // for (let value of formData.values()) {
+    //   console.log(value);
+    // }
   };
   let drawArr = {};
   const tag = (id, profilImg) => {

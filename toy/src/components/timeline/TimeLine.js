@@ -67,7 +67,6 @@ function TimeLine(props) {
     }
   }, [heart]);
   const liked = (id, tl_seq, tl_like) => {
-    //이 함수 안에 전역변수가 아닌 지역변수로 state 사용하면 바로 적용되나
     if (heart === "./img/heart.png") {
       if (like.tl_like !== tl_like) {
         setLike({
