@@ -19,9 +19,6 @@ router.post("/api/updateAlert", async (req, res) => {
       countQT.push(alert[i].al_seq);
     }
   }
-  console.log(countTL);
-  console.log(countFW);
-  console.log(countQT);
   await pool.getConnection((err, conn) => {
     if (err) {
       throw err;

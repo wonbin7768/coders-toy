@@ -8,8 +8,10 @@ import Modal from "./Modal";
 import axios from "axios";
 import ProfilDetail from "../modals/ProfilDetail";
 import io from "socket.io-client";
+import { modalHandler } from "../../features/modalSlice";
 const socket = io.connect("http://localhost:5000");
 function NavBar(props) {
+  const [fixCount, setFixCount] = useState(0);
   const scrollRef = useRef();
   const navi = useNavigate();
   const dispatch = useDispatch();
@@ -60,11 +62,13 @@ function NavBar(props) {
   };
   const closeDM = () => {
     setDmOpen(false);
+    setModalOpen(false);
     setChatHandle(false);
     setMessageRoom([]);
   };
 
   const openModal = () => {
+    dispatch(modalHandler({ modal: true }));
     setModalOpen(true);
     if (alert.length === 0 && id !== "") {
       axios
@@ -90,6 +94,7 @@ function NavBar(props) {
   };
   const closeModal = () => {
     setModalOpen(false);
+    setDmOpen(false);
     setAlertCount(0);
     axios
       .post("http://localhost:4000/api/updateAlert", { alert })
@@ -164,7 +169,8 @@ function NavBar(props) {
   };
   const openProfilDetail = (id) => {
     closeModal();
-    setProfilDetail(<ProfilDetail id={id} />);
+    setFixCount((fixCount) => fixCount + 1);
+    return setProfilDetail(<ProfilDetail id={id} fc={fixCount} />);
   };
   const chatDetail = (sender, receiver) => {
     if (sender === id) {

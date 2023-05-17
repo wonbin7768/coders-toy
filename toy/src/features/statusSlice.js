@@ -4,7 +4,7 @@ const status = {
   login: false,
   id: "",
   img: "",
-  // modalOpen: "",
+  // modalOpen: false,
 };
 const initialState = status;
 export const statusSlice = createSlice({

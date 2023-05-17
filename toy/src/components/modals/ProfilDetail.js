@@ -27,10 +27,10 @@ function ProfilDetail(props) {
   const [followM, setFollowM] = useState("");
   const loginID = useSelector((state) => state.page.stateReducer.id);
   useEffect(() => {
-    if (props.id) {
+    if (props.id !== "") {
       openModal(props.id);
     }
-  }, [props.id]);
+  }, [props.fc]);
   const openModal = (id) => {
     axios
       .post("http://localhost:4000/api/profil", { id, loginID })
